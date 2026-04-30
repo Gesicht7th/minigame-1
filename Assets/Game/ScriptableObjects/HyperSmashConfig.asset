@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25373a4cb9d490149a1e365cd2414dc7, type: 3}
+  m_Name: HyperSmashConfig
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.HyperSmashConfig
+  roundsPerGame: 3
+  roundDurationSeconds: 5
+  interRoundBreakDuration: 3
+  initialCameraSpeed: 3
+  maxCameraSpeed: 10
+  speedIncreaseRate: 0.5
+  aimSensitivity: 1.5
+  aimSmoothing: 10
+  aimBorderLimit: 0.05
+  fireRate: 8
+  projectileSpeed: 25
+  projectileRange: 30
+  spawnDistanceAhead: 50
+  initialSpawnInterval: 3
+  minSpawnInterval: 2
+  spawnIntervalDecay: 0.05
+  minCrystalsPerWave: 3
+  maxCrystalsPerWave: 7
+  corridorWidth: 15
+  corridorHeight: 10
+  countdownStart: 3
+  countdownStepDuration: 1
+  minimumScore: -50
