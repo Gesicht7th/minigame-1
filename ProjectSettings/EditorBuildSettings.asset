@@ -6,20 +6,32 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Game/Scenes/MainMenu.unity
+    guid: f7fa64cb3ebc17a4488f315221b242d3
+  - enabled: 1
+    path: Assets/Game/Scenes/ReadyScreen.unity
+    guid: 7bad5749ea720d84e909bef302b67861
+  - enabled: 1
     path: Assets/Game/Scenes/MemoryTest.unity
-    guid: 8c7d49ed322d92d4e8b137d5fac0e1de
+    guid: 76546725dafa80342aa8773af5a89a0c
   - enabled: 1
     path: Assets/Game/Scenes/ResultScene1.unity
     guid: e71590f16cde19a42b751077af2ff478
   - enabled: 1
     path: Assets/Game/Scenes/HyperSmash.unity
-    guid: 3d8f351529f1e8a4482f9abf823c50b1
+    guid: 4357a42fabaa9aa40bad7de02c33c1bb
   - enabled: 1
     path: Assets/Game/Scenes/ResultScene2.unity
     guid: c6d15e4cbf1ddfd46a3bf048d394830e
   - enabled: 1
     path: Assets/Game/Scenes/ReflexShowdown.unity
     guid: a321c5d4b6f84f947b3507cea51363e6
+  - enabled: 1
+    path: Assets/Game/Scenes/ResultScene3.unity
+    guid: 78076ec73c611a24ca692a269be10627
+  - enabled: 1
+    path: Assets/Game/Scenes/EndScreen.unity
+    guid: e7a23643f1dbb57489788f2854674d49
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

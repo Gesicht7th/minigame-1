@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2302395bd2436fb419878e19b1938e6b, type: 3}
   m_Name: MemoryTestConfig
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.MemoryTest.MemoryTestConfig
-  totalRounds: 5
+  totalRounds: 1
   baseShowDelay: 0.8
   minShowDelay: 0.2
   delayDecay: 0.1
