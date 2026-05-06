@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/Input/SerialManager.cs
+// Assets/_Game/Scripts/Input/SerialManager.cs
 // Mengelola komunikasi serial dengan ESP32
 // PENTING: Memerlukan Api Compatibility Level = .NET Framework
 
@@ -59,6 +59,9 @@ namespace WizardPunk
         // Auto-reconnect
         private float reconnectTimer = 0f;
         private bool shouldReconnect = false;
+        private bool isAttemptingConnection = false;
+        private bool connectionSuccessPending = false;
+        private bool connectionFailedPending = false;
         #endregion
 
         #region Unity Lifecycle
@@ -75,7 +78,9 @@ namespace WizardPunk
 
         void Start()
         {
-            TryConnect();
+            isAttemptingConnection = true;
+            Thread t = new Thread(TryConnectThreaded) { IsBackground = true };
+            t.Start();
         }
 
         void Update()
@@ -84,14 +89,28 @@ namespace WizardPunk
             DispatchPendingData();
 
             // Auto-reconnect logic
-            if (shouldReconnect)
+            if (shouldReconnect && !isAttemptingConnection)
             {
                 reconnectTimer -= Time.deltaTime;
                 if (reconnectTimer <= 0f)
                 {
                     shouldReconnect = false;
-                    TryConnect();
+                    isAttemptingConnection = true;
+                    Thread t = new Thread(TryConnectThreaded) { IsBackground = true };
+                    t.Start();
                 }
+            }
+
+            if (connectionSuccessPending)
+            {
+                connectionSuccessPending = false;
+                OnConnectionChanged?.Invoke(true);
+            }
+            
+            if (connectionFailedPending)
+            {
+                connectionFailedPending = false;
+                ScheduleReconnect();
             }
         }
 
@@ -100,26 +119,26 @@ namespace WizardPunk
         #endregion
 
         #region Connection
-        private void TryConnect()
+        private void TryConnectThreaded()
         {
-            string[] availablePorts = SerialPort.GetPortNames();
-
-            if (autoDetectPort && availablePorts.Length > 0)
-            {
-                // Coba port terakhir terdeteksi (biasanya ESP32 yang baru disambung)
-                portName = availablePorts[availablePorts.Length - 1];
-                Debug.Log($"[Serial] Auto-detected port: {portName}");
-                Debug.Log($"[Serial] All available ports: {string.Join(", ", availablePorts)}");
-            }
-
-            if (availablePorts.Length == 0)
-            {
-                Debug.LogWarning("[Serial] Tidak ada port COM yang ditemukan. Coba keyboard mode.");
-                return;
-            }
-
             try
             {
+                string[] availablePorts = SerialPort.GetPortNames();
+
+                if (autoDetectPort && availablePorts.Length > 0)
+                {
+                    // Coba port terakhir terdeteksi (biasanya ESP32 yang baru disambung)
+                    portName = availablePorts[availablePorts.Length - 1];
+                    Debug.Log($"[Serial] Auto-detected port: {portName}");
+                }
+
+                if (availablePorts.Length == 0)
+                {
+                    Debug.LogWarning("[Serial] Tidak ada port COM yang ditemukan. Coba keyboard mode.");
+                    isAttemptingConnection = false;
+                    return;
+                }
+
                 serialPort = new SerialPort(portName, baudRate)
                 {
                     ReadTimeout = 500,
@@ -140,7 +159,7 @@ namespace WizardPunk
                 readThread.Start();
 
                 Debug.Log($"[Serial] ✅ Connected to {portName} @ {baudRate} baud");
-                OnConnectionChanged?.Invoke(true);
+                connectionSuccessPending = true;
 
                 // Ping ESP32
                 SendCommand("PING");
@@ -149,7 +168,11 @@ namespace WizardPunk
             {
                 Debug.LogWarning($"[Serial] ❌ Gagal connect ke {portName}: {ex.Message}");
                 isConnected = false;
-                ScheduleReconnect();
+                connectionFailedPending = true;
+            }
+            finally
+            {
+                isAttemptingConnection = false;
             }
         }
 
@@ -180,7 +203,9 @@ namespace WizardPunk
             portName = newPort;
             Shutdown();
             System.Threading.Thread.Sleep(200);
-            TryConnect();
+            isAttemptingConnection = true;
+            Thread t = new Thread(TryConnectThreaded) { IsBackground = true };
+            t.Start();
         }
         #endregion
 
@@ -194,6 +219,12 @@ namespace WizardPunk
                     if (serialPort == null || !serialPort.IsOpen)
                     {
                         Thread.Sleep(100);
+                        continue;
+                    }
+
+                    if (serialPort.BytesToRead == 0)
+                    {
+                        Thread.Sleep(5);
                         continue;
                     }
 

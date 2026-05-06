@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/Input/DualSerialManager.cs
+// Assets/_Game/Scripts/Input/DualSerialManager.cs
 // Mengelola 2 ESP32 sekaligus di 2 COM port berbeda
 // Player 1 = port pertama, Player 2 = port kedua
 
@@ -119,6 +119,13 @@ namespace WizardPunk
                 try
                 {
                     if (!sp.IsOpen) { Thread.Sleep(100); continue; }
+                    
+                    if (sp.BytesToRead == 0) 
+                    { 
+                        Thread.Sleep(5); 
+                        continue; 
+                    }
+
                     string line = sp.ReadLine().Trim();
                     if (!line.StartsWith("DATA,")) continue;
                     if (logRawData) Debug.Log($"[P{player}] {line}");

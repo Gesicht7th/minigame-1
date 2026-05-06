@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/Input/DirectionDetector.cs
+// Assets/_Game/Scripts/Input/DirectionDetector.cs
 // Mengonversi data raw IMU → WandDirection enum
 
 using System;
@@ -30,7 +30,7 @@ namespace WizardPunk
         [SerializeField] private bool enableKeyboardFallback = true;
 
         [Header("── Debug ──────────────────────────────────")]
-        [SerializeField] private bool showDebugGUI = true;
+        [SerializeField] private bool showDebugGUI = false;
         #endregion
 
         #region Public Properties
