@@ -1,6 +1,8 @@
 using UnityEngine;
 
-public class DifficultyManager
+public class DifficultyManager : MonoBehaviour
 {
-    
+    #region Difficulty
+
+    #endregion
 }
