@@ -27,14 +27,17 @@ namespace WizardPunk
 
         void Start()
         {
+            // 1. TAMBAHKAN INI UNTUK JAGA-JAGA (Mencegah game nyangkut karena Pause/TimeScale 0)
+            Time.timeScale = 1f;
+
             PopulateStats();
 
-            // Ganti semua SceneManager.LoadScene dengan SceneFlowManager:
-
-            // [PERBAIKAN] Penambahan kurung kurawal & penyesuaian fungsi GoToViaLoading
             continueButton?.onClick.AddListener(() =>
             {
-                SceneFlowManager.Instance.GoTo(SceneNames.HyperSmash);
+                // 2. TAMBAHKAN DEBUG LOG INI UNTUK TES DENYUT NADI TOMBOL
+                Debug.Log(">>> TOMBOL CONTINUE BERHASIL DIKLIK! <<<");
+
+                SceneFlowManager.Instance.GoTo(nextScene);
             });
 
             retryButton?.onClick.AddListener(() =>
