@@ -13,15 +13,12 @@ namespace WizardPunk.HyperSmash
         [Header("── References ────────────────────────────")]
         [SerializeField] private HyperSmashConfig config;
         [SerializeField] private CameraController cameraController;
-        [SerializeField] private WandAimController aimController; // P1 Aim fallback
-        [SerializeField] private ShootingSystem shootingSystem; // P1 Shooter fallback
+        [SerializeField] private WandAimController aimController;
+        [SerializeField] private ShootingSystem shootingSystem;
         [SerializeField] private CrystalSpawner crystalSpawner;
         [SerializeField] private HyperSmashScoreManager scoreManager;
         [SerializeField] private HyperSmashUIManager uiManager;
         [SerializeField] private CorridorBuilder corridorBuilder;
-
-        [Header("── Scene ──────────────────────────────────")]
-        [SerializeField] private string resultSceneName = "ResultScene2";
 
         public HyperSmashState CurrentState { get; private set; }
         public float RoundTimer { get; private set; }
@@ -39,16 +36,17 @@ namespace WizardPunk.HyperSmash
         {
             Time.timeScale = 1f;
 
-            // Pastikan SceneFlowManager ada (jika test langsung dari scene ini)
+            // --- MEMUNCULKAN KURSOR SAAT GAME DIMULAI ---
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
             if (SceneFlowManager.Instance == null)
             {
                 var go = new GameObject("SceneFlowManager_AutoCreated");
                 go.AddComponent<SceneFlowManager>();
-                Debug.LogWarning("[Scene] SceneFlowManager dibuat otomatis. " +
-                                 "Mulai dari MainMenu untuk flow yang benar.");
+                Debug.LogWarning("[Scene] SceneFlowManager dibuat secara automatik. Mulai dari MainMenu untuk aliran yang betul.");
             }
 
-            // Memulai alur permainan
             StartCoroutine(GameFlow());
         }
 
@@ -65,10 +63,7 @@ namespace WizardPunk.HyperSmash
         private IEnumerator GameFlow()
         {
             scoreManager.ResetAll();
-
-            // Opsional: jika WandAimController sekarang support 2 player secara static, kamu bisa reset keduanya.
             aimController?.ResetToCenter();
-
             uiManager?.HideAll();
             corridorBuilder?.BuildCorridor();
 
@@ -122,7 +117,7 @@ namespace WizardPunk.HyperSmash
             uiManager?.ShowInterRoundPanel(
                 justFinishedRound,
                 scoreManager.ScoreP1,
-                scoreManager.ScoreP2, // Mengirim 2 Skor
+                scoreManager.ScoreP2,
                 nextRound,
                 config.roundsPerGame
             );
@@ -150,20 +145,12 @@ namespace WizardPunk.HyperSmash
             SetState(HyperSmashState.GameOver);
             yield return new WaitForSeconds(0.3f);
 
-            var newHighScores = scoreManager.TrySaveHighScores();
+            // --- MEMASTIKAN KURSOR MUNCUL SAAT POP-UP KELUAR ---
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
 
-            // Tampilkan UI Game Over dengan 2 skor
-            uiManager?.ShowGameOver(
-                scoreManager.ScoreP1,
-                scoreManager.ScoreP2,
-                newHighScores.p1IsNew,
-                newHighScores.p2IsNew
-            );
-
-            yield return new WaitForSeconds(2.5f);
-
-            Debug.Log($"[GameManager] Loading scene: {resultSceneName}");
-            SceneFlowManager.Instance.GoTo(SceneNames.ResultScene2);
+            // Memaparkan Pop-Up Pemenang di Scene ini
+            uiManager?.ShowResultPopup(scoreManager.ScoreP1, scoreManager.ScoreP2);
         }
 
         public void OnCrystalKilled(Crystal crystal, PlayerIndex killer)
