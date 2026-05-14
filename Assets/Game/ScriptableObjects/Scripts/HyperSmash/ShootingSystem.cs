@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/HyperSmash/ShootingSystem.cs
+// Assets/_Game/Scripts/HyperSmash/ShootingSystem.cs
 // ─────────────────────────────────────────────────────────────
 // PERUBAHAN DARI VERSI SEBELUMNYA:
 //   - Singleton dihapus → static array Instances[2]
@@ -106,13 +106,19 @@ namespace WizardPunk.HyperSmash
             if (aimCtrl == null) return;
 
             Ray aimRay = aimCtrl.AimRay;
-            Vector3 fireDirection = aimRay.direction;
+
+            // Cari titik jatuh tembakan (target) sejauh max range
+            Vector3 targetPoint = aimRay.GetPoint(config.projectileRange);
+            
+            // Tentukan posisi awal
+            Vector3 spawnPos = firePoint != null ? firePoint.position : aimRay.origin;
+            
+            // Arahkan proyektil dari titik spawn (Wand/Kamera) menuju target point (Crosshair)
+            Vector3 fireDirection = (targetPoint - spawnPos).normalized;
 
             // Buat projectile
             GameObject projObj = CreateProjectile();
-            projObj.transform.position = firePoint != null
-                ? firePoint.position + fireDirection * 0.5f
-                : aimRay.origin + fireDirection * 0.5f;
+            projObj.transform.position = spawnPos + fireDirection * 0.5f;
 
             Projectile proj = projObj.GetComponent<Projectile>()
                               ?? projObj.AddComponent<Projectile>();
