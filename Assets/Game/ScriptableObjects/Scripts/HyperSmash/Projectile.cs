@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/HyperSmash/Projectile.cs
+// Assets/_Game/Scripts/HyperSmash/Projectile.cs
 // ─────────────────────────────────────────────────────────────
 // PERUBAHAN DARI VERSI SEBELUMNYA:
 //   - Initialize() sekarang menerima parameter PlayerIndex
@@ -48,9 +48,18 @@ namespace WizardPunk.HyperSmash
         #region Unity Lifecycle
         void Update()
         {
-            float moveAmount = speed * Time.deltaTime;
-            transform.position += direction * moveAmount;
-            traveledDistance += moveAmount;
+            // Ambil kecepatan kamera saat ini agar proyektil tidak tertinggal saat kamera bergerak cepat
+            float cameraSpeed = CameraController.Instance != null ? CameraController.Instance.CurrentSpeed : 0f;
+            Vector3 cameraVelocity = Vector3.forward * cameraSpeed;
+
+            // Hitung kecepatan total proyektil (kecepatan arah tembakan + kecepatan maju kamera)
+            Vector3 projectileVelocity = (direction * speed) + cameraVelocity;
+
+            // Pindahkan posisi proyektil
+            transform.position += projectileVelocity * Time.deltaTime;
+            
+            // Jarak tempuh dihitung berdasarkan kecepatan tembakannya saja agar range tetap konsisten
+            traveledDistance += speed * Time.deltaTime;
 
             if (traveledDistance >= maxRange)
                 Destroy(gameObject);
