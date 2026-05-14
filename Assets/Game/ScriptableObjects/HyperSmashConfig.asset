@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25373a4cb9d490149a1e365cd2414dc7, type: 3}
   m_Name: HyperSmashConfig
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.HyperSmashConfig
-  roundsPerGame: 3
-  roundDurationSeconds: 5
+  roundsPerGame: 1
+  roundDurationSeconds: 50
   interRoundBreakDuration: 3
   initialCameraSpeed: 3
   maxCameraSpeed: 10

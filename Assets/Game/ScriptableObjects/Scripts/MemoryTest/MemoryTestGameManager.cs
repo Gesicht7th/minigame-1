@@ -1,7 +1,6 @@
 ﻿// Assets/_Game/Scripts/MemoryTest/MemoryTestGameManager.cs
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace WizardPunk.MemoryTest
 {
@@ -26,13 +25,12 @@ namespace WizardPunk.MemoryTest
 
         void Start()
         {
-            // Dari Versi 1: Auto-find jika lupa assign di Inspector
+            // Auto-find jika lupa assign di Inspector
             if (serialReader == null)
                 serialReader = FindObjectOfType<WandSerialReader>();
 
             Time.timeScale = 1f;
 
-            // Dari Versi 1: Fallback jika SceneFlowManager tidak ada
             if (SceneFlowManager.Instance == null)
             {
                 var go = new GameObject("SceneFlowManager_AutoCreated");
@@ -57,7 +55,7 @@ namespace WizardPunk.MemoryTest
         {
             scoreManager.ResetScores();
 
-            // Dari Versi 2: Menggunakan sistem ronde dengan array kesulitan
+            // Loop ronde kesulitan
             for (int r = 0; r < 4; r++)
             {
                 currentActiveRunes = runeCounts[r];
@@ -77,7 +75,6 @@ namespace WizardPunk.MemoryTest
                 p1InputIdx = 0; p2InputIdx = 0;
                 isInputPhase = true;
 
-                // Dari Versi 2: Sistem Timer
                 float maxTime = roundTimers[r];
                 float currentTime = maxTime;
 
@@ -101,9 +98,14 @@ namespace WizardPunk.MemoryTest
             uiManager.ShowCenterText("MATCH FINISHED!");
             yield return new WaitForSeconds(3f);
 
-            // Dari Versi 2: Memanggil fungsi Pop Up Result
             int finalP1Score = scoreManager.ScoreP1;
             int finalP2Score = scoreManager.ScoreP2;
+
+            // --- TAMBAHAN ENDSCREEN: Simpan Skor Game 1 ---
+            PlayerPrefs.SetInt("G1_ScoreP1", finalP1Score);
+            PlayerPrefs.SetInt("G1_ScoreP2", finalP2Score);
+            PlayerPrefs.Save();
+            // ----------------------------------------------
 
             uiManager.ShowResultPopup(finalP1Score, finalP2Score);
         }
@@ -128,10 +130,8 @@ namespace WizardPunk.MemoryTest
 
         private WandDirection GetInput(int pId)
         {
-            // Player 1 menggunakan pemegang Tongkat (Wand) atau Arrow Keys
             if (pId == 1)
             {
-                // 1. Baca dari ESP32 (Dari Versi 1)
                 if (serialReader != null)
                 {
                     string gesture = serialReader.ConsumeGesture();
@@ -141,13 +141,12 @@ namespace WizardPunk.MemoryTest
                     if (gesture == "R") return WandDirection.Right;
                 }
 
-                // 2. Fallback Keyboard (untuk testing tanpa hardware)
                 if (Input.GetKeyDown(KeyCode.UpArrow)) return WandDirection.Up;
                 if (Input.GetKeyDown(KeyCode.DownArrow)) return WandDirection.Down;
                 if (Input.GetKeyDown(KeyCode.LeftArrow)) return WandDirection.Left;
                 if (Input.GetKeyDown(KeyCode.RightArrow)) return WandDirection.Right;
             }
-            else // Player 2 tetap pakai Keyboard (WASD)
+            else
             {
                 if (Input.GetKeyDown(KeyCode.W)) return WandDirection.Up;
                 if (Input.GetKeyDown(KeyCode.S)) return WandDirection.Down;

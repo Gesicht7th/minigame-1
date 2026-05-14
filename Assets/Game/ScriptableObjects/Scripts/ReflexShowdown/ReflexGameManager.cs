@@ -49,21 +49,19 @@ namespace WizardPunk.Reflex
             {
                 var go = new GameObject("SceneFlowManager_AutoCreated");
                 go.AddComponent<SceneFlowManager>();
-                Debug.LogWarning("[Scene] SceneFlowManager dibuat otomatis. Mulai dari MainMenu untuk flow yang benar.");
+                Debug.LogWarning("[Scene] SceneFlowManager dibuat otomatis.");
             }
 
             StartCoroutine(GameFlow());
         }
 
-        // ── Main Flow (Sistem Hearts) ─────────────────
         private IEnumerator GameFlow()
         {
             uiManager.ShowGameScreen();
-            scoreManager.ResetHearts(); // Reset nyawa jadi 3-3
+            scoreManager.ResetHearts();
 
             int round = 1;
 
-            // Loop terus berjalan selama KEDUA pemain masih memiliki nyawa
             while (scoreManager.P1Hearts > 0 && scoreManager.P2Hearts > 0)
             {
                 CurrentRound = round;
@@ -71,7 +69,6 @@ namespace WizardPunk.Reflex
 
                 yield return StartCoroutine(PlayRound());
 
-                // Jika setelah main ronde ini keduanya masih hidup, tunjukkan Inter-Round
                 if (scoreManager.P1Hearts > 0 && scoreManager.P2Hearts > 0)
                 {
                     SetState(ReflexState.Idle);
@@ -83,7 +80,6 @@ namespace WizardPunk.Reflex
                 round++;
             }
 
-            // Jika keluar dari while loop, berarti nyawa salah satu pemain habis
             yield return StartCoroutine(EndGame());
         }
 
@@ -186,7 +182,6 @@ namespace WizardPunk.Reflex
             yield return StartCoroutine(EvaluateRound());
         }
 
-        // ── Evaluate Round (Sistem Batu Gunting Kertas) ──
         private IEnumerator EvaluateRound()
         {
             SetState(ReflexState.RoundResult);
@@ -194,41 +189,30 @@ namespace WizardPunk.Reflex
             RpsType p1Attack = p1Controller.SelectedAttack;
             RpsType p2Attack = p2Controller.SelectedAttack;
 
-            int winner = 0; // 0 = draw, 1 = p1, 2 = p2
+            int winner = 0;
 
-            // Evaluasi Timeout (jika ada yang diam saja)
             if (!p1Controller.FiredThisRound && p2Controller.FiredThisRound) winner = 2;
             else if (p1Controller.FiredThisRound && !p2Controller.FiredThisRound) winner = 1;
             else if (p1Controller.FiredThisRound && p2Controller.FiredThisRound)
             {
-                // Evaluasi Batu Gunting Kertas
-                if (p1Attack == p2Attack)
-                {
-                    winner = 0; // Seri / Draw
-                    Debug.Log($"Seri! Keduanya mengeluarkan {p1Attack}");
-                }
+                if (p1Attack == p2Attack) winner = 0;
                 else if ((p1Attack == RpsType.Rock && p2Attack == RpsType.Scissors) ||
                          (p1Attack == RpsType.Scissors && p2Attack == RpsType.Paper) ||
                          (p1Attack == RpsType.Paper && p2Attack == RpsType.Rock))
                 {
                     winner = 1;
                 }
-                else
-                {
-                    winner = 2;
-                }
+                else winner = 2;
             }
 
             scoreManager.RecordRoundResult(winner);
 
-            // Visual feedback
             if (winner == 1) { p1Visual.SetWinPose(); p2Visual.SetLosePose(); }
             else if (winner == 2) { p2Visual.SetWinPose(); p1Visual.SetLosePose(); }
 
             p1Visual.PlayFireEffect();
             p2Visual.PlayFireEffect();
 
-            // Waktu (reaction time) dikirim untuk UI
             float display_t1 = p1Controller.FiredThisRound ? (p1Controller.FireTimestamp - goTimestamp) : -1f;
             float display_t2 = p2Controller.FiredThisRound ? (p2Controller.FireTimestamp - goTimestamp) : -1f;
 
@@ -238,7 +222,6 @@ namespace WizardPunk.Reflex
             uiManager.HideRoundResult();
         }
 
-        // ── False Start ───────────────────────────────
         private IEnumerator HandleFalseStart(bool p1False, bool p2False)
         {
             SetState(ReflexState.RoundResult);
@@ -259,7 +242,6 @@ namespace WizardPunk.Reflex
             uiManager.HideRoundResult();
         }
 
-        // ── End Game (Sistem Pop-Up) ──────────────────
         private IEnumerator EndGame()
         {
             SetState(ReflexState.GameOver);
@@ -268,10 +250,14 @@ namespace WizardPunk.Reflex
             if (gameWinner == 1) p1Visual.SetWinPose();
             else if (gameWinner == 2) p2Visual.SetWinPose();
 
-            // Panggil Pop-Up Result dari UIManager
+            // --- TAMBAHAN ENDSCREEN: Simpan Pemenang Game 3 ---
+            PlayerPrefs.SetInt("G3_Winner", gameWinner);
+            PlayerPrefs.Save();
+            // --------------------------------------------------
+
             uiManager.ShowResultPopup(gameWinner);
 
-            yield break; // Selesai, menunggu tombol NEXT ditekan
+            yield break;
         }
 
         private void SetState(ReflexState s)

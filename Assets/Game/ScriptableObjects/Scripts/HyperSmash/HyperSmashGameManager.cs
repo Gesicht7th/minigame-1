@@ -36,7 +36,6 @@ namespace WizardPunk.HyperSmash
         {
             Time.timeScale = 1f;
 
-            // --- MEMUNCULKAN KURSOR SAAT GAME DIMULAI ---
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
@@ -44,7 +43,7 @@ namespace WizardPunk.HyperSmash
             {
                 var go = new GameObject("SceneFlowManager_AutoCreated");
                 go.AddComponent<SceneFlowManager>();
-                Debug.LogWarning("[Scene] SceneFlowManager dibuat secara automatik. Mulai dari MainMenu untuk aliran yang betul.");
+                Debug.LogWarning("[Scene] SceneFlowManager dibuat otomatis.");
             }
 
             StartCoroutine(GameFlow());
@@ -145,11 +144,15 @@ namespace WizardPunk.HyperSmash
             SetState(HyperSmashState.GameOver);
             yield return new WaitForSeconds(0.3f);
 
-            // --- MEMASTIKAN KURSOR MUNCUL SAAT POP-UP KELUAR ---
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
-            // Memaparkan Pop-Up Pemenang di Scene ini
+            // --- TAMBAHAN ENDSCREEN: Simpan Skor Game 2 ---
+            PlayerPrefs.SetInt("G2_ScoreP1", scoreManager.ScoreP1);
+            PlayerPrefs.SetInt("G2_ScoreP2", scoreManager.ScoreP2);
+            PlayerPrefs.Save();
+            // ----------------------------------------------
+
             uiManager?.ShowResultPopup(scoreManager.ScoreP1, scoreManager.ScoreP2);
         }
 
