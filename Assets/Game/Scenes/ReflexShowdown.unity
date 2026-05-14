@@ -1390,9 +1390,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.Reflex.PlayerReflexController
   playerIndex: 1
   config: {fileID: 11400000, guid: 5df018dabe0a84b4589b2dd545cf9c2c, type: 2}
-  useKeyboard: 1
-  holdLowKey: 115
-  fireKey: 32
+  serialReader: {fileID: 0}
+  useKeyboard: 0
+  holdKey: 304
+  rockKey: 97
+  scissorsKey: 115
+  paperKey: 100
 --- !u!1 &274495191
 GameObject:
   m_ObjectHideFlags: 0
@@ -2370,6 +2373,7 @@ Transform:
   - {fileID: 127401087}
   - {fileID: 1253189762}
   - {fileID: 1681083314}
+  - {fileID: 1028264620}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &604853440
@@ -3211,6 +3215,53 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1028264619
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1028264620}
+  - component: {fileID: 1028264621}
+  m_Layer: 0
+  m_Name: SerialManagerNew
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1028264620
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028264619}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 593020392}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1028264621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028264619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
+  serialPort: COM8
+  baudRate: 115200
+  ActionHoldTimeout: 0.4
 --- !u!1 &1028643691
 GameObject:
   m_ObjectHideFlags: 0
@@ -3427,9 +3478,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.Reflex.PlayerReflexController
   playerIndex: 2
   config: {fileID: 11400000, guid: 5df018dabe0a84b4589b2dd545cf9c2c, type: 2}
+  serialReader: {fileID: 0}
   useKeyboard: 1
-  holdLowKey: 107
-  fireKey: 13
+  holdKey: 304
+  rockKey: 97
+  scissorsKey: 115
+  paperKey: 100
 --- !u!1 &1132194297
 GameObject:
   m_ObjectHideFlags: 0
@@ -3616,7 +3670,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1253189762}
-  - component: {fileID: 1253189763}
   m_Layer: 0
   m_Name: DualSerialManager
   m_TagString: Untagged
@@ -3639,25 +3692,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 593020392}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1253189763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1253189761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79b8fbbcf2076847addff5f41c93945, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.DualSerialManager
-  portP1: COM3
-  baudRateP1: 115200
-  autoDetectP1: 1
-  portP2: COM4
-  baudRateP2: 115200
-  autoDetectP2: 0
-  logRawData: 0
 --- !u!1 &1262535948
 GameObject:
   m_ObjectHideFlags: 0

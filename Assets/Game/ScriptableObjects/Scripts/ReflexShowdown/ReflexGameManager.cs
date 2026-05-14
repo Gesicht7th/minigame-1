@@ -212,15 +212,33 @@ namespace WizardPunk.Reflex
         {
             SetState(ReflexState.RoundResult);
 
-            float t1 = p1Controller.FiredThisRound
-                       ? p1Controller.FireTimestamp - goTimestamp : float.MaxValue;
-            float t2 = p2Controller.FiredThisRound
-                       ? p2Controller.FireTimestamp - goTimestamp : float.MaxValue;
+            RpsType p1Attack = p1Controller.SelectedAttack;
+            RpsType p2Attack = p2Controller.SelectedAttack;
 
-            int winner = 0;
-            if (t1 < t2) winner = 1;
-            else if (t2 < t1) winner = 2;
-            // Sama persis = draw (sangat jarang)
+            int winner = 0; // 0 = draw, 1 = p1, 2 = p2
+
+            // Evaluasi Timeout (jika ada yang diam saja)
+            if (!p1Controller.FiredThisRound && p2Controller.FiredThisRound) winner = 2;
+            else if (p1Controller.FiredThisRound && !p2Controller.FiredThisRound) winner = 1;
+            else if (p1Controller.FiredThisRound && p2Controller.FiredThisRound)
+            {
+                // Evaluasi Batu Gunting Kertas
+                if (p1Attack == p2Attack)
+                {
+                    winner = 0; // Seri / Draw
+                    Debug.Log($"Seri! Keduanya mengeluarkan {p1Attack}");
+                }
+                else if ((p1Attack == RpsType.Rock && p2Attack == RpsType.Scissors) ||
+                         (p1Attack == RpsType.Scissors && p2Attack == RpsType.Paper) ||
+                         (p1Attack == RpsType.Paper && p2Attack == RpsType.Rock))
+                {
+                    winner = 1;
+                }
+                else
+                {
+                    winner = 2;
+                }
+            }
 
             scoreManager.RecordRoundResult(winner);
 
@@ -231,11 +249,11 @@ namespace WizardPunk.Reflex
             p1Visual.PlayFireEffect();
             p2Visual.PlayFireEffect();
 
-            // Tampilkan hasil ronde
-            float display_t1 = p1Controller.FiredThisRound ? t1 : -1f;
-            float display_t2 = p2Controller.FiredThisRound ? t2 : -1f;
-            uiManager.ShowRoundResult(winner, display_t1, display_t2,
-                                      scoreManager.P1RoundWins, scoreManager.P2RoundWins);
+            // Waktu (reaction time) tetap dikirim untuk keperluan UI, meski pemenang ditentukan oleh RPS
+            float t1 = p1Controller.FiredThisRound ? (p1Controller.FireTimestamp - goTimestamp) : -1f;
+            float t2 = p2Controller.FiredThisRound ? (p2Controller.FireTimestamp - goTimestamp) : -1f;
+
+            uiManager.ShowRoundResult(winner, t1, t2, scoreManager.P1RoundWins, scoreManager.P2RoundWins);
 
             yield return new WaitForSeconds(2.5f);
             uiManager.HideRoundResult();

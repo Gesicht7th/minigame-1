@@ -12,11 +12,18 @@ namespace WizardPunk.MemoryTest
         [SerializeField] private MemoryTestUIManager uiManager;
         [SerializeField] private MemoryTestScoreManager scoreManager;
 
+        [SerializeField] private WandSerialReader serialReader;
+
         private int p1InputIdx, p2InputIdx;
         private bool isInputPhase;
 
         void Start()
         {
+
+            // TAMBAHKAN INI: Auto-find jika lupa assign di Inspector
+            if (serialReader == null)
+                serialReader = FindObjectOfType<WandSerialReader>();
+
             Time.timeScale = 1f;
             // Pastikan SceneFlowManager ada (jika test langsung dari scene ini)
             if (SceneFlowManager.Instance == null)
@@ -97,15 +104,26 @@ namespace WizardPunk.MemoryTest
 
         private WandDirection GetInput(int pId)
         {
-            // Player 1 pakai Panah, Player 2 pakai WASD
+            // Kita asumsikan Player 1 adalah pemegang Tongkat (Wand)
             if (pId == 1)
             {
+                // 1. Baca dari ESP32
+                if (serialReader != null)
+                {
+                    string gesture = serialReader.ConsumeGesture();
+                    if (gesture == "U") return WandDirection.Up;
+                    if (gesture == "D") return WandDirection.Down;
+                    if (gesture == "L") return WandDirection.Left;
+                    if (gesture == "R") return WandDirection.Right;
+                }
+
+                // 2. Fallback Keyboard (untuk testing tanpa hardware)
                 if (Input.GetKeyDown(KeyCode.UpArrow)) return WandDirection.Up;
                 if (Input.GetKeyDown(KeyCode.DownArrow)) return WandDirection.Down;
                 if (Input.GetKeyDown(KeyCode.LeftArrow)) return WandDirection.Left;
                 if (Input.GetKeyDown(KeyCode.RightArrow)) return WandDirection.Right;
             }
-            else
+            else // Player 2 tetap pakai Keyboard (WASD)
             {
                 if (Input.GetKeyDown(KeyCode.W)) return WandDirection.Up;
                 if (Input.GetKeyDown(KeyCode.S)) return WandDirection.Down;

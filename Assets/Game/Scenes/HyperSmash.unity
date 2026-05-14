@@ -471,7 +471,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.WandAimController
   playerIndex: 1
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  useMouseFallback: 1
+  serialReader: {fileID: 1804332683}
+  gyroDeadzone: 2.5
+  gyroSensitivity: 0.08
+  useMouseFallback: 0
   mouseSensitivity: 1
   keyboardAimSpeed: 0.6
   showDebugGUI: 1
@@ -3443,15 +3446,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1804332681}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5949cb7386aa7e44973689483f30a18, type: 3}
+  m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.SerialManager
-  portName: COM3
+  m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
+  serialPort: COM8
   baudRate: 115200
-  autoDetectPort: 1
-  reconnectInterval: 3
-  logRawData: 0
-  logParseErrors: 0
 --- !u!1 &1824955423
 GameObject:
   m_ObjectHideFlags: 0
@@ -3894,7 +3893,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.WandAimController
   playerIndex: 0
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  useMouseFallback: 1
+  serialReader: {fileID: 1804332683}
+  gyroDeadzone: 2.5
+  gyroSensitivity: 0.08
+  useMouseFallback: 0
   mouseSensitivity: 1
   keyboardAimSpeed: 0.6
   showDebugGUI: 1

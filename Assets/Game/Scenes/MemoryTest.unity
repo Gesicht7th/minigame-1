@@ -5155,6 +5155,7 @@ MonoBehaviour:
   runeManager: {fileID: 385949714}
   uiManager: {fileID: 1655882093}
   scoreManager: {fileID: 1675116431}
+  serialReader: {fileID: 0}
 --- !u!1 &1363404040
 GameObject:
   m_ObjectHideFlags: 0
@@ -5874,14 +5875,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1498360661}
-  - component: {fileID: 1498360662}
   m_Layer: 0
   m_Name: DirectionDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1498360661
 Transform:
   m_ObjectHideFlags: 0
@@ -5897,23 +5897,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 686775627}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1498360662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1498360660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74f04e580edca02469d21545931a28f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.DirectionDetector
-  tiltThreshold: 6000
-  deadZone: 1000
-  smoothingSamples: 8
-  enableKeyboardFallback: 1
-  showDebugGUI: 1
 --- !u!1 &1560511625
 GameObject:
   m_ObjectHideFlags: 0
@@ -5925,7 +5908,7 @@ GameObject:
   - component: {fileID: 1560511626}
   - component: {fileID: 1560511627}
   m_Layer: 0
-  m_Name: SerialManager
+  m_Name: SerialManagerNew
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5955,15 +5938,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1560511625}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5949cb7386aa7e44973689483f30a18, type: 3}
+  m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.SerialManager
-  portName: COM3
+  m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
+  serialPort: COM8
   baudRate: 115200
-  autoDetectPort: 1
-  reconnectInterval: 3
-  logRawData: 0
-  logParseErrors: 0
 --- !u!1 &1580508477
 GameObject:
   m_ObjectHideFlags: 0
