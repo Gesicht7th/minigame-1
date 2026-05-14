@@ -12,20 +12,27 @@ namespace WizardPunk.MemoryTest
         [SerializeField] private MemoryTestUIManager uiManager;
         [SerializeField] private MemoryTestScoreManager scoreManager;
 
+        // Dari Versi 1: Untuk membaca input hardware (ESP32)
         [SerializeField] private WandSerialReader serialReader;
 
         private int p1InputIdx, p2InputIdx;
         private bool isInputPhase;
 
+        // Dari Versi 2: Sistem kesulitan dan batas waktu
+        private int currentActiveRunes;
+        private readonly string[] diffNames = { "EASY", "MEDIUM", "HARD", "EXPERT" };
+        private readonly int[] runeCounts = { 3, 4, 5, 6 };
+        private readonly float[] roundTimers = { 10f, 7f, 5f, 4f };
+
         void Start()
         {
-
-            // TAMBAHKAN INI: Auto-find jika lupa assign di Inspector
+            // Dari Versi 1: Auto-find jika lupa assign di Inspector
             if (serialReader == null)
                 serialReader = FindObjectOfType<WandSerialReader>();
 
             Time.timeScale = 1f;
-            // Pastikan SceneFlowManager ada (jika test langsung dari scene ini)
+
+            // Dari Versi 1: Fallback jika SceneFlowManager tidak ada
             if (SceneFlowManager.Instance == null)
             {
                 var go = new GameObject("SceneFlowManager_AutoCreated");
@@ -50,14 +57,18 @@ namespace WizardPunk.MemoryTest
         {
             scoreManager.ResetScores();
 
-            for (int r = 1; r <= config.totalRounds; r++)
+            // Dari Versi 2: Menggunakan sistem ronde dengan array kesulitan
+            for (int r = 0; r < 4; r++)
             {
-                uiManager.UpdateRoundText(r, config.totalRounds);
+                currentActiveRunes = runeCounts[r];
+                uiManager.UpdateDifficultyText(diffNames[r]);
+
                 uiManager.ShowCenterText("READY?");
+                uiManager.UpdateTimerUI(roundTimers[r], roundTimers[r]);
                 yield return new WaitForSeconds(2f);
 
-                runeManager.SetupRound();
-                float delay = Mathf.Max(config.minShowDelay, config.baseShowDelay - (r * config.delayDecay));
+                runeManager.SetupRound(currentActiveRunes);
+                float delay = Mathf.Max(config.minShowDelay, config.baseShowDelay - ((r + 1) * config.delayDecay));
 
                 uiManager.ShowCenterText("MEMORIZE!");
                 yield return StartCoroutine(runeManager.PlaySequence(delay, config.memorizationTime));
@@ -66,28 +77,42 @@ namespace WizardPunk.MemoryTest
                 p1InputIdx = 0; p2InputIdx = 0;
                 isInputPhase = true;
 
-                // Dinamis: Tunggu sampai pemain menjawab SEMUA rune yang ada di Inspector
-                int maxP1 = runeManager.RunesP1.Length;
-                int maxP2 = runeManager.RunesP2.Length;
-                yield return new WaitUntil(() => p1InputIdx >= maxP1 && p2InputIdx >= maxP2);
+                // Dari Versi 2: Sistem Timer
+                float maxTime = roundTimers[r];
+                float currentTime = maxTime;
+
+                while (currentTime > 0)
+                {
+                    currentTime -= Time.deltaTime;
+                    uiManager.UpdateTimerUI(currentTime, maxTime);
+
+                    if (p1InputIdx >= currentActiveRunes && p2InputIdx >= currentActiveRunes)
+                        break;
+
+                    yield return null;
+                }
 
                 isInputPhase = false;
+                uiManager.UpdateTimerUI(0, maxTime);
                 yield return new WaitForSeconds(1.5f);
                 runeManager.ResetAll();
             }
 
             uiManager.ShowCenterText("MATCH FINISHED!");
             yield return new WaitForSeconds(3f);
-            SceneFlowManager.Instance.GoTo(SceneNames.ResultScene1);
+
+            // Dari Versi 2: Memanggil fungsi Pop Up Result
+            int finalP1Score = scoreManager.ScoreP1;
+            int finalP2Score = scoreManager.ScoreP2;
+
+            uiManager.ShowResultPopup(finalP1Score, finalP2Score);
         }
 
         private void HandlePlayerInput(int pId)
         {
             int idx = (pId == 1) ? p1InputIdx : p2InputIdx;
-            int maxRunes = (pId == 1) ? runeManager.RunesP1.Length : runeManager.RunesP2.Length;
 
-            // Cek jika sudah menjawab semua rune
-            if (idx >= maxRunes) return;
+            if (idx >= currentActiveRunes) return;
 
             WandDirection dir = GetInput(pId);
             if (dir == WandDirection.None) return;
@@ -98,16 +123,15 @@ namespace WizardPunk.MemoryTest
             target.ShowResult(correct);
             scoreManager.ApplyScore(pId, correct);
 
-            // Maju ke rune berikutnya
             if (pId == 1) p1InputIdx++; else p2InputIdx++;
         }
 
         private WandDirection GetInput(int pId)
         {
-            // Kita asumsikan Player 1 adalah pemegang Tongkat (Wand)
+            // Player 1 menggunakan pemegang Tongkat (Wand) atau Arrow Keys
             if (pId == 1)
             {
-                // 1. Baca dari ESP32
+                // 1. Baca dari ESP32 (Dari Versi 1)
                 if (serialReader != null)
                 {
                     string gesture = serialReader.ConsumeGesture();

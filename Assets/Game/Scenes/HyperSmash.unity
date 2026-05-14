@@ -412,9 +412,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.WandAimController
   playerIndex: 1
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  serialReader: {fileID: 1804332683}
+  serialReader: {fileID: 0}
   gyroDeadzone: 2.5
-  gyroSensitivity: 0.08
+  gyroSensitivity: 0.05
   useMouseFallback: 0
   mouseSensitivity: 1
   keyboardAimSpeed: 0.6
@@ -3986,8 +3986,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
-  serialPort: COM8
+  serialPort: COM6
   baudRate: 115200
+  ActionHoldTimeout: 0.4
 --- !u!1 &1824955423
 GameObject:
   m_ObjectHideFlags: 0
@@ -4559,9 +4560,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.WandAimController
   playerIndex: 0
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  serialReader: {fileID: 1804332683}
+  serialReader: {fileID: 0}
   gyroDeadzone: 2.5
-  gyroSensitivity: 0.08
+  gyroSensitivity: 0.05
   useMouseFallback: 0
   mouseSensitivity: 1
   keyboardAimSpeed: 0.6

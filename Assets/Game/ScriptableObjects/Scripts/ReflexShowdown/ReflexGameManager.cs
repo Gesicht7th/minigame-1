@@ -27,14 +27,11 @@ namespace WizardPunk.Reflex
         [Header("── Scene ───────────────────────────────")]
         [SerializeField] private string resultSceneName = "ResultScene3";
 
-        // ── State ─────────────────────────────────────
         public ReflexState CurrentState { get; private set; }
         public int CurrentRound { get; private set; }
 
-        // Timestamp saat GO dikirim
         private float goTimestamp = 0f;
 
-        // ─────────────────────────────────────────────
         void Awake()
         {
             if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -45,47 +42,51 @@ namespace WizardPunk.Reflex
         void Start()
         {
             Time.timeScale = 1f;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
 
-            // Pastikan SceneFlowManager ada (jika test langsung dari scene ini)
             if (SceneFlowManager.Instance == null)
             {
                 var go = new GameObject("SceneFlowManager_AutoCreated");
                 go.AddComponent<SceneFlowManager>();
-                Debug.LogWarning("[Scene] SceneFlowManager dibuat otomatis. " +
-                                 "Mulai dari MainMenu untuk flow yang benar.");
+                Debug.LogWarning("[Scene] SceneFlowManager dibuat otomatis. Mulai dari MainMenu untuk flow yang benar.");
             }
 
-            // Memulai alur permainan
             StartCoroutine(GameFlow());
         }
 
-        // ── Main Flow ─────────────────────────────────
+        // ── Main Flow (Sistem Hearts) ─────────────────
         private IEnumerator GameFlow()
         {
             uiManager.ShowGameScreen();
+            scoreManager.ResetHearts(); // Reset nyawa jadi 3-3
 
-            for (int round = 1; round <= config.roundsPerGame; round++)
+            int round = 1;
+
+            // Loop terus berjalan selama KEDUA pemain masih memiliki nyawa
+            while (scoreManager.P1Hearts > 0 && scoreManager.P2Hearts > 0)
             {
                 CurrentRound = round;
-                uiManager.UpdateRoundLabel(round, config.roundsPerGame);
+                uiManager.UpdateRoundLabel(round);
 
                 yield return StartCoroutine(PlayRound());
 
-                bool isLast = round == config.roundsPerGame;
-                if (!isLast)
+                // Jika setelah main ronde ini keduanya masih hidup, tunjukkan Inter-Round
+                if (scoreManager.P1Hearts > 0 && scoreManager.P2Hearts > 0)
                 {
                     SetState(ReflexState.Idle);
-                    uiManager.ShowInterRound(scoreManager.P1RoundWins,
-                                             scoreManager.P2RoundWins);
+                    uiManager.ShowInterRound(round);
                     yield return new WaitForSeconds(config.interRoundDelay);
                     uiManager.HideInterRound();
                 }
+
+                round++;
             }
 
+            // Jika keluar dari while loop, berarti nyawa salah satu pemain habis
             yield return StartCoroutine(EndGame());
         }
 
-        // ── Satu Ronde ────────────────────────────────
         private IEnumerator PlayRound()
         {
             p1Controller.ResetForRound();
@@ -93,32 +94,25 @@ namespace WizardPunk.Reflex
             p1Visual.ResetPose();
             p2Visual.ResetPose();
 
-            // ── FASE READY: kedua wand harus di bawah ──
             yield return StartCoroutine(ReadyPhase());
-
-            // ── COUNTDOWN ──────────────────────────────
             yield return StartCoroutine(CountdownPhase());
 
-            // Cek false start setelah countdown
             bool p1False = p1Controller.FalseStartTriggered;
             bool p2False = p2Controller.FalseStartTriggered;
 
             if (p1False || p2False)
             {
                 yield return StartCoroutine(HandleFalseStart(p1False, p2False));
-                yield break; // ronde ini dianggap selesai (atau re-do tergantung desain)
+                yield break;
             }
 
-            // ── RANDOM DELAY sebelum GO ─────────────
             SetState(ReflexState.WaitGo);
             float goDelay = Random.Range(config.minGoDelay, config.maxGoDelay);
             yield return new WaitForSeconds(goDelay);
 
-            // ── DRAW! GO! ──────────────────────────────
             yield return StartCoroutine(DrawPhase());
         }
 
-        // ── Ready Phase ───────────────────────────────
         private IEnumerator ReadyPhase()
         {
             SetState(ReflexState.Ready);
@@ -128,21 +122,16 @@ namespace WizardPunk.Reflex
             while (elapsed < config.readyPhaseDuration)
             {
                 elapsed += Time.deltaTime;
-
                 bool p1Ready = p1Controller.IsWandLow;
                 bool p2Ready = p2Controller.IsWandLow;
                 uiManager.UpdateReadyStatus(p1Ready, p2Ready);
 
-                // Reset timer jika ada yang tidak siap
                 if (!p1Ready || !p2Ready) elapsed = 0f;
-
                 yield return null;
             }
-
             uiManager.HideReadyPrompt();
         }
 
-        // ── Countdown Phase ───────────────────────────
         private IEnumerator CountdownPhase()
         {
             SetState(ReflexState.Countdown);
@@ -154,7 +143,6 @@ namespace WizardPunk.Reflex
                 uiManager.ShowCountdown(i.ToString());
                 yield return new WaitForSeconds(config.countdownStepDuration);
 
-                // Cek false start tiap detik
                 if (p1Controller.FalseStartTriggered || p2Controller.FalseStartTriggered)
                 {
                     uiManager.HideCountdown();
@@ -167,18 +155,14 @@ namespace WizardPunk.Reflex
             p2Controller.SetCountdownMode(false);
         }
 
-        // ── Draw Phase — GO! ──────────────────────────
         private IEnumerator DrawPhase()
         {
             SetState(ReflexState.Draw);
-
             goTimestamp = Time.time;
             p1Controller.EnableFiring();
             p2Controller.EnableFiring();
-
             uiManager.ShowGo();
 
-            // Update timer display sambil menunggu kedua fire atau timeout
             float elapsed = 0f;
             while (elapsed < config.reactionTimeout)
             {
@@ -190,12 +174,8 @@ namespace WizardPunk.Reflex
                     p2Controller.FiredThisRound
                 );
 
-                // Jika kedua player sudah fire, selesai
                 if (p1Controller.FiredThisRound && p2Controller.FiredThisRound) break;
-
-                // Jika satu fire dan timeout berlalu cukup
                 if (elapsed >= config.reactionTimeout) break;
-
                 yield return null;
             }
 
@@ -203,11 +183,10 @@ namespace WizardPunk.Reflex
             p2Controller.DisableFiring();
             uiManager.HideGo();
 
-            // Hitung pemenang ronde
             yield return StartCoroutine(EvaluateRound());
         }
 
-        // ── Evaluate Round ────────────────────────────
+        // ── Evaluate Round (Sistem Batu Gunting Kertas) ──
         private IEnumerator EvaluateRound()
         {
             SetState(ReflexState.RoundResult);
@@ -249,11 +228,11 @@ namespace WizardPunk.Reflex
             p1Visual.PlayFireEffect();
             p2Visual.PlayFireEffect();
 
-            // Waktu (reaction time) tetap dikirim untuk keperluan UI, meski pemenang ditentukan oleh RPS
-            float t1 = p1Controller.FiredThisRound ? (p1Controller.FireTimestamp - goTimestamp) : -1f;
-            float t2 = p2Controller.FiredThisRound ? (p2Controller.FireTimestamp - goTimestamp) : -1f;
+            // Waktu (reaction time) dikirim untuk UI
+            float display_t1 = p1Controller.FiredThisRound ? (p1Controller.FireTimestamp - goTimestamp) : -1f;
+            float display_t2 = p2Controller.FiredThisRound ? (p2Controller.FireTimestamp - goTimestamp) : -1f;
 
-            uiManager.ShowRoundResult(winner, t1, t2, scoreManager.P1RoundWins, scoreManager.P2RoundWins);
+            uiManager.ShowRoundResult(winner, display_t1, display_t2);
 
             yield return new WaitForSeconds(2.5f);
             uiManager.HideRoundResult();
@@ -268,50 +247,31 @@ namespace WizardPunk.Reflex
             if (p1False) p1Visual.PlayFalseStartEffect();
             if (p2False) p2Visual.PlayFalseStartEffect();
 
-            // False start: yang tidak false start menang ronde
             int winner = 0;
             if (p1False && !p2False) winner = 2;
             else if (!p1False && p2False) winner = 1;
-            // Keduanya false = draw
 
             scoreManager.RecordRoundResult(winner);
-            uiManager.ShowFalseStartResult(p1False, p2False,
-                                           scoreManager.P1RoundWins,
-                                           scoreManager.P2RoundWins);
+
+            uiManager.ShowFalseStartResult(p1False, p2False);
 
             yield return new WaitForSeconds(2.5f);
             uiManager.HideRoundResult();
         }
 
-        // ── End Game ──────────────────────────────────
+        // ── End Game (Sistem Pop-Up) ──────────────────
         private IEnumerator EndGame()
         {
             SetState(ReflexState.GameOver);
-
-            scoreManager.FinalizeScore();
-            scoreManager.TrySaveHighScores();
 
             int gameWinner = scoreManager.GetGameWinner();
             if (gameWinner == 1) p1Visual.SetWinPose();
             else if (gameWinner == 2) p2Visual.SetWinPose();
 
-            // Simpan ke GameDataBridge
-            GameDataBridge.Instance?.SaveReflexResult(
-                scoreManager.P1TotalPoints,
-                scoreManager.P2TotalPoints,
-                scoreManager.P1RoundWins,
-                scoreManager.P2RoundWins,
-                gameWinner
-            );
+            // Panggil Pop-Up Result dari UIManager
+            uiManager.ShowResultPopup(gameWinner);
 
-            uiManager.ShowGameOver(
-                gameWinner,
-                scoreManager.P1RoundWins,
-                scoreManager.P2RoundWins
-            );
-
-            yield return new WaitForSeconds(3f);
-            SceneFlowManager.Instance.GoTo(SceneNames.ResultScene3);
+            yield break; // Selesai, menunggu tombol NEXT ditekan
         }
 
         private void SetState(ReflexState s)

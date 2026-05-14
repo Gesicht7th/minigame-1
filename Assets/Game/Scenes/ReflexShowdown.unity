@@ -1001,7 +1001,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3e282a6bff0d042aad8646d5949abb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.Reflex.ReflexScoreManager
-  config: {fileID: 0}
 --- !u!1 &197219824
 GameObject:
   m_ObjectHideFlags: 0
@@ -3259,7 +3258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
-  serialPort: COM8
+  serialPort: COM6
   baudRate: 115200
   ActionHoldTimeout: 0.4
 --- !u!1 &1028643691
@@ -4261,10 +4260,14 @@ MonoBehaviour:
   drawPanel: {fileID: 719123060}
   roundResultPanel: {fileID: 1132194297}
   interRoundPanel: {fileID: 1330293552}
-  gameOverPanel: {fileID: 1993712606}
+  p1HeartIcons: []
+  p2HeartIcons: []
+  p1WinPanel: {fileID: 0}
+  p2WinPanel: {fileID: 0}
+  p1NextButton: {fileID: 0}
+  p2NextButton: {fileID: 0}
+  nextSceneName: MainMenu
   roundLabelText: {fileID: 1408169067}
-  p1WinsText: {fileID: 0}
-  p2WinsText: {fileID: 0}
   readyTitleText: {fileID: 1242541821}
   p1ReadyIndicator: {fileID: 1278244689}
   p2ReadyIndicator: {fileID: 28473953}
@@ -4277,11 +4280,8 @@ MonoBehaviour:
   roundWinnerText: {fileID: 61125172}
   p1TimeText: {fileID: 472610413}
   p2TimeText: {fileID: 102911670}
-  scoreboardText: {fileID: 7867629}
   falseStartText: {fileID: 1533579021}
-  interRoundScoreText: {fileID: 1965977168}
-  gameOverWinnerText: {fileID: 1915540299}
-  gameOverScoreText: {fileID: 494200144}
+  interRoundTitleText: {fileID: 0}
 --- !u!114 &1446389182
 MonoBehaviour:
   m_ObjectHideFlags: 0

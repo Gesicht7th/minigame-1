@@ -33,7 +33,7 @@ public class WandSerialReader : MonoBehaviour
 
     [Header("Serial Config")]
     [Tooltip("Contoh: COM3 (Windows) atau /dev/ttyUSB0 (Linux/Mac)")]
-    public string serialPort = "COM3";
+    public string serialPort = "COM6";
     public int baudRate = 115200;
 
     private volatile bool _isHolding = false;
