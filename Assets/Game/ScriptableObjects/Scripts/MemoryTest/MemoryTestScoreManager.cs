@@ -8,12 +8,10 @@ namespace WizardPunk.MemoryTest
     {
         public static MemoryTestScoreManager Instance { get; private set; }
 
-        [SerializeField] private MemoryTestConfig config;
-
         public int ScoreP1 { get; private set; }
         public int ScoreP2 { get; private set; }
 
-        public event Action<int, int> OnScoreUpdated; // (PlayerID, NewScore)
+        public event Action<int, int> OnScoreUpdated;
 
         void Awake()
         {
@@ -31,9 +29,11 @@ namespace WizardPunk.MemoryTest
 
         public void ApplyScore(int playerId, bool isCorrect)
         {
-            int delta = isCorrect ? config.correctPoints : config.wrongPoints;
-            if (playerId == 1) ScoreP1 = Mathf.Max(0, ScoreP1 + delta);
-            else ScoreP2 = Mathf.Max(0, ScoreP2 + delta);
+            // Sesuai request: Jika benar +1, jika salah 0
+            int delta = isCorrect ? 1 : 0;
+
+            if (playerId == 1) ScoreP1 += delta;
+            else ScoreP2 += delta;
 
             OnScoreUpdated?.Invoke(playerId, (playerId == 1 ? ScoreP1 : ScoreP2));
         }

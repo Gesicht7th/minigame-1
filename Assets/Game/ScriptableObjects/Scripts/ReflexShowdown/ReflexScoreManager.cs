@@ -9,16 +9,12 @@ namespace WizardPunk.Reflex
     {
         public static ReflexScoreManager Instance { get; private set; }
 
-        [SerializeField] private ReflexConfig config;
-
-        // ── Stats ─────────────────────────────────────
-        public int P1RoundWins { get; private set; }
-        public int P2RoundWins { get; private set; }
-        public int P1TotalPoints { get; private set; }
-        public int P2TotalPoints { get; private set; }
+        // ── Stats (Hearts System) ─────────────────────
+        public int P1Hearts { get; private set; }
+        public int P2Hearts { get; private set; }
         public int RoundsPlayed { get; private set; }
 
-        public event Action<int, int> OnScoreUpdated; // (p1wins, p2wins)
+        public event Action<int, int> OnHeartsUpdated; // (p1Hearts, p2Hearts)
 
         void Awake()
         {
@@ -26,65 +22,39 @@ namespace WizardPunk.Reflex
             Instance = this;
         }
 
-        public void Reset()
+        public void ResetHearts()
         {
-            P1RoundWins = P2RoundWins = 0;
-            P1TotalPoints = P2TotalPoints = 0;
+            P1Hearts = 3;
+            P2Hearts = 3;
             RoundsPlayed = 0;
+            OnHeartsUpdated?.Invoke(P1Hearts, P2Hearts);
         }
 
-        /// <summary>winner: 1 = P1 menang, 2 = P2 menang, 0 = draw</summary>
+        /// <summary>winner: 1 = P1 menang (P2 hilang nyawa), 2 = P2 menang (P1 hilang nyawa), 0 = draw</summary>
         public void RecordRoundResult(int winner)
         {
             RoundsPlayed++;
 
             if (winner == 1)
             {
-                P1RoundWins++;
-                P1TotalPoints += config.pointsPerRoundWin;
+                P2Hearts--;
             }
             else if (winner == 2)
             {
-                P2RoundWins++;
-                P2TotalPoints += config.pointsPerRoundWin;
+                P1Hearts--;
             }
-            // Draw: tidak ada poin
+            // Draw: tidak ada yang hilang nyawa
 
-            OnScoreUpdated?.Invoke(P1RoundWins, P2RoundWins);
-            Debug.Log($"[Score] Round winner: P{winner} | P1:{P1RoundWins} P2:{P2RoundWins}");
+            OnHeartsUpdated?.Invoke(P1Hearts, P2Hearts);
+            Debug.Log($"[Score] Round winner: P{winner} | P1 Hearts:{P1Hearts} P2 Hearts:{P2Hearts}");
         }
 
-        /// <summary>Siapa yang menang game keseluruhan? (1, 2, atau 0 = draw)</summary>
+        /// <summary>Siapa yang menang game keseluruhan? (1, 2, atau 0 = draw/masih main)</summary>
         public int GetGameWinner()
         {
-            if (P1RoundWins > P2RoundWins) return 1;
-            if (P2RoundWins > P1RoundWins) return 2;
+            if (P2Hearts <= 0) return 1;
+            if (P1Hearts <= 0) return 2;
             return 0;
-        }
-
-        /// <summary>Hitung total poin final termasuk bonus</summary>
-        public void FinalizeScore()
-        {
-            int winner = GetGameWinner();
-            if (winner == 1) P1TotalPoints += config.gameWinBonus;
-            else if (winner == 2) P2TotalPoints += config.gameWinBonus;
-        }
-
-        public int GetHighScore(int player) =>
-            PlayerPrefs.GetInt($"Reflex_P{player}_HighScore", 0);
-
-        public void TrySaveHighScores()
-        {
-            if (P1TotalPoints > GetHighScore(1))
-            {
-                PlayerPrefs.SetInt("Reflex_P1_HighScore", P1TotalPoints);
-                PlayerPrefs.Save();
-            }
-            if (P2TotalPoints > GetHighScore(2))
-            {
-                PlayerPrefs.SetInt("Reflex_P2_HighScore", P2TotalPoints);
-                PlayerPrefs.Save();
-            }
         }
     }
 }

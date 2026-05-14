@@ -14,7 +14,7 @@ namespace WizardPunk.HyperSmash
         [Header("── Panels ─────────────────────────────────")]
         [SerializeField] private GameObject gameScreenPanel;
         [SerializeField] private GameObject countdownPanel;
-        [SerializeField] private GameObject gameOverPanel; // Gunakan ini atau panel 2
+        [SerializeField] private GameObject gameOverPanel;
         [SerializeField] private GameObject gameOverPanel2;
 
         [Header("── HUD Universal ───────────────────────────")]
@@ -44,7 +44,6 @@ namespace WizardPunk.HyperSmash
         [SerializeField] private GameObject interRoundPanel;
         [SerializeField] private TextMeshProUGUI interRoundTitleText;
         [SerializeField] private TextMeshProUGUI interRoundNextText;
-        // PERUBAHAN: Memisahkan text skor inter-round menjadi P1 dan P2
         [SerializeField] private TextMeshProUGUI interRoundScoreTextP1;
         [SerializeField] private TextMeshProUGUI interRoundScoreTextP2;
 
@@ -53,6 +52,15 @@ namespace WizardPunk.HyperSmash
         [SerializeField] private TextMeshProUGUI gameOverScoreTextP2;
         [SerializeField] private GameObject newHighScoreBadgeP1;
         [SerializeField] private GameObject newHighScoreBadgeP2;
+
+        [Header("── Result Pop-Up ──")]
+        [SerializeField] private GameObject p1WinPanel;     // Panel Fura Oren
+        [SerializeField] private GameObject p2WinPanel;     // Panel Oura Biru
+        [SerializeField] private TextMeshProUGUI p1PtsText; // Text Poin di panel Fura
+        [SerializeField] private TextMeshProUGUI p2PtsText; // Text Poin di panel Oura
+        [SerializeField] private Button p1NextButton;       // Butang Next di panel Fura
+        [SerializeField] private Button p2NextButton;       // Butang Next di panel Oura
+        [SerializeField] private string nextSceneName = "MainMenu"; // Ganti dengan nama Scene seterusnya
 
         private Coroutine flashCoroutineP1;
         private Coroutine flashCoroutineP2;
@@ -67,6 +75,10 @@ namespace WizardPunk.HyperSmash
         {
             if (HyperSmashScoreManager.Instance != null)
                 HyperSmashScoreManager.Instance.OnScoreChanged += OnScoreChanged;
+
+            // Menambah fungsi pada butang Next
+            if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
+            if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
         }
 
         void Update()
@@ -75,7 +87,6 @@ namespace WizardPunk.HyperSmash
             UpdateCrosshairPosition(PlayerIndex.Player2, crosshairRectP2);
             UpdateSpeedDisplay();
 
-            // Update akurasi secara realtime (opsional)
             if (HyperSmashScoreManager.Instance != null)
             {
                 UpdateAccuracy(PlayerIndex.Player1, HyperSmashScoreManager.Instance.GetAccuracy(PlayerIndex.Player1));
@@ -107,16 +118,35 @@ namespace WizardPunk.HyperSmash
             UpdateScore(PlayerIndex.Player2, 0);
         }
 
-        public void ShowGameOver(int scoreP1, int scoreP2, bool isNewHighP1, bool isNewHighP2)
+        // FUNGSI BARU: Memaparkan Pop Up Result mengikut Pemenang
+        public void ShowResultPopup(int scoreP1, int scoreP2)
         {
-            GameObject panel = gameOverPanel2 != null ? gameOverPanel2 : gameOverPanel;
-            panel?.SetActive(true);
+            HideAll(); // Sembunyikan UI lain
 
-            if (gameOverScoreTextP1 != null) gameOverScoreTextP1.text = $"P1: {scoreP1:D4}";
-            if (gameOverScoreTextP2 != null) gameOverScoreTextP2.text = $"P2: {scoreP2:D4}";
+            // P1 Menang (Fura)
+            if (scoreP1 > scoreP2)
+            {
+                if (p1WinPanel != null) p1WinPanel.SetActive(true);
+                if (p1PtsText != null) p1PtsText.text = scoreP1.ToString();
+            }
+            // P2 Menang (Oura)
+            else if (scoreP2 > scoreP1)
+            {
+                if (p2WinPanel != null) p2WinPanel.SetActive(true);
+                if (p2PtsText != null) p2PtsText.text = scoreP2.ToString();
+            }
+            // Seri (Draw)
+            else
+            {
+                if (p1WinPanel != null) p1WinPanel.SetActive(true);
+                if (p1PtsText != null) p1PtsText.text = scoreP1.ToString() + "\n(DRAW)";
+            }
+        }
 
-            if (newHighScoreBadgeP1 != null) newHighScoreBadgeP1.SetActive(isNewHighP1);
-            if (newHighScoreBadgeP2 != null) newHighScoreBadgeP2.SetActive(isNewHighP2);
+        private void GoToNextGame()
+        {
+            Debug.Log("Melanjutkan ke game seterusnya: " + nextSceneName);
+            SceneFlowManager.Instance.GoTo(nextSceneName);
         }
         #endregion
 
@@ -131,7 +161,6 @@ namespace WizardPunk.HyperSmash
             interRoundPanel?.SetActive(true);
             if (interRoundTitleText != null) interRoundTitleText.text = $"ROUND {finishedRound} COMPLETE";
 
-            // PERUBAHAN: Memisahkan tampilan skor di UI
             if (interRoundScoreTextP1 != null) interRoundScoreTextP1.text = $"P1 Score: {scoreP1}";
             if (interRoundScoreTextP2 != null) interRoundScoreTextP2.text = $"P2 Score: {scoreP2}";
 
@@ -165,7 +194,7 @@ namespace WizardPunk.HyperSmash
         }
         #endregion
 
-        #region Crosshair
+        #region Crosshair & Score
         private void UpdateCrosshairPosition(PlayerIndex player, RectTransform cRect)
         {
             WandAimController aim = WandAimController.Get(player);
@@ -202,9 +231,7 @@ namespace WizardPunk.HyperSmash
             img.color = crosshairDefaultColor;
             img.transform.localScale = Vector3.one;
         }
-        #endregion
 
-        #region Score & Stats
         private void OnScoreChanged(PlayerIndex player, int newScore, int delta)
         {
             UpdateScore(player, newScore);
@@ -240,10 +267,7 @@ namespace WizardPunk.HyperSmash
             speedText.text = $"SPD {CameraController.Instance.CurrentSpeed:F0}";
         }
 
-        public void ShowScorePopup(int delta, Vector3 worldPosition)
-        {
-            // Placeholder popup
-        }
+        public void ShowScorePopup(int delta, Vector3 worldPosition) { }
         #endregion
     }
 }
