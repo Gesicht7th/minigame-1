@@ -7,6 +7,9 @@ namespace WizardPunk.MemoryTest
         [Header("── Player Identity ────────────────────")]
         [SerializeField] private int playerIndex = 1;
 
+        [Header("── Wand Serial Reader ─────────────────")]
+        [SerializeField] private WandSerialReader serialReader;
+
         [Header("── Wand Transform ──────────────────────")]
         [SerializeField] private Transform wandRoot;
 
@@ -29,28 +32,73 @@ namespace WizardPunk.MemoryTest
 
         void Start()
         {
-            if (tipLight != null) tipLight.color = playerIndex == 1 ? p1Color : p2Color;
+            // Auto-find sederhana jika belum diassign
+            if (serialReader == null)
+            {
+                WandSerialReader[] readers = FindObjectsByType<WandSerialReader>(FindObjectsSortMode.None);
+
+                foreach (var reader in readers)
+                {
+                    string n = reader.name.ToUpper();
+
+                    if (playerIndex == 1 &&
+                        (n.Contains("P1") || n.Contains("PLAYER1")))
+                    {
+                        serialReader = reader;
+                    }
+
+                    if (playerIndex == 2 &&
+                        (n.Contains("P2") || n.Contains("PLAYER2")))
+                    {
+                        serialReader = reader;
+                    }
+                }
+
+                // fallback
+                if (serialReader == null && readers.Length > 0)
+                {
+                    serialReader = (playerIndex == 1)
+                        ? readers[0]
+                        : (readers.Length > 1 ? readers[1] : readers[0]);
+                }
+            }
+
+            if (tipLight != null)
+                tipLight.color = playerIndex == 1 ? p1Color : p2Color;
+
+            Debug.Log($"[PlayerWandController] P{playerIndex} linked to: {(serialReader != null ? serialReader.name : "NONE")}");
         }
 
         void Update()
         {
-            if (!useGyro) ReadKeyboard();
+            if (!useGyro)
+                ReadKeyboard();
+
             ApplyRotation();
         }
 
         private void ReadKeyboard()
         {
-            float h = 0f, v = 0f;
+            float h = 0f;
+            float v = 0f;
+
             if (playerIndex == 1)
             {
-                if (Input.GetKey(KeyCode.LeftArrow)) h = -1f; else if (Input.GetKey(KeyCode.RightArrow)) h = 1f;
-                if (Input.GetKey(KeyCode.UpArrow)) v = 1f; else if (Input.GetKey(KeyCode.DownArrow)) v = -1f;
+                if (Input.GetKey(KeyCode.LeftArrow)) h = -1f;
+                else if (Input.GetKey(KeyCode.RightArrow)) h = 1f;
+
+                if (Input.GetKey(KeyCode.UpArrow)) v = 1f;
+                else if (Input.GetKey(KeyCode.DownArrow)) v = -1f;
             }
             else
             {
-                if (Input.GetKey(KeyCode.A)) h = -1f; else if (Input.GetKey(KeyCode.D)) h = 1f;
-                if (Input.GetKey(KeyCode.W)) v = 1f; else if (Input.GetKey(KeyCode.S)) v = -1f;
+                if (Input.GetKey(KeyCode.A)) h = -1f;
+                else if (Input.GetKey(KeyCode.D)) h = 1f;
+
+                if (Input.GetKey(KeyCode.W)) v = 1f;
+                else if (Input.GetKey(KeyCode.S)) v = -1f;
             }
+
             inputDir = new Vector2(h, v);
         }
 
@@ -58,37 +106,58 @@ namespace WizardPunk.MemoryTest
         {
             if (wandRoot == null) return;
 
-            float rotX, rotZ;
+            float rotX;
+            float rotZ;
 
-            // Logika baru untuk mengambil Euler Angles dari WandSerialReader
-            if (useGyro && playerIndex == 1 && WandSerialReader.Instance != null && WandSerialReader.Instance.IsConnected)
+            // ===== GYRO MODE =====
+            if (useGyro &&
+                serialReader != null &&
+                serialReader.IsConnected)
             {
-                Vector3 euler = WandSerialReader.Instance.EulerAngles;
+                Vector3 euler = serialReader.EulerAngles;
 
-                // Gunakan euler.y (yaw) dan euler.x (pitch) tergantung pada sumbu mana ESP32 kamu disejajarkan
-                rotX = Mathf.Clamp(-euler.y * gyroSensitivity, -maxTiltAngle, maxTiltAngle);
-                rotZ = Mathf.Clamp(-euler.x * gyroSensitivity, -maxTiltAngle, maxTiltAngle);
+                rotX = Mathf.Clamp(
+                    -euler.y * gyroSensitivity,
+                    -maxTiltAngle,
+                    maxTiltAngle);
+
+                rotZ = Mathf.Clamp(
+                    -euler.x * gyroSensitivity,
+                    -maxTiltAngle,
+                    maxTiltAngle);
 
                 targetRot = Quaternion.Euler(rotX, 0f, rotZ);
-            }
-            else
-            {
-                bool hasInput = inputDir.sqrMagnitude > 0.01f;
-                if (hasInput)
-                {
-                    rotX = inputDir.y * maxTiltAngle;
-                    rotZ = -inputDir.x * maxTiltAngle;
-                    targetRot = Quaternion.Euler(rotX, 0f, rotZ);
-                    wandRoot.localRotation = Quaternion.Lerp(wandRoot.localRotation, targetRot, Time.deltaTime * rotateSpeed);
-                }
-                else
-                {
-                    wandRoot.localRotation = Quaternion.Lerp(wandRoot.localRotation, Quaternion.identity, Time.deltaTime * returnSpeed);
-                }
+
+                wandRoot.localRotation = Quaternion.Lerp(
+                    wandRoot.localRotation,
+                    targetRot,
+                    Time.deltaTime * rotateSpeed);
+
                 return;
             }
 
-            wandRoot.localRotation = Quaternion.Lerp(wandRoot.localRotation, targetRot, Time.deltaTime * rotateSpeed);
+            // ===== KEYBOARD FALLBACK =====
+            bool hasInput = inputDir.sqrMagnitude > 0.01f;
+
+            if (hasInput)
+            {
+                rotX = inputDir.y * maxTiltAngle;
+                rotZ = -inputDir.x * maxTiltAngle;
+
+                targetRot = Quaternion.Euler(rotX, 0f, rotZ);
+
+                wandRoot.localRotation = Quaternion.Lerp(
+                    wandRoot.localRotation,
+                    targetRot,
+                    Time.deltaTime * rotateSpeed);
+            }
+            else
+            {
+                wandRoot.localRotation = Quaternion.Lerp(
+                    wandRoot.localRotation,
+                    Quaternion.identity,
+                    Time.deltaTime * returnSpeed);
+            }
         }
     }
 }

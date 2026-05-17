@@ -17,19 +17,19 @@ using UnityEngine;
 public class WandSerialReader : MonoBehaviour
 {
 
-    public static WandSerialReader Instance { get; private set; }
+    //public static WandSerialReader Instance { get; private set; }
 
-    void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-    // -------------------------------
+    //void Awake()
+    //{
+    //    if (Instance != null && Instance != this)
+    //    {
+    //        Destroy(gameObject);
+    //        return;
+    //    }
+    //    Instance = this;
+    //    DontDestroyOnLoad(gameObject);
+    //}
+    //// -------------------------------
 
     [Header("Serial Config")]
     [Tooltip("Contoh: COM3 (Windows) atau /dev/ttyUSB0 (Linux/Mac)")]

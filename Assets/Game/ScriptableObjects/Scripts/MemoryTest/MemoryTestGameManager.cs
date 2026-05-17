@@ -11,8 +11,9 @@ namespace WizardPunk.MemoryTest
         [SerializeField] private MemoryTestUIManager uiManager;
         [SerializeField] private MemoryTestScoreManager scoreManager;
 
-        // Dari Versi 1: Untuk membaca input hardware (ESP32)
-        [SerializeField] private WandSerialReader serialReader;
+        [Header("── Wand Inputs ──────────────────────")]
+        [SerializeField] private WandSerialReader p1SerialReader;
+        [SerializeField] private WandSerialReader p2SerialReader;
 
         private int p1InputIdx, p2InputIdx;
         private bool isInputPhase;
@@ -25,21 +26,41 @@ namespace WizardPunk.MemoryTest
 
         void Start()
         {
-            // Auto-find jika lupa assign di Inspector
-            if (serialReader == null)
-                serialReader = FindObjectOfType<WandSerialReader>();
+            // Bersihkan referensi "Missing" yang rusak agar auto-find bisa bekerja
+            if (p1SerialReader == null) p1SerialReader = null;
+            if (p2SerialReader == null) p2SerialReader = null;
 
-            Time.timeScale = 1f;
+            // Cari semua reader di scene
+            WandSerialReader[] readers = FindObjectsOfType<WandSerialReader>();
 
-            if (SceneFlowManager.Instance == null)
+            // Logika Auto-Assignment yang lebih cerdas berdasarkan nama objek
+            foreach (var reader in readers)
             {
-                var go = new GameObject("SceneFlowManager_AutoCreated");
-                go.AddComponent<SceneFlowManager>();
-                Debug.LogWarning("[Scene] SceneFlowManager dibuat otomatis. " +
-                                 "Mulai dari MainMenu untuk flow yang benar.");
+                // Jika nama objek mengandung "P1" atau "Player1"
+                if (reader.name.ToUpper().Contains("P1") || reader.name.ToUpper().Contains("PLAYER1"))
+                {
+                    if (p1SerialReader == null) p1SerialReader = reader;
+                }
+                // Jika nama objek mengandung "P2" atau "Player2"
+                else if (reader.name.ToUpper().Contains("P2") || reader.name.ToUpper().Contains("PLAYER2"))
+                {
+                    if (p2SerialReader == null) p2SerialReader = reader;
+                }
             }
 
-            // Memulai alur permainan
+            // Fallback terakhir: jika tetap null setelah cek nama, pakai urutan array (Lotere)
+            if (p1SerialReader == null && readers.Length > 0) p1SerialReader = readers[0];
+            if (p2SerialReader == null && readers.Length > 1) p2SerialReader = (readers[0] == p1SerialReader) ? readers[1] : readers[0];
+
+            // DIAGNOSIS RADIOLOGI: Jangan biarkan game jalan jika hardware tidak siap
+            if (p1SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P1 Wand Manager tidak ditemukan di scene!");
+            if (p2SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P2 Wand Manager tidak ditemukan di scene!");
+
+            Debug.Log($"[MemoryTest] P1 Linked to: {(p1SerialReader != null ? p1SerialReader.name : "NONE")}");
+            Debug.Log($"[MemoryTest] P2 Linked to: {(p2SerialReader != null ? p2SerialReader.name : "NONE")}");
+
+            Time.timeScale = 1f;
+            // ... (sisa kode GameLoop tetap sama)
             StartCoroutine(GameLoop());
         }
 
@@ -130,17 +151,26 @@ namespace WizardPunk.MemoryTest
 
         private WandDirection GetInput(int pId)
         {
+            // Tentukan reader aktif
+            WandSerialReader activeReader =
+                (pId == 1) ? p1SerialReader : p2SerialReader;
+
+            // ===== SERIAL INPUT =====
+            if (activeReader != null)
+            {
+                string gesture = activeReader.ConsumeGesture();
+
+                if (gesture == "U") return WandDirection.Up;
+                if (gesture == "D") return WandDirection.Down;
+                if (gesture == "L") return WandDirection.Left;
+                if (gesture == "R") return WandDirection.Right;
+            }
+
+            // ===== FALLBACK KEYBOARD =====
+            // Berguna untuk testing jika hanya punya 1 wand
+
             if (pId == 1)
             {
-                if (serialReader != null)
-                {
-                    string gesture = serialReader.ConsumeGesture();
-                    if (gesture == "U") return WandDirection.Up;
-                    if (gesture == "D") return WandDirection.Down;
-                    if (gesture == "L") return WandDirection.Left;
-                    if (gesture == "R") return WandDirection.Right;
-                }
-
                 if (Input.GetKeyDown(KeyCode.UpArrow)) return WandDirection.Up;
                 if (Input.GetKeyDown(KeyCode.DownArrow)) return WandDirection.Down;
                 if (Input.GetKeyDown(KeyCode.LeftArrow)) return WandDirection.Left;
@@ -153,6 +183,7 @@ namespace WizardPunk.MemoryTest
                 if (Input.GetKeyDown(KeyCode.A)) return WandDirection.Left;
                 if (Input.GetKeyDown(KeyCode.D)) return WandDirection.Right;
             }
+
             return WandDirection.None;
         }
     }
