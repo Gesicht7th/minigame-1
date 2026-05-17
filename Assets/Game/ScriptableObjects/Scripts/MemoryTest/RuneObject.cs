@@ -26,13 +26,14 @@ namespace WizardPunk.MemoryTest
         public WandDirection AssignedDirection { get; private set; }
         private Material mat;
         private Coroutine flipCoroutine;
-
+        private Vector3 initialScale;
         void Awake()
         {
             if (boxRenderer != null) mat = boxRenderer.material;
-
-            // Di awal game, pastikan lampu memakai warna idle
             if (runeLight != null) runeLight.color = colorIdle;
+
+            // Simpan skala asli saat game dimulai agar kita tahu ukuran maksimalnya
+            initialScale = transform.localScale;
         }
 
         public void Initialize(WandDirection dir)
@@ -56,7 +57,7 @@ namespace WizardPunk.MemoryTest
             if (runeLight != null) runeLight.color = colorIdle;
 
             // Sesuai request: Di awal ronde/idle, posisi default adalah MENGHADAP BELAKANG (180 derajat)
-            transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+            transform.localRotation = Quaternion.identity;
         }
 
         public void ShowArrow()
@@ -66,7 +67,7 @@ namespace WizardPunk.MemoryTest
 
             // Berputar ke DEPAN (0 derajat) untuk memperlihatkan arah ke player
             if (flipCoroutine != null) StopCoroutine(flipCoroutine);
-            flipCoroutine = StartCoroutine(FlipAnimation(transform.localRotation, Quaternion.identity));
+            flipCoroutine = StartCoroutine(FlipAnimation(transform.localRotation, Quaternion.Euler(0f, 180f, 0f)));
         }
 
         public void HideArrow()
@@ -76,7 +77,7 @@ namespace WizardPunk.MemoryTest
 
             // Berputar kembali ke BELAKANG (180 derajat) untuk menyembunyikan arah
             if (flipCoroutine != null) StopCoroutine(flipCoroutine);
-            flipCoroutine = StartCoroutine(FlipAnimation(transform.localRotation, Quaternion.Euler(0f, 180f, 0f)));
+            flipCoroutine = StartCoroutine(FlipAnimation(transform.localRotation, Quaternion.identity));
         }
 
         public void ShowResult(bool correct)
@@ -88,16 +89,24 @@ namespace WizardPunk.MemoryTest
             {
                 // Jika BENAR: Berputar menghadap DEPAN (0 derajat)
                 if (flipCoroutine != null) StopCoroutine(flipCoroutine);
-                flipCoroutine = StartCoroutine(FlipAnimation(transform.localRotation, Quaternion.identity));
+                flipCoroutine = StartCoroutine(FlipAnimation(transform.localRotation, Quaternion.Euler(0f, 180f, 0f)));
             }
             else
             {
                 // Jika SALAH: Tetap menghadap BELAKANG (180 derajat), warna lampu otomatis jadi merah lewat baris di atas
                 if (flipCoroutine != null) StopCoroutine(flipCoroutine);
-                transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+                transform.localRotation = Quaternion.identity;
             }
         }
+        public void AnimateToIdle()
+        {
+            if (mat != null) mat.color = colorIdle;
+            if (runeLight != null) runeLight.color = colorIdle;
 
+            // Putar balik ke 180 derajat (menghadap belakang) dengan animasi smooth
+            if (flipCoroutine != null) StopCoroutine(flipCoroutine);
+            flipCoroutine = StartCoroutine(FlipAnimation(transform.localRotation, Quaternion.identity));
+        }
         private IEnumerator FlipAnimation(Quaternion startRot, Quaternion targetRot)
         {
             float elapsed = 0f;
@@ -111,6 +120,34 @@ namespace WizardPunk.MemoryTest
             }
 
             transform.localRotation = targetRot;
+        }
+
+        public void PlayAppearAnimation()
+        {
+            StartCoroutine(ScaleUpAnimation());
+        }
+
+        private IEnumerator ScaleUpAnimation()
+        {
+            float elapsed = 0f;
+            float duration = 0.2f; // Durasi membesar
+
+            // Set ukuran menjadi 0 di awal animasi
+            transform.localScale = Vector3.zero;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+
+                // Gunakan SmoothStep agar animasinya melambat di akhir (tidak kaku)
+                float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+                transform.localScale = Vector3.Lerp(Vector3.zero, initialScale, t);
+
+                yield return null;
+            }
+
+            // Pastikan presisi ukuran di akhir animasi
+            transform.localScale = initialScale;
         }
     }
 }

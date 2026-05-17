@@ -112,7 +112,9 @@ namespace WizardPunk.MemoryTest
 
                 isInputPhase = false;
                 uiManager.UpdateTimerUI(0, maxTime);
+
                 yield return new WaitForSeconds(1.5f);
+                yield return StartCoroutine(runeManager.AnimateAllRunesToIdle());
                 runeManager.ResetAll();
             }
 

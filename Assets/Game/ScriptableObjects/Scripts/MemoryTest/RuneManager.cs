@@ -30,23 +30,47 @@ namespace WizardPunk.MemoryTest
         {
             currentActiveRunes = activeCount;
 
+            // ----- SETUP PLAYER 1 -----
             for (int i = 0; i < runesP1.Length; i++)
             {
                 if (runesP1[i] != null)
                 {
+                    // Cek apakah objek ini mati sebelum ronde ini dimulai
+                    bool wasActive = runesP1[i].gameObject.activeSelf;
                     bool isActive = i < currentActiveRunes;
+
                     runesP1[i].gameObject.SetActive(isActive);
-                    if (isActive) runesP1[i].Initialize(ALL_DIRS[Random.Range(0, 4)]);
+                    if (isActive)
+                    {
+                        runesP1[i].Initialize(ALL_DIRS[Random.Range(0, 4)]);
+
+                        // Jika sebelumnya mati dan sekarang nyala, mainkan animasi!
+                        if (!wasActive)
+                        {
+                            runesP1[i].PlayAppearAnimation();
+                        }
+                    }
                 }
             }
 
+            // ----- SETUP PLAYER 2 -----
             for (int i = 0; i < runesP2.Length; i++)
             {
                 if (runesP2[i] != null)
                 {
+                    bool wasActive = runesP2[i].gameObject.activeSelf;
                     bool isActive = i < currentActiveRunes;
+
                     runesP2[i].gameObject.SetActive(isActive);
-                    if (isActive) runesP2[i].Initialize(ALL_DIRS[Random.Range(0, 4)]);
+                    if (isActive)
+                    {
+                        runesP2[i].Initialize(ALL_DIRS[Random.Range(0, 4)]);
+
+                        if (!wasActive)
+                        {
+                            runesP2[i].PlayAppearAnimation();
+                        }
+                    }
                 }
             }
         }
@@ -68,7 +92,18 @@ namespace WizardPunk.MemoryTest
                 if (i < runesP2.Length && runesP2[i] != null) runesP2[i].HideArrow();
             }
         }
+        public IEnumerator AnimateAllRunesToIdle()
+        {
+            // Jalankan animasi putar balik untuk semua rune yang aktif di ronde ini
+            for (int i = 0; i < currentActiveRunes; i++)
+            {
+                if (i < runesP1.Length && runesP1[i] != null) runesP1[i].AnimateToIdle();
+                if (i < runesP2.Length && runesP2[i] != null) runesP2[i].AnimateToIdle();
+            }
 
+            // Tunggu sampai durasi animasi putaran (0.25 detik) selesai
+            yield return new WaitForSeconds(0.25f);
+        }
         public void ResetAll()
         {
             for (int i = 0; i < currentActiveRunes; i++)
