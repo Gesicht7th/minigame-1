@@ -41,6 +41,7 @@ namespace WizardPunk.HyperSmash
         private CrystalData data;
         private int currentHP;
         private bool isDead = false;
+        public bool isStaticObstacle = false; // Menandakan kristal ini bagian dari goa (tidak boleh hancur total)
         private Vector3 startLocalPos;
         private float floatTime;
         private Material mat;
@@ -73,12 +74,31 @@ namespace WizardPunk.HyperSmash
             floatTime = Random.Range(0f, Mathf.PI * 2f);
         }
 
+        private Coroutine lifetimeCoroutine;
+
         void Start()
         {
-            // Jika kristal ini diletakkan manual di dalam blok (EndlessRoomLoop), jangan hancurkan otomatis!
-            if (transform.GetComponentInParent<EndlessRoomLoop>() != null) return;
+            // Jangan hancurkan otomatis jika sudah ditandai statis
+            if (isStaticObstacle) return;
             
-            Destroy(gameObject, lifetimeIfNotHit);
+            lifetimeCoroutine = StartCoroutine(LifetimeTimer());
+        }
+
+        private IEnumerator LifetimeTimer()
+        {
+            yield return new WaitForSeconds(lifetimeIfNotHit);
+            Destroy(gameObject);
+        }
+
+        // Dipanggil oleh EndlessRoomLoop untuk mencegah kristal ini hilang sendiri
+        public void MakeStaticObstacle()
+        {
+            isStaticObstacle = true;
+            if (lifetimeCoroutine != null)
+            {
+                StopCoroutine(lifetimeCoroutine);
+                lifetimeCoroutine = null;
+            }
         }
 
         void Update()
@@ -136,7 +156,7 @@ namespace WizardPunk.HyperSmash
             HyperSmashGameManager.Instance?.OnCrystalKilled(this, killer);
 
             // Jika statis di dalam goa, sembunyikan saja agar bisa di-respawn nanti
-            if (transform.GetComponentInParent<EndlessRoomLoop>() != null)
+            if (isStaticObstacle)
             {
                 gameObject.SetActive(false);
             }
