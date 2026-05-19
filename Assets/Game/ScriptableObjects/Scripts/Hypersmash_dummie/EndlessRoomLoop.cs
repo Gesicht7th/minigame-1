@@ -19,6 +19,23 @@ public class EndlessRoomLoop : MonoBehaviour
     private float spawnZ = 0f;
     private int oldestBlockIndex = 0; // Melacak blok mana yang posisinya paling belakang
 
+    void Awake()
+    {
+        // 0. Segera temukan SEMUA kristal yang ada di dalam blok goa ini
+        // dan beritahu mereka agar JANGAN hancur sendiri setelah 15 detik!
+        for (int i = 0; i < roomBlocks.Length; i++)
+        {
+            if (roomBlocks[i] != null)
+            {
+                WizardPunk.HyperSmash.Crystal[] crystals = roomBlocks[i].GetComponentsInChildren<WizardPunk.HyperSmash.Crystal>(true);
+                foreach (var c in crystals)
+                {
+                    c.MakeStaticObstacle();
+                }
+            }
+        }
+    }
+
     void Start()
     {
         // 1. Susun posisi awal ketiga blok secara berurutan (Z = 0, Z = Panjang, Z = Panjang * 2)
