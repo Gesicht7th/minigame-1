@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/HyperSmash/Crystal.cs
+// Assets/_Game/Scripts/HyperSmash/Crystal.cs
 // ─────────────────────────────────────────────────────────────
 // PERUBAHAN DARI VERSI SEBELUMNYA:
 //   - TakeDamage() sekarang menerima parameter PlayerIndex killer
@@ -75,6 +75,9 @@ namespace WizardPunk.HyperSmash
 
         void Start()
         {
+            // Jika kristal ini diletakkan manual di dalam blok (EndlessRoomLoop), jangan hancurkan otomatis!
+            if (transform.GetComponentInParent<EndlessRoomLoop>() != null) return;
+            
             Destroy(gameObject, lifetimeIfNotHit);
         }
 
@@ -132,7 +135,26 @@ namespace WizardPunk.HyperSmash
             OnCrystalDestroyed?.Invoke(this, killer);
             HyperSmashGameManager.Instance?.OnCrystalKilled(this, killer);
 
-            Destroy(gameObject, 0.05f);
+            // Jika statis di dalam goa, sembunyikan saja agar bisa di-respawn nanti
+            if (transform.GetComponentInParent<EndlessRoomLoop>() != null)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                Destroy(gameObject, 0.05f);
+            }
+        }
+
+        public void Respawn()
+        {
+            isDead = false;
+            currentHP = customHP;
+            gameObject.SetActive(true);
+            if (mat != null) mat.color = Color.white; // Reset warna jika sisa HitFlash
+            
+            // Reset rotasi & posisi lokal jika diperlukan
+            floatTime = Random.Range(0f, Mathf.PI * 2f);
         }
 
         private IEnumerator HitFlash()

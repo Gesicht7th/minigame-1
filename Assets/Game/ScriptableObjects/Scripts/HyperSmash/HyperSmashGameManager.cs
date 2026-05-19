@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/HyperSmash/HyperSmashGameManager.cs
+// Assets/_Game/Scripts/HyperSmash/HyperSmashGameManager.cs
 
 using System.Collections;
 using UnityEngine;
@@ -19,6 +19,7 @@ namespace WizardPunk.HyperSmash
         [SerializeField] private HyperSmashScoreManager scoreManager;
         [SerializeField] private HyperSmashUIManager uiManager;
         [SerializeField] private CorridorBuilder corridorBuilder;
+        [SerializeField] private EndlessStageManager endlessStageManager;
 
         public HyperSmashState CurrentState { get; private set; }
         public float RoundTimer { get; private set; }
@@ -64,7 +65,10 @@ namespace WizardPunk.HyperSmash
             scoreManager.ResetAll();
             aimController?.ResetToCenter();
             uiManager?.HideAll();
-            corridorBuilder?.BuildCorridor();
+            
+            // Mulai stage endless atau fallback ke procedural
+            if (endlessStageManager != null) endlessStageManager.InitializeEndlessStage();
+            else corridorBuilder?.BuildCorridor(); 
 
             SetState(HyperSmashState.Countdown);
             uiManager?.ShowGameScreen();

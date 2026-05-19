@@ -164,7 +164,7 @@ MonoBehaviour:
   crystalRenderer: {fileID: 0}
   hitParticles: {fileID: 0}
   breakParticles: {fileID: 0}
-  rotateSpeed: 45
+  rotateSpeed: 0
   floatSpeed: 1
   floatRange: 0.2
   lifetimeIfNotHit: 15
