@@ -54,7 +54,7 @@ namespace WizardPunk.Reflex
         [SerializeField] private Image p1ReadyIndicator;
         [SerializeField] private Image p2ReadyIndicator;
         [SerializeField] private Color readyColor = Color.green;
-        [SerializeField] private Color notReadyColor = Color.red;
+        [SerializeField] private Color notReadyColor = Color.white;
 
         [Header("── Countdown ───────────────────────────")]
         [SerializeField] private TextMeshProUGUI countdownText;
