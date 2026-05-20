@@ -22,12 +22,19 @@ namespace WizardPunk.MemoryTest
         [SerializeField] private Image timerFillBar;
 
         [Header("── Result Pop-Up ──")]
+        [SerializeField] private GameObject popupBackground;    // <--- TAMBAHAN UNTUK BACKGROUND GELAP
         [SerializeField] private GameObject p1WinPanel;     // Panel Fura Oren
         [SerializeField] private GameObject p2WinPanel;     // Panel Oura Biru
+        [SerializeField] private GameObject drawWinPanel;   // Panel Draw (Seri)
+
         [SerializeField] private TextMeshProUGUI p1PtsText; // Text Poin di panel Fura
         [SerializeField] private TextMeshProUGUI p2PtsText; // Text Poin di panel Oura
+        [SerializeField] private TextMeshProUGUI drawPtsText; // Text Poin di panel Draw
+
         [SerializeField] private Button p1NextButton;       // Tombol Next di panel Fura
         [SerializeField] private Button p2NextButton;       // Tombol Next di panel Oura
+        [SerializeField] private Button drawNextButton;     // Tombol Next di panel Draw
+
         [SerializeField] private string nextSceneName = "HyperSmash"; // Nama Scene game selanjutnya
 
         void Awake()
@@ -40,9 +47,12 @@ namespace WizardPunk.MemoryTest
         {
             MemoryTestScoreManager.Instance.OnScoreUpdated += UpdateScoreUI;
 
-            // Memasang fungsi pada tombol Next
+            // Matikan background gelap saat game baru mulai
+            if (popupBackground != null) popupBackground.SetActive(false);
+
             if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
             if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
+            if (drawNextButton != null) drawNextButton.onClick.AddListener(GoToNextGame);
         }
 
         void OnDestroy()
@@ -82,36 +92,32 @@ namespace WizardPunk.MemoryTest
             if (centerPhaseText != null) centerPhaseText.gameObject.SetActive(false);
         }
 
-        // --- FUNGSI BARU: Memunculkan Pop Up Sesuai Pemenang ---
         public void ShowResultPopup(int scoreP1, int scoreP2)
         {
-            // Sembunyikan center text agar layar bersih
             HideCenterText();
 
-            // P1 Menang (Fura)
+            // Nyalakan background gelap
+            if (popupBackground != null) popupBackground.SetActive(true);
+
             if (scoreP1 > scoreP2)
             {
                 if (p1WinPanel != null) p1WinPanel.SetActive(true);
                 if (p1PtsText != null) p1PtsText.text = scoreP1.ToString();
             }
-            // P2 Menang (Oura)
             else if (scoreP2 > scoreP1)
             {
                 if (p2WinPanel != null) p2WinPanel.SetActive(true);
                 if (p2PtsText != null) p2PtsText.text = scoreP2.ToString();
             }
-            // Seri (Draw) - Memunculkan panel P1 tapi teksnya diberi keterangan DRAW
             else
             {
-                if (p1WinPanel != null) p1WinPanel.SetActive(true);
-                if (p1PtsText != null) p1PtsText.text = scoreP1.ToString() + "\n(DRAW)";
+                if (drawWinPanel != null) drawWinPanel.SetActive(true);
+                if (drawPtsText != null) drawPtsText.text = scoreP1.ToString();
             }
         }
 
-        // Fungsi untuk pindah scene saat tombol NEXT diklik
         private void GoToNextGame()
         {
-            Debug.Log("Melanjutkan ke game berikutnya: " + nextSceneName);
             SceneFlowManager.Instance.GoTo(nextSceneName);
         }
     }

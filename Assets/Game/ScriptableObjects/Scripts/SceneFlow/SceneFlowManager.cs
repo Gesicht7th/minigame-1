@@ -11,6 +11,10 @@ namespace WizardPunk
     {
         public static SceneFlowManager Instance { get; private set; }
 
+        [Header("── Transition Settings ──")]
+        [SerializeField] private Animator transitionAnimator;
+        [SerializeField] private float transitionTime = 0.5f;
+
         // Key untuk simpan "scene berikutnya" di loading screen
         private const string NEXT_SCENE_KEY = "WP_NextScene";
 
@@ -81,7 +85,27 @@ namespace WizardPunk
                 yield break;
             }
 
+            // --- TAMBAHAN TRANSISI: Mulai animasi menutup layar ---
+            if (transitionAnimator != null)
+            {
+                transitionAnimator.SetTrigger("StartTransition");
+
+                // Gunakan realtime agar transisi tetap jalan meski game di-pause (Time.timeScale = 0)
+                yield return new WaitForSecondsRealtime(transitionTime);
+            }
+
+            // --- LOAD SCENE ASLI MILIK ANDA ---
             SceneManager.LoadScene(sceneName);
+
+            // Karena script ini DontDestroyOnLoad, Coroutine akan terus hidup.
+            // Kita tunggu 1 frame agar Scene baru selesai di-render sebelum membuka layar.
+            yield return null;
+
+            // --- TAMBAHAN TRANSISI: Mulai animasi membuka layar di Scene baru ---
+            if (transitionAnimator != null)
+            {
+                transitionAnimator.Play("FadeIn");
+            }
         }
 
         // ── Helper untuk Loading Scene ────────────────

@@ -20,15 +20,20 @@ namespace WizardPunk.Reflex
         [SerializeField] private GameObject interRoundPanel;
 
         [Header("── Hearts UI ───────────────────────────")]
-        [SerializeField] private GameObject[] p1HeartIcons; // Masukkan 3 gambar hati P1
-        [SerializeField] private GameObject[] p2HeartIcons; // Masukkan 3 gambar hati P2
+        [SerializeField] private GameObject[] p1HeartIcons;
+        [SerializeField] private GameObject[] p2HeartIcons;
 
         [Header("── Result Pop-Up ──")]
-        [SerializeField] private GameObject p1WinPanel;     // Panel Fura Oren
-        [SerializeField] private GameObject p2WinPanel;     // Panel Oura Biru
-        [SerializeField] private Button p1NextButton;       // Tombol Next P1
-        [SerializeField] private Button p2NextButton;       // Tombol Next P2
-        [SerializeField] private string nextSceneName = "MainMenu"; // Scene selanjutnya
+        [SerializeField] private GameObject popupBackground;    // <--- TAMBAHAN UNTUK BACKGROUND GELAP
+        [SerializeField] private GameObject p1WinPanel;
+        [SerializeField] private GameObject p2WinPanel;
+        [SerializeField] private GameObject drawWinPanel;
+
+        [SerializeField] private Button p1NextButton;
+        [SerializeField] private Button p2NextButton;
+        [SerializeField] private Button drawNextButton;
+
+        [SerializeField] private string nextSceneName = "MainMenu";
 
         [Header("── HUD ─────────────────────────────────")]
         [SerializeField] private TextMeshProUGUI roundLabelText;
@@ -70,6 +75,7 @@ namespace WizardPunk.Reflex
 
             if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
             if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
+            if (drawNextButton != null) drawNextButton.onClick.AddListener(GoToNextGame);
         }
 
         void OnDestroy()
@@ -86,6 +92,9 @@ namespace WizardPunk.Reflex
             drawPanel?.SetActive(false);
             roundResultPanel?.SetActive(false);
             interRoundPanel?.SetActive(false);
+
+            // Matikan background gelap saat layar lain disembunyikan
+            popupBackground?.SetActive(false);
         }
 
         public void ShowGameScreen()
@@ -96,14 +105,12 @@ namespace WizardPunk.Reflex
         // --- SISTEM HEARTS ---
         private void UpdateHeartsUI(int p1Hearts, int p2Hearts)
         {
-            // Matikan/Nyalakan icon hati P1 sesuai sisa nyawa
             for (int i = 0; i < p1HeartIcons.Length; i++)
             {
                 if (p1HeartIcons[i] != null)
                     p1HeartIcons[i].SetActive(i < p1Hearts);
             }
 
-            // Matikan/Nyalakan icon hati P2 sesuai sisa nyawa
             for (int i = 0; i < p2HeartIcons.Length; i++)
             {
                 if (p2HeartIcons[i] != null)
@@ -118,8 +125,12 @@ namespace WizardPunk.Reflex
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
+            // Nyalakan background gelap
+            if (popupBackground != null) popupBackground.SetActive(true);
+
             if (winner == 1 && p1WinPanel != null) p1WinPanel.SetActive(true);
             else if (winner == 2 && p2WinPanel != null) p2WinPanel.SetActive(true);
+            else if (winner == 0 && drawWinPanel != null) drawWinPanel.SetActive(true);
         }
 
         private void GoToNextGame()
@@ -220,7 +231,7 @@ namespace WizardPunk.Reflex
 
         public void UpdateRoundLabel(int cur)
         {
-            if (roundLabelText != null) roundLabelText.text = $"ROUND {cur}"; // Tidak perlu /Total lagi
+            if (roundLabelText != null) roundLabelText.text = $"ROUND {cur}";
         }
 
         private IEnumerator ScaleTo(Transform t, Vector3 target, float dur)
