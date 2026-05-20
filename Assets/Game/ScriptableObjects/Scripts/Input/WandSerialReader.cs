@@ -95,6 +95,19 @@ public class WandSerialReader : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Buang semua gesture yang tersimpan di buffer.
+    /// Panggil sebelum fase input player dimulai untuk
+    /// mencegah buffered input dari fase sebelumnya.
+    /// </summary>
+    public void FlushGesture()
+    {
+        lock (_gestureLock)
+        {
+            _pendingGesture = null;
+        }
+    }
+
     public bool ConsumeZeroed()
     {
         if (_zeroed)

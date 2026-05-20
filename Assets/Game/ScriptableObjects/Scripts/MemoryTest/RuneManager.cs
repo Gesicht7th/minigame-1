@@ -25,52 +25,74 @@ namespace WizardPunk.MemoryTest
 
         void Awake() => Instance = this;
 
+        private WandDirection GetNonConsecutiveDir(WandDirection lastDir)
+        {
+            if (ALL_DIRS.Length <= 1) return ALL_DIRS[0];
+
+            WandDirection result;
+            int attempt = 0;
+            do
+            {
+                result = ALL_DIRS[Random.Range(0, ALL_DIRS.Length)];
+                attempt++;
+            }
+            while (result == lastDir && attempt < 10);
+
+            return result;
+        }
+
         // Modifikasi untuk menyembunyikan/menampilkan rune sesuai difficulty
         public void SetupRound(int activeCount)
         {
             currentActiveRunes = activeCount;
 
-            // ----- SETUP PLAYER 1 -----
+            // ── PLAYER 1 ──
+            WandDirection lastDirP1 = WandDirection.None;  // ← tambah ini
+
             for (int i = 0; i < runesP1.Length; i++)
             {
-                if (runesP1[i] != null)
+                if (runesP1[i] == null) continue;
+
+                bool wasActive = runesP1[i].gameObject.activeSelf;
+                bool isActive = i < currentActiveRunes;
+
+                runesP1[i].gameObject.SetActive(isActive);
+
+                if (isActive)
                 {
-                    // Cek apakah objek ini mati sebelum ronde ini dimulai
-                    bool wasActive = runesP1[i].gameObject.activeSelf;
-                    bool isActive = i < currentActiveRunes;
+                    // ← ganti Random.Range dengan GetNonConsecutiveDir
+                    WandDirection dir = GetNonConsecutiveDir(lastDirP1);
+                    lastDirP1 = dir;
 
-                    runesP1[i].gameObject.SetActive(isActive);
-                    if (isActive)
-                    {
-                        runesP1[i].Initialize(ALL_DIRS[Random.Range(0, 4)]);
+                    runesP1[i].Initialize(dir);
 
-                        // Jika sebelumnya mati dan sekarang nyala, mainkan animasi!
-                        if (!wasActive)
-                        {
-                            runesP1[i].PlayAppearAnimation();
-                        }
-                    }
+                    if (!wasActive)
+                        runesP1[i].PlayAppearAnimation();
                 }
             }
 
-            // ----- SETUP PLAYER 2 -----
+            // ── PLAYER 2 ──
+            WandDirection lastDirP2 = WandDirection.None;  // ← tambah ini
+
             for (int i = 0; i < runesP2.Length; i++)
             {
-                if (runesP2[i] != null)
+                if (runesP2[i] == null) continue;
+
+                bool wasActive = runesP2[i].gameObject.activeSelf;
+                bool isActive = i < currentActiveRunes;
+
+                runesP2[i].gameObject.SetActive(isActive);
+
+                if (isActive)
                 {
-                    bool wasActive = runesP2[i].gameObject.activeSelf;
-                    bool isActive = i < currentActiveRunes;
+                    // ← ganti Random.Range dengan GetNonConsecutiveDir
+                    WandDirection dir = GetNonConsecutiveDir(lastDirP2);
+                    lastDirP2 = dir;
 
-                    runesP2[i].gameObject.SetActive(isActive);
-                    if (isActive)
-                    {
-                        runesP2[i].Initialize(ALL_DIRS[Random.Range(0, 4)]);
+                    runesP2[i].Initialize(dir);
 
-                        if (!wasActive)
-                        {
-                            runesP2[i].PlayAppearAnimation();
-                        }
-                    }
+                    if (!wasActive)
+                        runesP2[i].PlayAppearAnimation();
                 }
             }
         }
