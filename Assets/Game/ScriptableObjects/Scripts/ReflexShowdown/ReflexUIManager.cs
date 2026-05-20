@@ -23,8 +23,19 @@ namespace WizardPunk.Reflex
         [SerializeField] private GameObject[] p1HeartIcons;
         [SerializeField] private GameObject[] p2HeartIcons;
 
+        // --- TAMBAHAN UNTUK HIGHLIGHT BATU-GUNTING-KERTAS ---
+        [Header("── RPS Action UI ───────────────────────")]
+        [Tooltip("0: Block(Rock), 1: Penetration(Paper), 2: Counter(Scissors)")]
+        [SerializeField] private Image[] p1ActionIcons;
+        [SerializeField] private Image[] p2ActionIcons;
+        [SerializeField] private Color unselectedColor = new Color(0.4f, 0.4f, 0.4f, 0.6f); // Redup
+        [SerializeField] private Color selectedColor = Color.white;                         // Terang
+        [SerializeField] private float unselectedScale = 0.8f;                              // Mengecil
+        [SerializeField] private float selectedScale = 1.1f;                                // Membesar
+        // ----------------------------------------------------
+
         [Header("── Result Pop-Up ──")]
-        [SerializeField] private GameObject popupBackground;    // <--- TAMBAHAN UNTUK BACKGROUND GELAP
+        [SerializeField] private GameObject popupBackground;
         [SerializeField] private GameObject p1WinPanel;
         [SerializeField] private GameObject p2WinPanel;
         [SerializeField] private GameObject drawWinPanel;
@@ -93,7 +104,6 @@ namespace WizardPunk.Reflex
             roundResultPanel?.SetActive(false);
             interRoundPanel?.SetActive(false);
 
-            // Matikan background gelap saat layar lain disembunyikan
             popupBackground?.SetActive(false);
         }
 
@@ -101,6 +111,43 @@ namespace WizardPunk.Reflex
         {
             gameScreenPanel?.SetActive(true);
         }
+
+        // --- FUNGSI BARU: Mengatur Visual RPS UI ---
+        public void ResetActionUI(int playerId)
+        {
+            Image[] icons = (playerId == 1) ? p1ActionIcons : p2ActionIcons;
+            if (icons == null) return;
+            foreach (var icon in icons)
+            {
+                if (icon != null)
+                {
+                    icon.color = unselectedColor;
+                    icon.transform.localScale = Vector3.one * unselectedScale;
+                }
+            }
+        }
+
+        public void UpdateActionUI(int playerId, RpsType selectedAction)
+        {
+            Image[] icons = (playerId == 1) ? p1ActionIcons : p2ActionIcons;
+            if (icons == null || icons.Length < 3) return;
+
+            int selectedIndex = -1;
+            if (selectedAction == RpsType.Rock) selectedIndex = 0;
+            else if (selectedAction == RpsType.Paper) selectedIndex = 1;
+            else if (selectedAction == RpsType.Scissors) selectedIndex = 2;
+
+            for (int i = 0; i < icons.Length; i++)
+            {
+                if (icons[i] != null)
+                {
+                    bool isSelected = (i == selectedIndex);
+                    icons[i].color = isSelected ? selectedColor : unselectedColor;
+                    icons[i].transform.localScale = Vector3.one * (isSelected ? selectedScale : unselectedScale);
+                }
+            }
+        }
+        // ------------------------------------------
 
         // --- SISTEM HEARTS ---
         private void UpdateHeartsUI(int p1Hearts, int p2Hearts)
@@ -125,7 +172,6 @@ namespace WizardPunk.Reflex
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
-            // Nyalakan background gelap
             if (popupBackground != null) popupBackground.SetActive(true);
 
             if (winner == 1 && p1WinPanel != null) p1WinPanel.SetActive(true);

@@ -29,7 +29,7 @@ Material:
   - _EMISSIVE_SIMPLE
   - _IS_CLIPPING_TRANSMODE
   - _IS_OUTLINE_CLIPPING_YES
-  - _OUTLINE_NML
+  - _OUTLINE_POS
   m_InvalidKeywords:
   - _EMISSION
   - _METALLICSPECGLOSSMAP
@@ -45,7 +45,6 @@ Material:
   - MOTIONVECTORS
   - DepthOnly
   - SHADOWCASTER
-  - SRPDEFAULTUNLIT
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -425,7 +424,7 @@ Material:
     - _Nearest_Distance: 0.5
     - _NormalMapSpace: 0
     - _NormalScale: 1
-    - _OUTLINE: 0
+    - _OUTLINE: 1
     - _ObjectSpaceUVMapping: 0
     - _OcclusionStrength: 1
     - _Offset_X_Axis_BLD: -0.05
@@ -439,17 +438,17 @@ Material:
     - _OutlineWidth: 0.22
     - _Outline_BaseColorBlend: 1
     - _Outline_LightColorBlend: 1
-    - _Outline_Width: 0.24
+    - _Outline_Width: 3.3
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
     - _PPDMinSamples: 5
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _RimLight: 0
+    - _RimLight: 1
     - _RimLightOverridden: 0
     - _RimLightVisible: 1
-    - _RimLight_FeatherOff: 0
+    - _RimLight_FeatherOff: 1
     - _RimLight_InsideMask: 0.0001
     - _RimLight_Power: 0.1
     - _Rotate_EmissiveUV: 0
@@ -562,8 +561,8 @@ Material:
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 1, g: 0, b: 0.958446, a: 1}
     - _OutlineMaskColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Outline_Color: {r: 1, g: 0, b: 0.98310184, a: 1}
-    - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Outline_Color: {r: 0.3962264, g: 0, b: 0.3900112, a: 1}
+    - _RimLightColor: {r: 1, g: 0, b: 0.94998837, a: 1}
     - _RimLightMaskColor: {r: 1, g: 0, b: 1, a: 1}
     - _SecondShadeMaskColor: {r: 0, g: 0, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
