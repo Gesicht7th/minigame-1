@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/UI/HyperSmash/HyperSmashUIManager.cs
+// Assets/_Game/Scripts/UI/HyperSmash/HyperSmashUIManager.cs
 
 using System.Collections;
 using TMPro;
@@ -85,7 +85,6 @@ namespace WizardPunk.HyperSmash
 
             if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
             if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
-            if (drawNextButton != null) drawNextButton.onClick.AddListener(GoToNextGame);
         }
 
         void Update()
@@ -154,6 +153,7 @@ namespace WizardPunk.HyperSmash
 
         private void GoToNextGame()
         {
+            Debug.Log("Melanjutkan ke game seterusnya: " + nextSceneName);
             SceneFlowManager.Instance.GoTo(nextSceneName);
         }
         #endregion

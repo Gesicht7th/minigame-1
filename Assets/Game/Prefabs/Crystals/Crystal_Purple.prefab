@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -4603480596587157325}
   m_Layer: 0
   m_Name: Crystal_Purple
-  m_TagString: Untagged
+  m_TagString: Crystal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,6 +56,7 @@ MonoBehaviour:
   floatSpeed: 1
   floatRange: 0.2
   lifetimeIfNotHit: 15
+  isStaticObstacle: 0
 --- !u!65 &-4603480596587157325
 BoxCollider:
   m_ObjectHideFlags: 0
