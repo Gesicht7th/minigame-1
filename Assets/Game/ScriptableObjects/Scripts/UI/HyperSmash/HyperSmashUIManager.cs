@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/UI/HyperSmash/HyperSmashUIManager.cs
+// Assets/_Game/Scripts/UI/HyperSmash/HyperSmashUIManager.cs
 
 using System.Collections;
 using TMPro;
@@ -79,6 +79,14 @@ namespace WizardPunk.HyperSmash
             // Menambah fungsi pada butang Next
             if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
             if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
+
+            // AUTO-CLEANUP UNTUK DUMMY SCENE:
+            // Jika tidak ada GameManager lama yang memandu UI ini, 
+            // otomatis bersihkan layar dari popup "TIME'S UP" dll.
+            if (FindObjectOfType<HyperSmashGameManager>() == null)
+            {
+                ShowGameScreen();
+            }
         }
 
         void Update()
@@ -146,7 +154,14 @@ namespace WizardPunk.HyperSmash
         private void GoToNextGame()
         {
             Debug.Log("Melanjutkan ke game seterusnya: " + nextSceneName);
-            SceneFlowManager.Instance.GoTo(nextSceneName);
+            if (SceneFlowManager.Instance != null)
+            {
+                SceneFlowManager.Instance.GoTo(nextSceneName);
+            }
+            else
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
+            }
         }
         #endregion
 
