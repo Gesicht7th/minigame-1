@@ -16,6 +16,7 @@ namespace WizardPunk.HyperSmash
         [SerializeField] private GameObject countdownPanel;
         [SerializeField] private GameObject gameOverPanel;
         [SerializeField] private GameObject gameOverPanel2;
+        [SerializeField] private GameObject interRoundPanel;
 
         [Header("── HUD Universal ───────────────────────────")]
         [SerializeField] private TextMeshProUGUI timerText;
@@ -41,7 +42,6 @@ namespace WizardPunk.HyperSmash
 
         [Header("── Countdown & Inter-Round ─────────────────")]
         [SerializeField] private TextMeshProUGUI countdownText;
-        [SerializeField] private GameObject interRoundPanel;
         [SerializeField] private TextMeshProUGUI interRoundTitleText;
         [SerializeField] private TextMeshProUGUI interRoundNextText;
         [SerializeField] private TextMeshProUGUI interRoundScoreTextP1;
@@ -54,13 +54,20 @@ namespace WizardPunk.HyperSmash
         [SerializeField] private GameObject newHighScoreBadgeP2;
 
         [Header("── Result Pop-Up ──")]
-        [SerializeField] private GameObject p1WinPanel;     // Panel Fura Oren
-        [SerializeField] private GameObject p2WinPanel;     // Panel Oura Biru
-        [SerializeField] private TextMeshProUGUI p1PtsText; // Text Poin di panel Fura
-        [SerializeField] private TextMeshProUGUI p2PtsText; // Text Poin di panel Oura
-        [SerializeField] private Button p1NextButton;       // Butang Next di panel Fura
-        [SerializeField] private Button p2NextButton;       // Butang Next di panel Oura
-        [SerializeField] private string nextSceneName = "MainMenu"; // Ganti dengan nama Scene seterusnya
+        [SerializeField] private GameObject popupBackground;    // <--- TAMBAHAN UNTUK BACKGROUND GELAP
+        [SerializeField] private GameObject p1WinPanel;
+        [SerializeField] private GameObject p2WinPanel;
+        [SerializeField] private GameObject drawWinPanel;
+
+        [SerializeField] private TextMeshProUGUI p1PtsText;
+        [SerializeField] private TextMeshProUGUI p2PtsText;
+        [SerializeField] private TextMeshProUGUI drawPtsText;
+
+        [SerializeField] private Button p1NextButton;
+        [SerializeField] private Button p2NextButton;
+        [SerializeField] private Button drawNextButton;
+
+        [SerializeField] private string nextSceneName = "MainMenu";
 
         private Coroutine flashCoroutineP1;
         private Coroutine flashCoroutineP2;
@@ -76,17 +83,8 @@ namespace WizardPunk.HyperSmash
             if (HyperSmashScoreManager.Instance != null)
                 HyperSmashScoreManager.Instance.OnScoreChanged += OnScoreChanged;
 
-            // Menambah fungsi pada butang Next
             if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
             if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
-
-            // AUTO-CLEANUP UNTUK DUMMY SCENE:
-            // Jika tidak ada GameManager lama yang memandu UI ini, 
-            // otomatis bersihkan layar dari popup "TIME'S UP" dll.
-            if (FindObjectOfType<HyperSmashGameManager>() == null)
-            {
-                ShowGameScreen();
-            }
         }
 
         void Update()
@@ -116,6 +114,9 @@ namespace WizardPunk.HyperSmash
             gameOverPanel?.SetActive(false);
             gameOverPanel2?.SetActive(false);
             interRoundPanel?.SetActive(false);
+
+            // Matikan background gelap saat layar lain disembunyikan
+            popupBackground?.SetActive(false);
         }
 
         public void ShowGameScreen()
@@ -126,42 +127,34 @@ namespace WizardPunk.HyperSmash
             UpdateScore(PlayerIndex.Player2, 0);
         }
 
-        // FUNGSI BARU: Memaparkan Pop Up Result mengikut Pemenang
         public void ShowResultPopup(int scoreP1, int scoreP2)
         {
-            HideAll(); // Sembunyikan UI lain
+            HideAll();
 
-            // P1 Menang (Fura)
+            // Nyalakan background gelap
+            if (popupBackground != null) popupBackground.SetActive(true);
+
             if (scoreP1 > scoreP2)
             {
                 if (p1WinPanel != null) p1WinPanel.SetActive(true);
                 if (p1PtsText != null) p1PtsText.text = scoreP1.ToString();
             }
-            // P2 Menang (Oura)
             else if (scoreP2 > scoreP1)
             {
                 if (p2WinPanel != null) p2WinPanel.SetActive(true);
                 if (p2PtsText != null) p2PtsText.text = scoreP2.ToString();
             }
-            // Seri (Draw)
             else
             {
-                if (p1WinPanel != null) p1WinPanel.SetActive(true);
-                if (p1PtsText != null) p1PtsText.text = scoreP1.ToString() + "\n(DRAW)";
+                if (drawWinPanel != null) drawWinPanel.SetActive(true);
+                if (drawPtsText != null) drawPtsText.text = scoreP1.ToString();
             }
         }
 
         private void GoToNextGame()
         {
             Debug.Log("Melanjutkan ke game seterusnya: " + nextSceneName);
-            if (SceneFlowManager.Instance != null)
-            {
-                SceneFlowManager.Instance.GoTo(nextSceneName);
-            }
-            else
-            {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
-            }
+            SceneFlowManager.Instance.GoTo(nextSceneName);
         }
         #endregion
 
@@ -175,10 +168,8 @@ namespace WizardPunk.HyperSmash
         {
             interRoundPanel?.SetActive(true);
             if (interRoundTitleText != null) interRoundTitleText.text = $"ROUND {finishedRound} COMPLETE";
-
             if (interRoundScoreTextP1 != null) interRoundScoreTextP1.text = $"P1 Score: {scoreP1}";
             if (interRoundScoreTextP2 != null) interRoundScoreTextP2.text = $"P2 Score: {scoreP2}";
-
             if (interRoundNextText != null) interRoundNextText.text = $"Next: Round {nextRound} / {totalRounds}";
         }
 

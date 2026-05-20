@@ -55,6 +55,17 @@ namespace WizardPunk.Reflex
             StartCoroutine(GameFlow());
         }
 
+        // --- FUNGSI BARU: Update UI Highlight RPS secara realtime ---
+        void Update()
+        {
+            if (p1Controller != null && uiManager != null)
+                uiManager.UpdateActionUI(1, p1Controller.SelectedAttack);
+
+            if (p2Controller != null && uiManager != null)
+                uiManager.UpdateActionUI(2, p2Controller.SelectedAttack);
+        }
+        // ------------------------------------------------------------
+
         private IEnumerator GameFlow()
         {
             uiManager.ShowGameScreen();
@@ -89,6 +100,9 @@ namespace WizardPunk.Reflex
             p2Controller.ResetForRound();
             p1Visual.ResetPose();
             p2Visual.ResetPose();
+
+            uiManager.ResetActionUI(1);
+            uiManager.ResetActionUI(2);
 
             yield return StartCoroutine(ReadyPhase());
             yield return StartCoroutine(CountdownPhase());
@@ -250,10 +264,8 @@ namespace WizardPunk.Reflex
             if (gameWinner == 1) p1Visual.SetWinPose();
             else if (gameWinner == 2) p2Visual.SetWinPose();
 
-            // --- TAMBAHAN ENDSCREEN: Simpan Pemenang Game 3 ---
             PlayerPrefs.SetInt("G3_Winner", gameWinner);
             PlayerPrefs.Save();
-            // --------------------------------------------------
 
             uiManager.ShowResultPopup(gameWinner);
 

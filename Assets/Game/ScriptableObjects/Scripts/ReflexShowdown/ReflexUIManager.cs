@@ -20,15 +20,31 @@ namespace WizardPunk.Reflex
         [SerializeField] private GameObject interRoundPanel;
 
         [Header("── Hearts UI ───────────────────────────")]
-        [SerializeField] private GameObject[] p1HeartIcons; // Masukkan 3 gambar hati P1
-        [SerializeField] private GameObject[] p2HeartIcons; // Masukkan 3 gambar hati P2
+        [SerializeField] private GameObject[] p1HeartIcons;
+        [SerializeField] private GameObject[] p2HeartIcons;
+
+        // --- TAMBAHAN UNTUK HIGHLIGHT BATU-GUNTING-KERTAS ---
+        [Header("── RPS Action UI ───────────────────────")]
+        [Tooltip("0: Block(Rock), 1: Penetration(Paper), 2: Counter(Scissors)")]
+        [SerializeField] private Image[] p1ActionIcons;
+        [SerializeField] private Image[] p2ActionIcons;
+        [SerializeField] private Color unselectedColor = new Color(0.4f, 0.4f, 0.4f, 0.6f); // Redup
+        [SerializeField] private Color selectedColor = Color.white;                         // Terang
+        [SerializeField] private float unselectedScale = 0.8f;                              // Mengecil
+        [SerializeField] private float selectedScale = 1.1f;                                // Membesar
+        // ----------------------------------------------------
 
         [Header("── Result Pop-Up ──")]
-        [SerializeField] private GameObject p1WinPanel;     // Panel Fura Oren
-        [SerializeField] private GameObject p2WinPanel;     // Panel Oura Biru
-        [SerializeField] private Button p1NextButton;       // Tombol Next P1
-        [SerializeField] private Button p2NextButton;       // Tombol Next P2
-        [SerializeField] private string nextSceneName = "MainMenu"; // Scene selanjutnya
+        [SerializeField] private GameObject popupBackground;
+        [SerializeField] private GameObject p1WinPanel;
+        [SerializeField] private GameObject p2WinPanel;
+        [SerializeField] private GameObject drawWinPanel;
+
+        [SerializeField] private Button p1NextButton;
+        [SerializeField] private Button p2NextButton;
+        [SerializeField] private Button drawNextButton;
+
+        [SerializeField] private string nextSceneName = "MainMenu";
 
         [Header("── HUD ─────────────────────────────────")]
         [SerializeField] private TextMeshProUGUI roundLabelText;
@@ -70,6 +86,7 @@ namespace WizardPunk.Reflex
 
             if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
             if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
+            if (drawNextButton != null) drawNextButton.onClick.AddListener(GoToNextGame);
         }
 
         void OnDestroy()
@@ -86,6 +103,8 @@ namespace WizardPunk.Reflex
             drawPanel?.SetActive(false);
             roundResultPanel?.SetActive(false);
             interRoundPanel?.SetActive(false);
+
+            popupBackground?.SetActive(false);
         }
 
         public void ShowGameScreen()
@@ -93,17 +112,52 @@ namespace WizardPunk.Reflex
             gameScreenPanel?.SetActive(true);
         }
 
+        // --- FUNGSI BARU: Mengatur Visual RPS UI ---
+        public void ResetActionUI(int playerId)
+        {
+            Image[] icons = (playerId == 1) ? p1ActionIcons : p2ActionIcons;
+            if (icons == null) return;
+            foreach (var icon in icons)
+            {
+                if (icon != null)
+                {
+                    icon.color = unselectedColor;
+                    icon.transform.localScale = Vector3.one * unselectedScale;
+                }
+            }
+        }
+
+        public void UpdateActionUI(int playerId, RpsType selectedAction)
+        {
+            Image[] icons = (playerId == 1) ? p1ActionIcons : p2ActionIcons;
+            if (icons == null || icons.Length < 3) return;
+
+            int selectedIndex = -1;
+            if (selectedAction == RpsType.Rock) selectedIndex = 0;
+            else if (selectedAction == RpsType.Paper) selectedIndex = 1;
+            else if (selectedAction == RpsType.Scissors) selectedIndex = 2;
+
+            for (int i = 0; i < icons.Length; i++)
+            {
+                if (icons[i] != null)
+                {
+                    bool isSelected = (i == selectedIndex);
+                    icons[i].color = isSelected ? selectedColor : unselectedColor;
+                    icons[i].transform.localScale = Vector3.one * (isSelected ? selectedScale : unselectedScale);
+                }
+            }
+        }
+        // ------------------------------------------
+
         // --- SISTEM HEARTS ---
         private void UpdateHeartsUI(int p1Hearts, int p2Hearts)
         {
-            // Matikan/Nyalakan icon hati P1 sesuai sisa nyawa
             for (int i = 0; i < p1HeartIcons.Length; i++)
             {
                 if (p1HeartIcons[i] != null)
                     p1HeartIcons[i].SetActive(i < p1Hearts);
             }
 
-            // Matikan/Nyalakan icon hati P2 sesuai sisa nyawa
             for (int i = 0; i < p2HeartIcons.Length; i++)
             {
                 if (p2HeartIcons[i] != null)
@@ -118,8 +172,11 @@ namespace WizardPunk.Reflex
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
+            if (popupBackground != null) popupBackground.SetActive(true);
+
             if (winner == 1 && p1WinPanel != null) p1WinPanel.SetActive(true);
             else if (winner == 2 && p2WinPanel != null) p2WinPanel.SetActive(true);
+            else if (winner == 0 && drawWinPanel != null) drawWinPanel.SetActive(true);
         }
 
         private void GoToNextGame()
@@ -220,7 +277,7 @@ namespace WizardPunk.Reflex
 
         public void UpdateRoundLabel(int cur)
         {
-            if (roundLabelText != null) roundLabelText.text = $"ROUND {cur}"; // Tidak perlu /Total lagi
+            if (roundLabelText != null) roundLabelText.text = $"ROUND {cur}";
         }
 
         private IEnumerator ScaleTo(Transform t, Vector3 target, float dur)

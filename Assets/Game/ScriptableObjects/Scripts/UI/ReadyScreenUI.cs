@@ -139,36 +139,32 @@ namespace WizardPunk
             SceneFlowManager.Instance.GoTo(SceneNames.MemoryTest);
         }
 
-        // --- Fungsi Animasi Pop Up ---
+        // --- Fungsi Animasi Pop Up (Diperbarui agar lebih smooth & bouncy) ---
         private IEnumerator PopAnimation(Transform target)
         {
             // Set ukuran awal menjadi 0 (tidak terlihat)
             target.localScale = Vector3.zero;
 
             float timer = 0f;
-            float durationUp = 0.15f; // Waktu untuk membesar melebihi ukuran asli
-            float durationDown = 0.1f; // Waktu untuk kembali ke ukuran normal
+            float duration = 0.35f; // Durasi total animasi (bisa disesuaikan jika ingin lebih cepat/lambat)
 
-            // Fase 1: Membesar dari 0 ke 1.2
-            while (timer < durationUp)
+            while (timer < duration)
             {
                 timer += Time.deltaTime;
-                float scale = Mathf.Lerp(0f, 1.2f, timer / durationUp);
-                target.localScale = new Vector3(scale, scale, 1f);
+                float t = timer / duration;
+
+                // Rumus Easing "EaseOutBack" untuk efek pantulan elastis yang natural
+                float c1 = 1.70158f;
+                float c3 = c1 + 1f;
+                float easedT = 1f + c3 * Mathf.Pow(t - 1f, 3f) + c1 * Mathf.Pow(t - 1f, 2f);
+
+                // Menggunakan LerpUnclamped agar scale bisa melebihi ukuran 1 (efek overshoot)
+                target.localScale = Vector3.LerpUnclamped(Vector3.zero, Vector3.one, easedT);
+
                 yield return null;
             }
 
-            // Fase 2: Mengecil dari 1.2 kembali ke ukuran 1
-            timer = 0f;
-            while (timer < durationDown)
-            {
-                timer += Time.deltaTime;
-                float scale = Mathf.Lerp(1.2f, 1f, timer / durationDown);
-                target.localScale = new Vector3(scale, scale, 1f);
-                yield return null;
-            }
-
-            // Pastikan ukurannya tepat di akhir animasi
+            // Pastikan ukurannya terkunci tepat di angka 1 pada akhir animasi
             target.localScale = Vector3.one;
         }
     }

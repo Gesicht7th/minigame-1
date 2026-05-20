@@ -93,7 +93,18 @@ namespace WizardPunk.MemoryTest
                 yield return StartCoroutine(runeManager.PlaySequence(delay, config.memorizationTime));
 
                 uiManager.ShowCenterText("GO!");
-                p1InputIdx = 0; p2InputIdx = 0;
+
+                // Buang semua gesture yang tertinggal dari fase hint
+                // supaya player harus benar-benar melakukan gesture baru
+                p1SerialReader?.FlushGesture();
+                p2SerialReader?.FlushGesture();
+
+                // Sedikit delay setelah flush sebelum input aktif
+                // memberi waktu buffer benar-benar bersih
+                yield return new WaitForSeconds(0.1f);
+
+                p1InputIdx = 0;
+                p2InputIdx = 0;
                 isInputPhase = true;
 
                 float maxTime = roundTimers[r];
