@@ -980,11 +980,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9b3578fb8d58149b8386e8b70cd02b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.Reflex.CharacterVisual
-  body: {fileID: 959758847}
-  head: {fileID: 208378836}
-  wandArm: {fileID: 1733976004}
+  body: {fileID: 0}
+  head: {fileID: 0}
+  wandArm: {fileID: 0}
   wandTip: {fileID: 10926482}
-  hat: {fileID: 604853441}
+  hat: {fileID: 0}
   wandLowLocalRot: {x: 60, y: 0, z: 0}
   wandRaisedLocalRot: {x: -30, y: 0, z: 0}
   wandTipIdleColor: {r: 0.5, g: 0.2, b: 0.8, a: 1}
@@ -1757,6 +1757,94 @@ Transform:
   - {fileID: 1446389180}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &581786274
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.498
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.153
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.027
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6193061734816765315, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 70bde7c56edb35344a5ed3ca1d22b1a1, type: 2}
+    - target: {fileID: -3630034282913524041, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 70bde7c56edb35344a5ed3ca1d22b1a1, type: 2}
+    - target: {fileID: -2933965086996756797, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 70bde7c56edb35344a5ed3ca1d22b1a1, type: 2}
+    - target: {fileID: -2798506360726399897, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e9414db0e42e2ed45b93bd3fc0543482, type: 2}
+    - target: {fileID: 919132149155446097, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: m_Name
+      value: SAM-Fura
+      objectReference: {fileID: 0}
+    - target: {fileID: 3047506750255315518, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 70bde7c56edb35344a5ed3ca1d22b1a1, type: 2}
+    - target: {fileID: 3047506750255315518, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: df567035a6a116f4ba7b6fb918d71af7, type: 2}
+    - target: {fileID: 3725969790882952393, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 70bde7c56edb35344a5ed3ca1d22b1a1, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 784697585}
+  m_SourcePrefab: {fileID: 100100000, guid: 7df4105fac4fac845ab2756505984049, type: 3}
 --- !u!1 &583246188
 GameObject:
   m_ObjectHideFlags: 0
@@ -2758,6 +2846,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 771054970}
   m_CullTransparentMesh: 1
+--- !u!1 &784697583 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+  m_PrefabInstance: {fileID: 581786274}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &784697585
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784697583}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7e4ae25590ef3ab40a8dc3b1349fcbe6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &791434298
 GameObject:
   m_ObjectHideFlags: 0
@@ -3506,7 +3621,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1028643692
 Transform:
   m_ObjectHideFlags: 0
@@ -5160,7 +5275,7 @@ MonoBehaviour:
   p1ReadyIndicator: {fileID: 1278244689}
   p2ReadyIndicator: {fileID: 28473953}
   readyColor: {r: 1, g: 1, b: 1, a: 1}
-  notReadyColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
+  notReadyColor: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
   countdownText: {fileID: 1068970461}
   goText: {fileID: 913633636}
   p1TimerText: {fileID: 0}
@@ -6060,11 +6175,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9b3578fb8d58149b8386e8b70cd02b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.Reflex.CharacterVisual
-  body: {fileID: 583246189}
-  head: {fileID: 1395307882}
-  wandArm: {fileID: 1819640341}
+  body: {fileID: 0}
+  head: {fileID: 0}
+  wandArm: {fileID: 0}
   wandTip: {fileID: 682309223}
-  hat: {fileID: 1439125788}
+  hat: {fileID: 0}
   wandLowLocalRot: {x: 60, y: 0, z: 0}
   wandRaisedLocalRot: {x: -30, y: 0, z: 0}
   wandTipIdleColor: {r: 0.5, g: 0.2, b: 0.8, a: 1}
@@ -7304,3 +7419,4 @@ SceneRoots:
   - {fileID: 480451524}
   - {fileID: 543450653625852845}
   - {fileID: 1895044555}
+  - {fileID: 581786274}
