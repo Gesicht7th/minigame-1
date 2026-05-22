@@ -1,9 +1,28 @@
-﻿// Assets/_Game/Scripts/ReflexShowdown/ReflexConfig.cs
+// Assets/_Game/Scripts/ReflexShowdown/ReflexConfig.cs
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace WizardPunk.Reflex
 {
+    [System.Serializable]
+    public class AnimationDelayConfig
+    {
+        [Tooltip("Aksi yang dipilih Player 1 (Rock=Block, Paper=Parry, Scissors=Attack)")]
+        public RpsType p1Action = RpsType.None;
+
+        [Tooltip("Aksi yang dipilih Player 2 (Rock=Block, Paper=Parry, Scissors=Attack)")]
+        public RpsType p2Action = RpsType.None;
+
+        [Tooltip("Delay (detik) sebelum animasi Player 1 diputar")]
+        [Min(0f)]
+        public float p1Delay = 0f;
+
+        [Tooltip("Delay (detik) sebelum animasi Player 2 diputar")]
+        [Min(0f)]
+        public float p2Delay = 0f;
+    }
+
     [CreateAssetMenu(
         fileName = "ReflexConfig",
         menuName = "WizardPunk/Reflex Config",
@@ -47,5 +66,20 @@ namespace WizardPunk.Reflex
         public int pointsPerRoundWin = 10;
         [Tooltip("Poin bonus jika menang keseluruhan game")]
         public int gameWinBonus = 20;
+
+        [Header("── Animation Transition Delays ─────────────")]
+        [Tooltip("Atur delay animasi per kombinasi aksi P1 & P2.")]
+        public List<AnimationDelayConfig> animationDelays = new List<AnimationDelayConfig>();
+
+        public AnimationDelayConfig FindDelay(RpsType p1Action, RpsType p2Action)
+        {
+            if (animationDelays == null) return null;
+            foreach (var entry in animationDelays)
+            {
+                if (entry.p1Action == p1Action && entry.p2Action == p2Action)
+                    return entry;
+            }
+            return null;
+        }
     }
 }
