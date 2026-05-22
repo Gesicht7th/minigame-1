@@ -23,6 +23,10 @@ namespace WizardPunk.MemoryTest
         [SerializeField] private Color idleColor = new Color(0.1f, 0.05f, 0.2f);
         [SerializeField] private Color activeColor = new Color(0.25f, 0.1f, 0.5f);
 
+        [Header("── Audio ──────────────────────────────")]
+        [SerializeField] private AudioSource runeAudioSource;
+        [SerializeField] private AudioClip stoneGrindClip;
+
         private float currentRotateSpeed;
         private bool isActive;
 
@@ -53,13 +57,31 @@ namespace WizardPunk.MemoryTest
             isActive = true;
             currentRotateSpeed = activeRotateSpeed;
             StartCoroutine(LerpLight(activeColor, 0.5f));
+
+            // Note: PlayOneShot dihapus dari sini agar tidak otomatis bunyi saat state aktif
         }
+
+        // === TAMBAHAN AUDIO: Fungsi khusus untuk memanggil suara ===
+        public void PlayStoneMoveSound()
+        {
+            if (runeAudioSource != null && stoneGrindClip != null)
+            {
+                runeAudioSource.PlayOneShot(stoneGrindClip);
+            }
+        }
+        // ==========================================================
 
         public void SetIdleState()
         {
             isActive = false;
             currentRotateSpeed = idleRotateSpeed;
             StartCoroutine(LerpLight(idleColor, 1f));
+
+            // Hentikan suara jika durasi file audio terlalu panjang dan batu sudah kembali ke mode idle
+            if (runeAudioSource != null && runeAudioSource.isPlaying)
+            {
+                runeAudioSource.Stop();
+            }
         }
 
         private IEnumerator LerpLight(Color target, float dur)

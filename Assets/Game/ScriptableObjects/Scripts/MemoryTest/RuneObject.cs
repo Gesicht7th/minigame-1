@@ -17,6 +17,10 @@ namespace WizardPunk.MemoryTest
         [Header("── Feedback Light ──")]
         [SerializeField] private Light runeLight; // Pasangkan Point Light di sini
 
+        [Header("── Audio ──")] // === TAMBAHAN AUDIO ===
+        [SerializeField] private AudioSource runeSfxSource;
+        [SerializeField] private AudioClip flipSound;
+
         [Header("Colors")]
         public Color colorIdle = Color.gray;
         public Color colorShow = Color.cyan;
@@ -60,10 +64,25 @@ namespace WizardPunk.MemoryTest
             transform.localRotation = Quaternion.identity;
         }
 
+        // === TAMBAHAN AUDIO ===
+        private void PlayFlipSound()
+        {
+            if (runeSfxSource != null && flipSound != null)
+            {
+                // Gunakan variasi pitch sedikit agar jika beberapa batu berputar bersamaan, suaranya tidak terlalu monoton/bertabrakan
+                runeSfxSource.pitch = Random.Range(0.9f, 1.1f);
+                runeSfxSource.PlayOneShot(flipSound);
+            }
+        }
+        // ======================
+
         public void ShowArrow()
         {
             if (mat != null) mat.color = colorShow;
             if (runeLight != null) runeLight.color = colorShow;
+
+            // PANGGIL SUARA SAAT BATU MEMBUKA
+            PlayFlipSound();
 
             // Berputar ke DEPAN (0 derajat) untuk memperlihatkan arah ke player
             if (flipCoroutine != null) StopCoroutine(flipCoroutine);
@@ -74,6 +93,9 @@ namespace WizardPunk.MemoryTest
         {
             if (mat != null) mat.color = colorIdle;
             if (runeLight != null) runeLight.color = colorIdle;
+
+            // PANGGIL SUARA SAAT BATU MENUTUP
+            PlayFlipSound();
 
             // Berputar kembali ke BELAKANG (180 derajat) untuk menyembunyikan arah
             if (flipCoroutine != null) StopCoroutine(flipCoroutine);
@@ -88,6 +110,7 @@ namespace WizardPunk.MemoryTest
             if (correct)
             {
                 // Jika BENAR: Berputar menghadap DEPAN (0 derajat)
+                PlayFlipSound(); // Panggil suara juga saat pemain berhasil menebak dan batu terbuka
                 if (flipCoroutine != null) StopCoroutine(flipCoroutine);
                 flipCoroutine = StartCoroutine(FlipAnimation(transform.localRotation, Quaternion.Euler(0f, 180f, 0f)));
             }
@@ -102,6 +125,8 @@ namespace WizardPunk.MemoryTest
         {
             if (mat != null) mat.color = colorIdle;
             if (runeLight != null) runeLight.color = colorIdle;
+
+            PlayFlipSound(); // Panggil suara saat batu kembali ke posisi awal di akhir ronde
 
             // Putar balik ke 180 derajat (menghadap belakang) dengan animasi smooth
             if (flipCoroutine != null) StopCoroutine(flipCoroutine);

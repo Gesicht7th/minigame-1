@@ -1175,7 +1175,7 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: 5df018dabe0a84b4589b2dd545cf9c2c, type: 2}
   serialReader: {fileID: 0}
   useKeyboard: 1
-  holdKey: 32
+  holdKey: 304
   rockKey: 97
   scissorsKey: 115
   paperKey: 100
@@ -3527,7 +3527,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -583, y: 408}
+  m_AnchoredPosition: {x: -587, y: 408}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1015303255
@@ -3983,7 +3983,7 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: 5df018dabe0a84b4589b2dd545cf9c2c, type: 2}
   serialReader: {fileID: 0}
   useKeyboard: 1
-  holdKey: 304
+  holdKey: 32
   rockKey: 106
   scissorsKey: 107
   paperKey: 108
@@ -4184,7 +4184,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -809, y: 413}
+  m_AnchoredPosition: {x: -813, y: 413}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1145770794
@@ -5273,7 +5273,7 @@ MonoBehaviour:
   selectedScale: 1.8
   popupBackground: {fileID: 370566428}
   p1WinPanel: {fileID: 2020127265}
-  p2WinPanel: {fileID: 2020127265}
+  p2WinPanel: {fileID: 1258242459}
   drawWinPanel: {fileID: 681379128}
   p1NextButton: {fileID: 1764990580}
   p2NextButton: {fileID: 630623120}
@@ -6864,7 +6864,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -695, y: 411}
+  m_AnchoredPosition: {x: -699, y: 411}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1900298877
