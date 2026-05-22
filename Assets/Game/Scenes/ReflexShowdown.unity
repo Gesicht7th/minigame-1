@@ -837,7 +837,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &208378836
 Transform:
   m_ObjectHideFlags: 0
@@ -961,6 +961,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1895044558}
   - {fileID: 959758847}
   - {fileID: 208378836}
   - {fileID: 604853441}
@@ -996,6 +997,9 @@ MonoBehaviour:
   wandRotateSpeed: 10
   bodyBobSpeed: 1.2
   bodyBobAmount: 0.04
+  animator: {fileID: 0}
+  dieTransitionDelay: 1
+  winTransitionDelay: 2
 --- !u!1 &218197343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,7 +1017,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &218197344
 Transform:
   m_ObjectHideFlags: 0
@@ -1172,9 +1176,9 @@ MonoBehaviour:
   serialReader: {fileID: 0}
   useKeyboard: 1
   holdKey: 32
-  rockKey: 108
-  scissorsKey: 107
-  paperKey: 106
+  rockKey: 97
+  scissorsKey: 115
+  paperKey: 100
 --- !u!1 &274495191
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,7 +1491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &430325016
 Transform:
   m_ObjectHideFlags: 0
@@ -1763,11 +1767,11 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1659302403}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.498
+      value: 0.026999954
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1775,23 +1779,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.027
+      value: 0.001998905
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1863,7 +1867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &583246189
 Transform:
   m_ObjectHideFlags: 0
@@ -2013,7 +2017,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &604853441
 Transform:
   m_ObjectHideFlags: 0
@@ -2873,6 +2877,11 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!4 &784697586 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+  m_PrefabInstance: {fileID: 581786274}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &791434298
 GameObject:
   m_ObjectHideFlags: 0
@@ -3230,7 +3239,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &959758847
 Transform:
   m_ObjectHideFlags: 0
@@ -3975,9 +3984,9 @@ MonoBehaviour:
   serialReader: {fileID: 0}
   useKeyboard: 1
   holdKey: 304
-  rockKey: 97
-  scissorsKey: 115
-  paperKey: 100
+  rockKey: 106
+  scissorsKey: 107
+  paperKey: 108
 --- !u!1 &1130683802
 GameObject:
   m_ObjectHideFlags: 0
@@ -4831,7 +4840,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1395307882
 Transform:
   m_ObjectHideFlags: 0
@@ -5080,7 +5089,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1439125788
 Transform:
   m_ObjectHideFlags: 0
@@ -6156,6 +6165,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 784697586}
   - {fileID: 583246189}
   - {fileID: 1395307882}
   - {fileID: 1439125788}
@@ -6191,6 +6201,9 @@ MonoBehaviour:
   wandRotateSpeed: 10
   bodyBobSpeed: 1.2
   bodyBobAmount: 0.04
+  animator: {fileID: 0}
+  dieTransitionDelay: 1
+  winTransitionDelay: 2
 --- !u!1 &1681083313
 GameObject:
   m_ObjectHideFlags: 0
@@ -6328,7 +6341,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1733976004
 Transform:
   m_ObjectHideFlags: 0
@@ -6596,7 +6609,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1819640341
 Transform:
   m_ObjectHideFlags: 0
@@ -6699,7 +6712,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 212149597}
     m_Modifications:
     - target: {fileID: -8802779872467634567, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -6707,7 +6720,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 4d567fd4a3eb03c4cb2d489f32ee9420, type: 2}
     - target: {fileID: -8679921383154817045, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5583348
+      value: -0.026999962
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6715,23 +6728,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.027
+      value: -0.058335785
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071068
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6812,6 +6825,11 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!4 &1895044558 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
+  m_PrefabInstance: {fileID: 1895044555}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1900298875
 GameObject:
   m_ObjectHideFlags: 0
@@ -7418,5 +7436,3 @@ SceneRoots:
   - {fileID: 509850482}
   - {fileID: 480451524}
   - {fileID: 543450653625852845}
-  - {fileID: 1895044555}
-  - {fileID: 581786274}

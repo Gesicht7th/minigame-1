@@ -1,11 +1,11 @@
 {
   "dependencies": {
-    "com.antigravity.ide": {
-      "version": "https://github.com/prithvi-bharadwaj/Antigravity-IDE.git",
+    "com.community.antigravity-unity": {
+      "version": "https://github.com/usmanbutt-dev/antigravity-unity.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "052001cf62c44b1af3d8bd6339939f5f2c34966d"
+      "hash": "a4660d9b7ad4a8e3fd2581c4003ebf79db033001"
     },
     "com.simonoliver.unityfigma": {
       "version": "https://github.com/simonoliver/UnityFigmaBridge.git",
@@ -16,6 +16,13 @@
         "com.unity.textmeshpro": "2.0.1"
       },
       "hash": "0e2fd2f8114209ddc0fd6af3676d3da0bebf2021"
+    },
+    "com.termway.ide.antigravity": {
+      "version": "https://github.com/TermWay/unity-ide-antigravity.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "e5e981edf16a5c85f2c1a00209deee6626544bc5"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",

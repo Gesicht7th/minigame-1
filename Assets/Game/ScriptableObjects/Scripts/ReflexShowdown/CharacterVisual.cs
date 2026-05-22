@@ -32,13 +32,21 @@ namespace WizardPunk.Reflex
         [SerializeField] private float bodyBobSpeed = 1.2f;
         [SerializeField] private float bodyBobAmount = 0.04f;
 
+        [Header("── Animator ─────────────────────────────")]
+        [SerializeField] private Animator animator;
+        [SerializeField] private float dieTransitionDelay = 0.4f;
+        [SerializeField] private float winTransitionDelay = 0.6f;
+
         private Quaternion targetWandRot;
         private Material tipMat, bodyMat;
         private float bobTimer;
-        private bool isAnimatingWand;
+        private bool isDead = false;
 
         void Awake()
         {
+            if (animator == null)
+                animator = GetComponentInChildren<Animator>();
+
             if (wandTip != null)
                 tipMat = wandTip.GetComponent<Renderer>()?.material;
             if (body != null)
@@ -87,29 +95,120 @@ namespace WizardPunk.Reflex
         {
             SetTipColor(wandTipFalseColor, 2f);
             StartCoroutine(Shake(body, 0.3f));
+            
+            if (animator != null)
+            {
+                animator.SetTrigger("DoDie");
+                isDead = true;
+            }
         }
 
-        public void SetWinPose()
+        public void SetWinPose(RpsType action = RpsType.None)
         {
             targetWandRot = Quaternion.Euler(wandRaisedLocalRot);
             SetBodyColor(bodyWinColor);
             SetTipColor(wandTipFireColor, 4f);
+
+            if (animator != null)
+            {
+                if (action != RpsType.None)
+                {
+                    TriggerActionAnim(action);
+                    StartCoroutine(TriggerAfterDelay("DoWin", winTransitionDelay));
+                }
+                else
+                {
+                    animator.SetTrigger("DoWin");
+                }
+            }
         }
 
-        public void SetLosePose()
+        public void SetLosePose(RpsType action = RpsType.None)
         {
             targetWandRot = Quaternion.Euler(wandLowLocalRot);
             SetBodyColor(bodyLoseColor);
             SetTipColor(wandTipIdleColor, 0.5f);
+            isDead = true;
+
+            if (animator != null)
+            {
+                if (action != RpsType.None)
+                {
+                    TriggerActionAnim(action);
+                    StartCoroutine(TriggerAfterDelay("DoDie", dieTransitionDelay));
+                }
+                else
+                {
+                    animator.SetTrigger("DoDie");
+                }
+            }
+        }
+
+        public void SetDrawPose(RpsType action)
+        {
+            if (animator != null && action != RpsType.None)
+            {
+                TriggerActionAnim(action);
+            }
         }
 
         public void ResetPose()
         {
+            // Hentikan semua coroutine (seperti delay trigger Win/Die) dari ronde sebelumnya agar tidak bocor
+            StopAllCoroutines();
+
             SetWandLow();
             SetBodyColor(bodyReadyColor);
+
+            if (animator != null)
+            {
+                // Wajib reset SEMUA trigger. Jika tidak, trigger yang tidak terpakai di ronde sebelumnya
+                // (misal DoBack pada karakter yang menang) akan tersangkut dan merusak animasi di ronde berikutnya.
+                animator.ResetTrigger("DoWin");
+                animator.ResetTrigger("DoDie");
+                animator.ResetTrigger("DoAttack");
+                animator.ResetTrigger("DoBlock");
+                animator.ResetTrigger("DoParry");
+                animator.ResetTrigger("DoBack");
+
+                if (isDead)
+                {
+                    // Mainkan animasi Back hanya untuk player yang kalah di ronde sebelumnya
+                    animator.SetTrigger("DoBack");
+                    isDead = false;
+                }
+                // Untuk player yang menang, kita asumsikan animasinya sudah otomatis kembali ke Idle 
+                // dari state Win berkat transisi Has Exit Time di Animator Controller Anda.
+            }
         }
 
         // ── Helpers ───────────────────────────────────
+        private void TriggerActionAnim(RpsType action)
+        {
+            if (animator == null) return;
+            switch (action)
+            {
+                case RpsType.Rock:
+                    animator.SetTrigger("DoBlock"); // Asumsi Rock = Block
+                    break;
+                case RpsType.Paper:
+                    animator.SetTrigger("DoParry"); // Asumsi Paper = Parry
+                    break;
+                case RpsType.Scissors:
+                    animator.SetTrigger("DoAttack"); // Asumsi Scissors = Attack
+                    break;
+            }
+        }
+
+        private IEnumerator TriggerAfterDelay(string triggerName, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            if (animator != null)
+            {
+                animator.SetTrigger(triggerName);
+            }
+        }
+
         private void SetTipColor(Color c, float intensity)
         {
             if (tipMat == null) return;

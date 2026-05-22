@@ -1,7 +1,8 @@
 {
   "dependencies": {
-    "com.antigravity.ide": "https://github.com/prithvi-bharadwaj/Antigravity-IDE.git",
+    "com.community.antigravity-unity": "https://github.com/usmanbutt-dev/antigravity-unity.git",
     "com.simonoliver.unityfigma": "https://github.com/simonoliver/UnityFigmaBridge.git",
+    "com.termway.ide.antigravity": "https://github.com/TermWay/unity-ide-antigravity.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.navigation": "2.0.10",
     "com.unity.ide.rider": "3.0.39",

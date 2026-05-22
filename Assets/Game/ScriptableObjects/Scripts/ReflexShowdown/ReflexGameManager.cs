@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/ReflexShowdown/ReflexGameManager.cs
+// Assets/_Game/Scripts/ReflexShowdown/ReflexGameManager.cs
 
 using System.Collections;
 using UnityEngine;
@@ -200,8 +200,8 @@ namespace WizardPunk.Reflex
         {
             SetState(ReflexState.RoundResult);
 
-            RpsType p1Attack = p1Controller.SelectedAttack;
-            RpsType p2Attack = p2Controller.SelectedAttack;
+            RpsType p1Attack = p1Controller.FiredThisRound ? p1Controller.SelectedAttack : RpsType.None;
+            RpsType p2Attack = p2Controller.FiredThisRound ? p2Controller.SelectedAttack : RpsType.None;
 
             int winner = 0;
 
@@ -221,8 +221,19 @@ namespace WizardPunk.Reflex
 
             scoreManager.RecordRoundResult(winner);
 
-            if (winner == 1) { p1Visual.SetWinPose(); p2Visual.SetLosePose(); }
-            else if (winner == 2) { p2Visual.SetWinPose(); p1Visual.SetLosePose(); }
+            if (winner == 1) { 
+                p1Visual.SetWinPose(p1Attack); 
+                p2Visual.SetLosePose(p2Attack); 
+            }
+            else if (winner == 2) { 
+                p2Visual.SetWinPose(p2Attack); 
+                p1Visual.SetLosePose(p1Attack); 
+            }
+            else
+            {
+                p1Visual.SetDrawPose(p1Attack);
+                p2Visual.SetDrawPose(p2Attack);
+            }
 
             p1Visual.PlayFireEffect();
             p2Visual.PlayFireEffect();
@@ -261,8 +272,8 @@ namespace WizardPunk.Reflex
             SetState(ReflexState.GameOver);
 
             int gameWinner = scoreManager.GetGameWinner();
-            if (gameWinner == 1) p1Visual.SetWinPose();
-            else if (gameWinner == 2) p2Visual.SetWinPose();
+            if (gameWinner == 1) p1Visual.SetWinPose(RpsType.None);
+            else if (gameWinner == 2) p2Visual.SetWinPose(RpsType.None);
 
             PlayerPrefs.SetInt("G3_Winner", gameWinner);
             PlayerPrefs.Save();
