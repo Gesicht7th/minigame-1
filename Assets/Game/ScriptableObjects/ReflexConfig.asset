@@ -37,9 +37,41 @@ MonoBehaviour:
     p2Delay: 0.65
   - p1Action: 3
     p2Action: 1
-    p1Delay: 1
+    p1Delay: 0
+    p2Delay: 0
+  - p1Action: 1
+    p2Action: 3
+    p1Delay: 0
+    p2Delay: 0
+  - p1Action: 1
+    p2Action: 0
+    p1Delay: 0
+    p2Delay: 2
+  - p1Action: 0
+    p2Action: 1
+    p1Delay: 2
+    p2Delay: 0
+  - p1Action: 0
+    p2Action: 3
+    p1Delay: 2
     p2Delay: 0
   - p1Action: 3
-    p2Action: 1
-    p1Delay: 1
+    p2Action: 0
+    p1Delay: 0
+    p2Delay: 2
+  - p1Action: 3
+    p2Action: 2
+    p1Delay: 0
     p2Delay: 0
+  - p1Action: 2
+    p2Action: 3
+    p1Delay: 0
+    p2Delay: 2
+  - p1Action: 2
+    p2Action: 0
+    p1Delay: 0
+    p2Delay: 2
+  - p1Action: 0
+    p2Action: 2
+    p1Delay: 0
+    p2Delay: 2
