@@ -19,8 +19,8 @@ MonoBehaviour:
   wandRaisedThreshold: 8000
   countdownStart: 3
   countdownStepDuration: 1
-  minGoDelay: 0.5
-  maxGoDelay: 2
+  minGoDelay: 0.1
+  maxGoDelay: 0.5
   reactionTimeout: 3
   falseStartPenalty: 1
   falseStartPenaltyTime: 2

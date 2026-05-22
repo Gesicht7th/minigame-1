@@ -25,6 +25,9 @@ namespace WizardPunk.MemoryTest
         [SerializeField] private GameObject tutorialPanel;   // Panel Tutorial
         [SerializeField] private Button tutorialGoButton;    // Tombol GO
 
+        [Header("── Times Up Pop-Up ──")]
+        [SerializeField] private GameObject timesUpPanel;    // Panel Times Up
+
         [Header("── Result Pop-Up ──")]
         [SerializeField] private GameObject popupBackground;
         [SerializeField] private GameObject p1WinPanel;
@@ -54,6 +57,7 @@ namespace WizardPunk.MemoryTest
             MemoryTestScoreManager.Instance.OnScoreUpdated += UpdateScoreUI;
 
             if (popupBackground != null) popupBackground.SetActive(false);
+            if (timesUpPanel != null) timesUpPanel.SetActive(false); // Pastikan panel tertutup di awal
 
             if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
             if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
@@ -85,6 +89,18 @@ namespace WizardPunk.MemoryTest
         public void HideTutorial()
         {
             if (tutorialPanel != null) tutorialPanel.SetActive(false);
+        }
+        // -----------------------------------------------------
+
+        // --- FUNGSI BARU: Tampilkan & Sembunyikan Times Up ---
+        public void ShowTimesUp()
+        {
+            if (timesUpPanel != null) timesUpPanel.SetActive(true);
+        }
+
+        public void HideTimesUp()
+        {
+            if (timesUpPanel != null) timesUpPanel.SetActive(false);
         }
         // -----------------------------------------------------
 

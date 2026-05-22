@@ -301,6 +301,12 @@ namespace WizardPunk.Reflex
             PlayerPrefs.SetInt("G3_Winner", gameWinner);
             PlayerPrefs.Save();
 
+            // --- PERUBAHAN: Menampilkan Pop-Up Times Up ---
+            uiManager.ShowTimesUp();
+            yield return new WaitForSeconds(3f); // Tahan pop-up selama 3 detik
+            uiManager.HideTimesUp();
+            // ----------------------------------------------
+
             uiManager.ShowResultPopup(gameWinner);
 
             yield break;

@@ -40,6 +40,9 @@ namespace WizardPunk.Reflex
         [SerializeField] private float selectedScale = 1.1f;
         // ----------------------------------------------------
 
+        [Header("── Times Up Pop-Up ──")]
+        [SerializeField] private GameObject timesUpPanel;    // Panel Times Up
+
         [Header("── Result Pop-Up ──")]
         [SerializeField] private GameObject popupBackground;
         [SerializeField] private GameObject p1WinPanel;
@@ -90,6 +93,8 @@ namespace WizardPunk.Reflex
             if (ReflexScoreManager.Instance != null)
                 ReflexScoreManager.Instance.OnHeartsUpdated += UpdateHeartsUI;
 
+            if (timesUpPanel != null) timesUpPanel.SetActive(false); // Pastikan tertutup di awal
+
             if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
             if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
             if (drawNextButton != null) drawNextButton.onClick.AddListener(GoToNextGame);
@@ -131,7 +136,8 @@ namespace WizardPunk.Reflex
             drawPanel?.SetActive(false);
             roundResultPanel?.SetActive(false);
             interRoundPanel?.SetActive(false);
-            tutorialPanel?.SetActive(false); // Pastikan tutorial juga tersembunyi jika HideAll dipanggil
+            tutorialPanel?.SetActive(false);
+            timesUpPanel?.SetActive(false); // Pastikan Times Up ikut tersembunyi
             popupBackground?.SetActive(false);
         }
 
@@ -139,6 +145,18 @@ namespace WizardPunk.Reflex
         {
             gameScreenPanel?.SetActive(true);
         }
+
+        // --- FUNGSI BARU: Tampilkan & Sembunyikan Times Up ---
+        public void ShowTimesUp()
+        {
+            if (timesUpPanel != null) timesUpPanel.SetActive(true);
+        }
+
+        public void HideTimesUp()
+        {
+            if (timesUpPanel != null) timesUpPanel.SetActive(false);
+        }
+        // -----------------------------------------------------
 
         // --- MENGATUR VISUAL RPS UI ---
         public void ResetActionUI(int playerId)

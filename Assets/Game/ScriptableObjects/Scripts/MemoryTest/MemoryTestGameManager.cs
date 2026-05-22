@@ -123,8 +123,12 @@ namespace WizardPunk.MemoryTest
                 runeManager.ResetAll();
             }
 
-            uiManager.ShowCenterText("MATCH FINISHED!");
-            yield return new WaitForSeconds(3f);
+            // --- PERUBAHAN: Menampilkan Pop-Up Times Up ---
+            uiManager.HideCenterText();
+            uiManager.ShowTimesUp();
+            yield return new WaitForSeconds(3f); // Tahan pop-up selama 3 detik
+            uiManager.HideTimesUp();
+            // ----------------------------------------------
 
             int finalP1Score = scoreManager.ScoreP1;
             int finalP2Score = scoreManager.ScoreP2;
