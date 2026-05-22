@@ -47,7 +47,7 @@ namespace WizardPunk.MemoryTest
             currentActiveRunes = activeCount;
 
             // ── PLAYER 1 ──
-            WandDirection lastDirP1 = WandDirection.None;  // ← tambah ini
+            WandDirection lastDirP1 = WandDirection.None;
 
             for (int i = 0; i < runesP1.Length; i++)
             {
@@ -60,7 +60,6 @@ namespace WizardPunk.MemoryTest
 
                 if (isActive)
                 {
-                    // ← ganti Random.Range dengan GetNonConsecutiveDir
                     WandDirection dir = GetNonConsecutiveDir(lastDirP1);
                     lastDirP1 = dir;
 
@@ -72,7 +71,7 @@ namespace WizardPunk.MemoryTest
             }
 
             // ── PLAYER 2 ──
-            WandDirection lastDirP2 = WandDirection.None;  // ← tambah ini
+            WandDirection lastDirP2 = WandDirection.None;
 
             for (int i = 0; i < runesP2.Length; i++)
             {
@@ -85,7 +84,6 @@ namespace WizardPunk.MemoryTest
 
                 if (isActive)
                 {
-                    // ← ganti Random.Range dengan GetNonConsecutiveDir
                     WandDirection dir = GetNonConsecutiveDir(lastDirP2);
                     lastDirP2 = dir;
 

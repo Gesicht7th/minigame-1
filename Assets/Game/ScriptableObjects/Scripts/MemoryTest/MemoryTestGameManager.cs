@@ -60,7 +60,6 @@ namespace WizardPunk.MemoryTest
             Debug.Log($"[MemoryTest] P2 Linked to: {(p2SerialReader != null ? p2SerialReader.name : "NONE")}");
 
             Time.timeScale = 1f;
-            // ... (sisa kode GameLoop tetap sama)
             StartCoroutine(GameLoop());
         }
 
@@ -90,6 +89,7 @@ namespace WizardPunk.MemoryTest
                 float delay = Mathf.Max(config.minShowDelay, config.baseShowDelay - ((r + 1) * config.delayDecay));
 
                 uiManager.ShowCenterText("MEMORIZE!");
+
                 yield return StartCoroutine(runeManager.PlaySequence(delay, config.memorizationTime));
 
                 uiManager.ShowCenterText("GO!");
@@ -180,8 +180,6 @@ namespace WizardPunk.MemoryTest
             }
 
             // ===== FALLBACK KEYBOARD =====
-            // Berguna untuk testing jika hanya punya 1 wand
-
             if (pId == 1)
             {
                 if (Input.GetKeyDown(KeyCode.UpArrow)) return WandDirection.Up;
