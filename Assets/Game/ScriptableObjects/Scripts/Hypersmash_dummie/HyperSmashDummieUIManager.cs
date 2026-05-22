@@ -67,6 +67,7 @@ public class HyperSmashDummieUIManager : MonoBehaviour
 
     private Coroutine flashCoroutineP1;
     private Coroutine flashCoroutineP2;
+    private string lastGameState = "";
 
     void Awake()
     {
@@ -86,9 +87,6 @@ public class HyperSmashDummieUIManager : MonoBehaviour
         if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
         if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
         if (drawNextButton != null) drawNextButton.onClick.AddListener(GoToNextGame);
-
-        // Memulai Countdown visual secara mandiri
-        StartCoroutine(PlayDummyCountdown());
     }
 
     void Update()
@@ -112,6 +110,28 @@ public class HyperSmashDummieUIManager : MonoBehaviour
             
             // Juga update Round Label agar tidak nyangkut
             ShowRoundLabel(HyperSmashGameManager.Instance.CurrentRound, 3); // Asumsi total 3 ronde
+
+            // Deteksi perubahan state (Countdown, InterRound, GameOver)
+            string currentState = HyperSmashGameManager.Instance.CurrentState.ToString();
+            if (currentState != lastGameState)
+            {
+                lastGameState = currentState;
+                if (currentState == "Countdown")
+                {
+                    StartCoroutine(PlayDummyCountdown("GET READY!"));
+                }
+                else if (currentState == "RoundOver")
+                {
+                    int nextRound = HyperSmashGameManager.Instance.CurrentRound + 1;
+                    StartCoroutine(PlayDummyCountdown($"ROUND {nextRound}"));
+                }
+                else if (currentState == "GameOver")
+                {
+                    int p1 = HyperSmashScoreManager.Instance != null ? HyperSmashScoreManager.Instance.ScoreP1 : 0;
+                    int p2 = HyperSmashScoreManager.Instance != null ? HyperSmashScoreManager.Instance.ScoreP2 : 0;
+                    ShowResultPopup(p1, p2);
+                }
+            }
         }
     }
 
@@ -211,27 +231,27 @@ public class HyperSmashDummieUIManager : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < duration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime; // Gunakan unscaled agar jalan saat Time.timeScale = 0
             t.localScale = Vector3.Lerp(start, target, elapsed / duration);
             yield return null;
         }
         t.localScale = target;
     }
 
-    private IEnumerator PlayDummyCountdown()
+    private IEnumerator PlayDummyCountdown(string startText)
     {
         // Visual Countdown Mandiri khusus untuk Scene Dummie
-        ShowCountdown("GET READY!");
-        yield return new WaitForSeconds(0.8f);
+        ShowCountdown(startText);
+        yield return new WaitForSecondsRealtime(0.8f);
         
         for (int i = 3; i >= 1; i--)
         {
             ShowCountdown(i.ToString());
-            yield return new WaitForSeconds(0.7f); // Sesuaikan dengan delay StartCountdownManager
+            yield return new WaitForSecondsRealtime(0.7f); // Sesuaikan dengan delay StartCountdownManager
         }
         
         ShowCountdown("GO!");
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSecondsRealtime(0.6f);
         HideCountdown();
     }
     #endregion

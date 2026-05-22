@@ -18,6 +18,7 @@ public class EndlessRoomLoop : MonoBehaviour
 
     private float spawnZ = 0f;
     private int oldestBlockIndex = 0; // Melacak blok mana yang posisinya paling belakang
+    private float lastCameraZ = 0f;
 
     void Awake()
     {
@@ -38,6 +39,15 @@ public class EndlessRoomLoop : MonoBehaviour
 
     void Start()
     {
+        ResetAllBlocks();
+        if (playerCamera != null) lastCameraZ = playerCamera.position.z;
+    }
+
+    public void ResetAllBlocks()
+    {
+        spawnZ = 0f;
+        oldestBlockIndex = 0;
+
         // 1. Susun posisi awal ketiga blok secara berurutan (Z = 0, Z = Panjang, Z = Panjang * 2)
         for (int i = 0; i < roomBlocks.Length; i++)
         {
@@ -45,6 +55,14 @@ public class EndlessRoomLoop : MonoBehaviour
             {
                 // Tetap pertahankan posisi X dan Y, hanya ubah posisi Z
                 roomBlocks[i].position = new Vector3(roomBlocks[i].position.x, roomBlocks[i].position.y, spawnZ);
+                
+                // Nyalakan ulang kristalnya
+                WizardPunk.HyperSmash.Crystal[] crystals = roomBlocks[i].GetComponentsInChildren<WizardPunk.HyperSmash.Crystal>(true);
+                foreach (var c in crystals)
+                {
+                    c.Respawn();
+                }
+
                 spawnZ += blockLength;
             }
         }
@@ -53,6 +71,14 @@ public class EndlessRoomLoop : MonoBehaviour
     void Update()
     {
         if (playerCamera == null || roomBlocks.Length == 0) return;
+
+        // -- TAMBAHAN UNTUK FIX RONDE 2 --
+        // Jika kamera secara mendadak ter-reset ke koordinat awal (oleh GameManager)
+        if (playerCamera.position.z < lastCameraZ - 20f)
+        {
+            ResetAllBlocks();
+        }
+        lastCameraZ = playerCamera.position.z;
 
         // 2. Ambil referensi blok yang posisinya paling belakang saat ini
         Transform oldestBlock = roomBlocks[oldestBlockIndex];

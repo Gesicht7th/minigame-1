@@ -131,16 +131,18 @@ namespace WizardPunk.HyperSmash
 
         private IEnumerator PlayCountdown(string label)
         {
+            Time.timeScale = 0f; // FREEZE GAME
             uiManager?.ShowCountdown(label);
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSecondsRealtime(0.8f);
             for (int i = config.countdownStart; i >= 1; i--)
             {
                 uiManager?.ShowCountdown(i.ToString());
-                yield return new WaitForSeconds(config.countdownStepDuration);
+                yield return new WaitForSecondsRealtime(config.countdownStepDuration);
             }
             uiManager?.ShowCountdown("GO!");
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSecondsRealtime(0.6f);
             uiManager?.HideCountdown();
+            Time.timeScale = 1f; // UNFREEZE GAME
         }
 
         private IEnumerator EndGameSequence()
@@ -173,7 +175,11 @@ namespace WizardPunk.HyperSmash
         private void ClearAllCrystals()
         {
             Crystal[] remaining = FindObjectsByType<Crystal>(FindObjectsSortMode.None);
-            foreach (var c in remaining) Destroy(c.gameObject);
+            foreach (var c in remaining)
+            {
+                if (c.isStaticObstacle) continue; // MENCEGAH KRISTAL DUMMIE DIHANCURKAN
+                Destroy(c.gameObject);
+            }
         }
 
         private void SetState(HyperSmashState s)
