@@ -330,6 +330,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90ad09efe931d6a47a3bad8cff3e8a3b, type: 3}
+--- !u!1 &70781694
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 70781695}
+  - component: {fileID: 70781696}
+  m_Layer: 0
+  m_Name: GameDataBridge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &70781695
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70781694}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2072986147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &70781696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70781694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ecd756c584469a48b4f262ff90e11ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.GameDataBridge
 --- !u!1 &82783605
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,6 +584,59 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 614993480c569844787e42de9b9b3f0c, type: 3}
+--- !u!1 &106399730
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 106399731}
+  - component: {fileID: 106399732}
+  m_Layer: 0
+  m_Name: WandAimController (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &106399731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106399730}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2072986147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &106399732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106399730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d455107c34567784da6292781c990350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.WandAimController
+  playerIndex: 1
+  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
+  serialReader: {fileID: 0}
+  gyroDeadzone: 2.5
+  gyroSensitivity: 0.05
+  useMouseFallback: 0
+  mouseSensitivity: 1
+  keyboardAimSpeed: 0.6
+  showDebugGUI: 1
 --- !u!1 &120267448
 GameObject:
   m_ObjectHideFlags: 0
@@ -1076,6 +1173,109 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a11aa666e5f9d644b9d848d28c5813e0, type: 3}
+--- !u!1 &255355628
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 255355629}
+  - component: {fileID: 255355630}
+  m_Layer: 0
+  m_Name: WandAimController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &255355629
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255355628}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2072986147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &255355630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255355628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d455107c34567784da6292781c990350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.WandAimController
+  playerIndex: 0
+  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
+  serialReader: {fileID: 0}
+  gyroDeadzone: 2.5
+  gyroSensitivity: 0.05
+  useMouseFallback: 0
+  mouseSensitivity: 1
+  keyboardAimSpeed: 0.6
+  showDebugGUI: 1
+--- !u!1 &256653960
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 256653961}
+  - component: {fileID: 256653962}
+  m_Layer: 0
+  m_Name: ShootingSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &256653961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256653960}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2072986147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &256653962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256653960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea225746e745cc8498b94894daf085fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.ShootingSystem
+  playerIndex: 0
+  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
+  firePoint: {fileID: 0}
+  projectilePrefab: {fileID: 0}
+  player1Color: {r: 1, g: 0.8, b: 0, a: 1}
+  player2Color: {r: 0, g: 0.8, b: 1, a: 1}
 --- !u!1 &322124435
 GameObject:
   m_ObjectHideFlags: 0
@@ -1327,7 +1527,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 347705523}
   m_CullTransparentMesh: 1
---- !u!1 &379892753
+--- !u!1 &401109148
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1335,47 +1535,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 379892754}
-  - component: {fileID: 379892755}
+  - component: {fileID: 401109149}
+  - component: {fileID: 401109150}
   m_Layer: 0
-  m_Name: AudioManager
+  m_Name: HyperSmashScoreManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &379892754
+--- !u!4 &401109149
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 379892753}
+  m_GameObject: {fileID: 401109148}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2016911104}
+  m_Father: {fileID: 2072986147}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &379892755
+--- !u!114 &401109150
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 379892753}
+  m_GameObject: {fileID: 401109148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbfd4735aab598749b2e5c85503d99ec, type: 3}
+  m_Script: {fileID: 11500000, guid: eba8bc2b7bf007c4c903b069235810e5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.AudioManager
-  sfxEntries: []
-  bgmEntries: []
-  masterVolume: 1
-  sfxVolume: 1
-  bgmVolume: 0.6
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.HyperSmashScoreManager
 --- !u!1001 &402455806
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1459,59 +1654,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8354191847313370720, guid: fdb0a087d3440cd419bbd7910cc94b80, type: 3}
   m_PrefabInstance: {fileID: 1731036486}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &421491681
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 421491682}
-  - component: {fileID: 421491683}
-  m_Layer: 0
-  m_Name: WandAimController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &421491682
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421491681}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2016911104}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &421491683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421491681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d455107c34567784da6292781c990350, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.WandAimController
-  playerIndex: 0
-  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  serialReader: {fileID: 0}
-  gyroDeadzone: 2.5
-  gyroSensitivity: 0.05
-  useMouseFallback: 0
-  mouseSensitivity: 1
-  keyboardAimSpeed: 0.6
-  showDebugGUI: 1
 --- !u!4 &440980627 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 450970, guid: a11aa666e5f9d644b9d848d28c5813e0, type: 3}
@@ -2429,6 +2571,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720198395}
   m_CullTransparentMesh: 1
+--- !u!1 &767167876
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 767167877}
+  - component: {fileID: 767167878}
+  m_Layer: 0
+  m_Name: HyperSmashGameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &767167877
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767167876}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2072986147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &767167878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767167876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 814eddae40fe0ce4fa74a92f8b4d07cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.HyperSmashGameManager
+  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
+  cameraController: {fileID: 0}
+  aimController: {fileID: 255355630}
+  shootingSystem: {fileID: 256653962}
+  crystalSpawner: {fileID: 1257792465}
+  scoreManager: {fileID: 401109150}
+  uiManager: {fileID: 0}
+  corridorBuilder: {fileID: 0}
+  endlessStageManager: {fileID: 0}
 --- !u!4 &776289675 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 478750, guid: 614993480c569844787e42de9b9b3f0c, type: 3}
@@ -2623,77 +2818,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &863946325
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 863946326}
-  - component: {fileID: 863946328}
-  - component: {fileID: 863946327}
-  - component: {fileID: 863946329}
-  m_Layer: 0
-  m_Name: CrosshairManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &863946326
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863946325}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2016911104}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &863946327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863946325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c873693ffe8e5084a9b454b2bed52920, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScoreInitializer
---- !u!114 &863946328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863946325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eba8bc2b7bf007c4c903b069235810e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.HyperSmashScoreManager
---- !u!114 &863946329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863946325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bad026ecab347d64da761ad03d0026d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StartCountdownManager
-  countdownDelay: 3
 --- !u!1001 &871357713
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3090,6 +3214,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraMover
   speed: 40
   direction: {x: 0, y: 0, z: 1}
+--- !u!1 &933742269
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 933742270}
+  - component: {fileID: 933742271}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &933742270
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933742269}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2072986147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &933742271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933742269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbfd4735aab598749b2e5c85503d99ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.AudioManager
+  sfxEntries: []
+  bgmEntries: []
+  masterVolume: 1
+  sfxVolume: 1
+  bgmVolume: 0.6
 --- !u!1 &948216165
 GameObject:
   m_ObjectHideFlags: 0
@@ -3166,50 +3339,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 948216165}
   m_CullTransparentMesh: 1
---- !u!1 &954990173
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 954990174}
-  - component: {fileID: 954990175}
-  m_Layer: 0
-  m_Name: GameDataBridge
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &954990174
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 954990173}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2016911104}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &954990175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 954990173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ecd756c584469a48b4f262ff90e11ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.GameDataBridge
 --- !u!4 &955502446 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8354191847313370720, guid: fdb0a087d3440cd419bbd7910cc94b80, type: 3}
@@ -4021,7 +4150,7 @@ GameObject:
   - component: {fileID: 1226687767}
   - component: {fileID: 1226687766}
   - component: {fileID: 1226687765}
-  - component: {fileID: 1226687764}
+  - component: {fileID: 1226687768}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -4054,57 +4183,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1226687764
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1226687762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8976092f4d9d3af4d9fd9ad32ea369d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.HyperSmashUIManager
-  gameScreenPanel: {fileID: 540660603}
-  countdownPanel: {fileID: 233898602}
-  gameOverPanel: {fileID: 1259576130}
-  gameOverPanel2: {fileID: 1259576130}
-  interRoundPanel: {fileID: 948216165}
-  timerText: {fileID: 1996772695}
-  timerBarFill: {fileID: 0}
-  speedText: {fileID: 0}
-  roundLabelText: {fileID: 0}
-  scoreTextP1: {fileID: 137560324}
-  accuracyTextP1: {fileID: 0}
-  crosshairRectP1: {fileID: 0}
-  crosshairImageP1: {fileID: 0}
-  scoreTextP2: {fileID: 1265911587}
-  accuracyTextP2: {fileID: 0}
-  crosshairRectP2: {fileID: 0}
-  crosshairImageP2: {fileID: 0}
-  crosshairDefaultColor: {r: 1, g: 1, b: 1, a: 1}
-  crosshairHitColor: {r: 1, g: 0.9, b: 0, a: 1}
-  countdownText: {fileID: 1525632000}
-  interRoundTitleText: {fileID: 579498100}
-  interRoundNextText: {fileID: 0}
-  interRoundScoreTextP1: {fileID: 0}
-  interRoundScoreTextP2: {fileID: 0}
-  gameOverScoreTextP1: {fileID: 1575391938}
-  gameOverScoreTextP2: {fileID: 82783607}
-  newHighScoreBadgeP1: {fileID: 0}
-  newHighScoreBadgeP2: {fileID: 0}
-  popupBackground: {fileID: 0}
-  p1WinPanel: {fileID: 191518535}
-  p2WinPanel: {fileID: 1067895452}
-  drawWinPanel: {fileID: 0}
-  p1PtsText: {fileID: 32170501}
-  p2PtsText: {fileID: 2145156384}
-  drawPtsText: {fileID: 0}
-  p1NextButton: {fileID: 347705525}
-  p2NextButton: {fileID: 1175124273}
-  drawNextButton: {fileID: 0}
-  nextSceneName: ReflexShowdown
 --- !u!114 &1226687765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4168,6 +4246,55 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1226687768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226687762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfef46d51b135444a924c763197c4603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HyperSmashDummieUIManager
+  gameScreenPanel: {fileID: 0}
+  countdownPanel: {fileID: 0}
+  gameOverPanel: {fileID: 0}
+  gameOverPanel2: {fileID: 0}
+  interRoundPanel: {fileID: 0}
+  timerText: {fileID: 0}
+  timerBarFill: {fileID: 0}
+  speedText: {fileID: 0}
+  roundLabelText: {fileID: 0}
+  scoreTextP1: {fileID: 0}
+  accuracyTextP1: {fileID: 0}
+  crosshairImageP1: {fileID: 0}
+  scoreTextP2: {fileID: 0}
+  accuracyTextP2: {fileID: 0}
+  crosshairImageP2: {fileID: 0}
+  crosshairDefaultColor: {r: 1, g: 1, b: 1, a: 1}
+  crosshairHitColor: {r: 1, g: 0.9, b: 0, a: 1}
+  countdownText: {fileID: 0}
+  interRoundTitleText: {fileID: 0}
+  interRoundNextText: {fileID: 0}
+  interRoundScoreTextP1: {fileID: 0}
+  interRoundScoreTextP2: {fileID: 0}
+  gameOverScoreTextP1: {fileID: 0}
+  gameOverScoreTextP2: {fileID: 0}
+  newHighScoreBadgeP1: {fileID: 0}
+  newHighScoreBadgeP2: {fileID: 0}
+  popupBackground: {fileID: 0}
+  p1WinPanel: {fileID: 0}
+  p2WinPanel: {fileID: 0}
+  drawWinPanel: {fileID: 0}
+  p1PtsText: {fileID: 0}
+  p2PtsText: {fileID: 0}
+  drawPtsText: {fileID: 0}
+  p1NextButton: {fileID: 0}
+  p2NextButton: {fileID: 0}
+  drawNextButton: {fileID: 0}
+  nextSceneName: MainMenu
 --- !u!4 &1230986431 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8354191847313370720, guid: 90ad09efe931d6a47a3bad8cff3e8a3b, type: 3}
@@ -4295,6 +4422,56 @@ Transform:
   - {fileID: 2068052542}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1257792463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1257792464}
+  - component: {fileID: 1257792465}
+  m_Layer: 0
+  m_Name: CrystalSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1257792464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257792463}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2072986147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1257792465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257792463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51d260836580b904dbc564ee2b87d2ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.CrystalSpawner
+  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
+  prefabBlueCrystal: {fileID: 8509645499571846545, guid: 217eaca22c262e1498697f5725f6fb22, type: 3}
+  prefabPurpleCrystal: {fileID: 1395284577005415329, guid: 90ad09efe931d6a47a3bad8cff3e8a3b, type: 3}
+  prefabRedCrystal: {fileID: 1395284577005415329, guid: fdb0a087d3440cd419bbd7910cc94b80, type: 3}
+  prefabBomb: {fileID: 8172963077876693235, guid: 10e2b5d2c4f4b9e4e8f3126f726f5460, type: 3}
+  crystalContainer: {fileID: 0}
 --- !u!1 &1259576130
 GameObject:
   m_ObjectHideFlags: 0
@@ -4334,6 +4511,56 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 240}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1265084128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1265084129}
+  - component: {fileID: 1265084130}
+  m_Layer: 0
+  m_Name: ShootingSystem (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1265084129
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265084128}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2072986147}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1265084130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265084128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea225746e745cc8498b94894daf085fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.ShootingSystem
+  playerIndex: 1
+  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
+  firePoint: {fileID: 0}
+  projectilePrefab: {fileID: 0}
+  player1Color: {r: 1, g: 0.8, b: 0, a: 1}
+  player2Color: {r: 0, g: 0.8, b: 1, a: 1}
 --- !u!1 &1265911585
 GameObject:
   m_ObjectHideFlags: 0
@@ -4476,59 +4703,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8354191847313370720, guid: 90ad09efe931d6a47a3bad8cff3e8a3b, type: 3}
   m_PrefabInstance: {fileID: 2056865694}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1312303647
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1312303648}
-  - component: {fileID: 1312303649}
-  m_Layer: 0
-  m_Name: HyperSmashGameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1312303648
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1312303647}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2016911104}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1312303649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1312303647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 814eddae40fe0ce4fa74a92f8b4d07cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.HyperSmashGameManager
-  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  cameraController: {fileID: 0}
-  aimController: {fileID: 421491683}
-  shootingSystem: {fileID: 0}
-  crystalSpawner: {fileID: 0}
-  scoreManager: {fileID: 863946328}
-  uiManager: {fileID: 1226687764}
-  corridorBuilder: {fileID: 0}
-  endlessStageManager: {fileID: 0}
 --- !u!1001 &1358600859
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5298,59 +5472,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1525631998}
   m_CullTransparentMesh: 1
---- !u!1 &1562103515
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1562103516}
-  - component: {fileID: 1562103517}
-  m_Layer: 0
-  m_Name: WandAimController (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1562103516
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1562103515}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2016911104}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1562103517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1562103515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d455107c34567784da6292781c990350, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.WandAimController
-  playerIndex: 1
-  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  serialReader: {fileID: 0}
-  gyroDeadzone: 2.5
-  gyroSensitivity: 0.05
-  useMouseFallback: 0
-  mouseSensitivity: 1
-  keyboardAimSpeed: 0.6
-  showDebugGUI: 1
 --- !u!1 &1575391936
 GameObject:
   m_ObjectHideFlags: 0
@@ -6496,7 +6617,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1996772693}
   m_CullTransparentMesh: 1
---- !u!1 &2016911103
+--- !u!1 &2032049485
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6504,36 +6625,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2016911104}
+  - component: {fileID: 2032049486}
+  - component: {fileID: 2032049487}
   m_Layer: 0
-  m_Name: _MANAGERS
+  m_Name: SerialManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2016911104
+--- !u!4 &2032049486
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2016911103}
+  m_GameObject: {fileID: 2032049485}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1312303648}
-  - {fileID: 2128707466}
-  - {fileID: 421491682}
-  - {fileID: 1562103516}
-  - {fileID: 379892754}
-  - {fileID: 954990174}
-  - {fileID: 863946326}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 2072986147}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2032049487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2032049485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
+  serialPort: COM8
+  baudRate: 115200
+  ActionHoldTimeout: 0.4
 --- !u!1001 &2056865694
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6608,6 +6738,47 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1970747597708200414, guid: 217eaca22c262e1498697f5725f6fb22, type: 3}
   m_PrefabInstance: {fileID: 957558068}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2072986146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2072986147}
+  m_Layer: 0
+  m_Name: _MANAGERS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2072986147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2072986146}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 767167877}
+  - {fileID: 401109149}
+  - {fileID: 2032049486}
+  - {fileID: 255355629}
+  - {fileID: 106399731}
+  - {fileID: 256653961}
+  - {fileID: 1265084129}
+  - {fileID: 1257792464}
+  - {fileID: 933742270}
+  - {fileID: 70781695}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2074319243
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6971,53 +7142,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &2128707465
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2128707466}
-  - component: {fileID: 2128707467}
-  m_Layer: 0
-  m_Name: SerialManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2128707466
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2128707465}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2016911104}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2128707467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2128707465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
-  serialPort: COM8
-  baudRate: 115200
-  ActionHoldTimeout: 0.4
 --- !u!1 &2131875363
 GameObject:
   m_ObjectHideFlags: 0
@@ -7286,7 +7410,7 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 2016911104}
+  - {fileID: 2072986147}
   - {fileID: 322124437}
   - {fileID: 926840056}
   - {fileID: 787606357}
