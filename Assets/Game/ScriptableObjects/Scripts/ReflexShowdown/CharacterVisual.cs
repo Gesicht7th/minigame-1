@@ -113,13 +113,16 @@ namespace WizardPunk.Reflex
             {
                 if (action != RpsType.None)
                 {
-                    TriggerActionAnim(action); // Nyalakan DoAttack/DoBlock/DoParry
+                    TriggerActionAnim(action);
+                    StartCoroutine(TriggerAfterDelay("DoWin", winTransitionDelay));
                 }
-                
-                // LANGSUNG panggil DoWin di sini tanpa coroutine delay!
-                animator.SetTrigger("DoWin");
+                else
+                {
+                    animator.SetTrigger("DoWin");
+                }
             }
         }
+
         public void SetLosePose(RpsType action = RpsType.None)
         {
             targetWandRot = Quaternion.Euler(wandLowLocalRot);
@@ -131,11 +134,13 @@ namespace WizardPunk.Reflex
             {
                 if (action != RpsType.None)
                 {
-                    TriggerActionAnim(action); // Nyalakan DoAttack/DoBlock/DoParry
+                    TriggerActionAnim(action);
+                    StartCoroutine(TriggerAfterDelay("DoDie", dieTransitionDelay));
                 }
-                
-                // LANGSUNG panggil DoDie di sini tanpa coroutine delay!
-                animator.SetTrigger("DoDie");
+                else
+                {
+                    animator.SetTrigger("DoDie");
+                }
             }
         }
 

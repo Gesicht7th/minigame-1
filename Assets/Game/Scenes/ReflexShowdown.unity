@@ -998,8 +998,8 @@ MonoBehaviour:
   bodyBobSpeed: 1.2
   bodyBobAmount: 0.04
   animator: {fileID: 0}
-  dieTransitionDelay: 0
-  winTransitionDelay: 0
+  dieTransitionDelay: 0.4
+  winTransitionDelay: 1
 --- !u!1 &218197343
 GameObject:
   m_ObjectHideFlags: 0
@@ -6202,8 +6202,8 @@ MonoBehaviour:
   bodyBobSpeed: 1.2
   bodyBobAmount: 0.04
   animator: {fileID: 0}
-  dieTransitionDelay: 0
-  winTransitionDelay: 0
+  dieTransitionDelay: 0.4
+  winTransitionDelay: 1
 --- !u!1 &1681083313
 GameObject:
   m_ObjectHideFlags: 0
