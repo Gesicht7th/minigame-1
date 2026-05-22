@@ -86,6 +86,9 @@ public class HyperSmashDummieUIManager : MonoBehaviour
         if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
         if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
         if (drawNextButton != null) drawNextButton.onClick.AddListener(GoToNextGame);
+
+        // Memulai Countdown visual secara mandiri
+        StartCoroutine(PlayDummyCountdown());
     }
 
     void Update()
@@ -99,6 +102,16 @@ public class HyperSmashDummieUIManager : MonoBehaviour
         {
             UpdateAccuracy(PlayerIndex.Player1, HyperSmashScoreManager.Instance.GetAccuracy(PlayerIndex.Player1));
             UpdateAccuracy(PlayerIndex.Player2, HyperSmashScoreManager.Instance.GetAccuracy(PlayerIndex.Player2));
+        }
+
+        // Membaca timer dan ronde dari GameManager yang berjalan di latar belakang
+        if (HyperSmashGameManager.Instance != null)
+        {
+            float currentTimer = HyperSmashGameManager.Instance.RoundTimer;
+            UpdateTimer(currentTimer, 60f); // Asumsi durasi standar 60 detik untuk progress bar
+            
+            // Juga update Round Label agar tidak nyangkut
+            ShowRoundLabel(HyperSmashGameManager.Instance.CurrentRound, 3); // Asumsi total 3 ronde
         }
     }
 
@@ -203,6 +216,23 @@ public class HyperSmashDummieUIManager : MonoBehaviour
             yield return null;
         }
         t.localScale = target;
+    }
+
+    private IEnumerator PlayDummyCountdown()
+    {
+        // Visual Countdown Mandiri khusus untuk Scene Dummie
+        ShowCountdown("GET READY!");
+        yield return new WaitForSeconds(0.8f);
+        
+        for (int i = 3; i >= 1; i--)
+        {
+            ShowCountdown(i.ToString());
+            yield return new WaitForSeconds(0.7f); // Sesuaikan dengan delay StartCountdownManager
+        }
+        
+        ShowCountdown("GO!");
+        yield return new WaitForSeconds(0.6f);
+        HideCountdown();
     }
     #endregion
 
