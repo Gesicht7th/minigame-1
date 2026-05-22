@@ -998,8 +998,8 @@ MonoBehaviour:
   bodyBobSpeed: 1.2
   bodyBobAmount: 0.04
   animator: {fileID: 0}
-  dieTransitionDelay: 1
-  winTransitionDelay: 2
+  dieTransitionDelay: 0
+  winTransitionDelay: 0
 --- !u!1 &218197343
 GameObject:
   m_ObjectHideFlags: 0
@@ -5273,7 +5273,7 @@ MonoBehaviour:
   selectedScale: 1.8
   popupBackground: {fileID: 370566428}
   p1WinPanel: {fileID: 2020127265}
-  p2WinPanel: {fileID: 2020127265}
+  p2WinPanel: {fileID: 1258242459}
   drawWinPanel: {fileID: 681379128}
   p1NextButton: {fileID: 1764990580}
   p2NextButton: {fileID: 630623120}
@@ -6202,8 +6202,8 @@ MonoBehaviour:
   bodyBobSpeed: 1.2
   bodyBobAmount: 0.04
   animator: {fileID: 0}
-  dieTransitionDelay: 1
-  winTransitionDelay: 2
+  dieTransitionDelay: 0
+  winTransitionDelay: 0
 --- !u!1 &1681083313
 GameObject:
   m_ObjectHideFlags: 0

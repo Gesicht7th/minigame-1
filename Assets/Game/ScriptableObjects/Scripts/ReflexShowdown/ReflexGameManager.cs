@@ -221,30 +221,47 @@ namespace WizardPunk.Reflex
 
             scoreManager.RecordRoundResult(winner);
 
-            if (winner == 1) { 
-                p1Visual.SetWinPose(p1Attack); 
-                p2Visual.SetLosePose(p2Attack); 
+            // Cari konfigurasi delay untuk permulaan animasi (Animation Start Delay) berdasarkan aksi p1 dan p2
+            AnimationDelayConfig delayConfig = config.FindDelay(p1Attack, p2Attack);
+            float p1Delay = delayConfig != null ? delayConfig.p1Delay : 0f;
+            float p2Delay = delayConfig != null ? delayConfig.p2Delay : 0f;
+
+            if (delayConfig != null)
+                Debug.Log($"[Reflex] AnimStartDelay: P1({p1Attack})={p1Delay}s  P2({p2Attack})={p2Delay}s");
+
+            if (winner == 1)
+            {
+                StartCoroutine(PlayVisualsWithDelay(() => { p1Visual.SetWinPose(p1Attack); p1Visual.PlayFireEffect(); }, p1Delay));
+                StartCoroutine(PlayVisualsWithDelay(() => { p2Visual.SetLosePose(p2Attack); p2Visual.PlayFireEffect(); }, p2Delay));
             }
-            else if (winner == 2) { 
-                p2Visual.SetWinPose(p2Attack); 
-                p1Visual.SetLosePose(p1Attack); 
+            else if (winner == 2)
+            {
+                StartCoroutine(PlayVisualsWithDelay(() => { p2Visual.SetWinPose(p2Attack); p2Visual.PlayFireEffect(); }, p2Delay));
+                StartCoroutine(PlayVisualsWithDelay(() => { p1Visual.SetLosePose(p1Attack); p1Visual.PlayFireEffect(); }, p1Delay));
             }
             else
             {
-                p1Visual.SetDrawPose(p1Attack);
-                p2Visual.SetDrawPose(p2Attack);
+                StartCoroutine(PlayVisualsWithDelay(() => { p1Visual.SetDrawPose(p1Attack); p1Visual.PlayFireEffect(); }, p1Delay));
+                StartCoroutine(PlayVisualsWithDelay(() => { p2Visual.SetDrawPose(p2Attack); p2Visual.PlayFireEffect(); }, p2Delay));
             }
-
-            p1Visual.PlayFireEffect();
-            p2Visual.PlayFireEffect();
 
             float display_t1 = p1Controller.FiredThisRound ? (p1Controller.FireTimestamp - goTimestamp) : -1f;
             float display_t2 = p2Controller.FiredThisRound ? (p2Controller.FireTimestamp - goTimestamp) : -1f;
 
             uiManager.ShowRoundResult(winner, display_t1, display_t2);
 
-            yield return new WaitForSeconds(2.5f);
+            // Tambahkan delay permulaan terlama ke waktu tunggu layar hasil agar aksi sempat dimainkan utuh
+            float maxStartDelay = Mathf.Max(p1Delay, p2Delay);
+            
+            yield return new WaitForSeconds(2.5f + maxStartDelay);
             uiManager.HideRoundResult();
+        }
+
+        private IEnumerator PlayVisualsWithDelay(System.Action visualAction, float delay)
+        {
+            if (delay > 0f)
+                yield return new WaitForSeconds(delay);
+            visualAction?.Invoke();
         }
 
         private IEnumerator HandleFalseStart(bool p1False, bool p2False)

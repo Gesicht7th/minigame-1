@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/ReflexShowdown/CharacterVisual.cs
+// Assets/_Game/Scripts/ReflexShowdown/CharacterVisual.cs
 // Animasi karakter cylinder: idle, wand rendah, wand naik, hit
 
 using System.Collections;
@@ -113,16 +113,13 @@ namespace WizardPunk.Reflex
             {
                 if (action != RpsType.None)
                 {
-                    TriggerActionAnim(action);
-                    StartCoroutine(TriggerAfterDelay("DoWin", winTransitionDelay));
+                    TriggerActionAnim(action); // Nyalakan DoAttack/DoBlock/DoParry
                 }
-                else
-                {
-                    animator.SetTrigger("DoWin");
-                }
+                
+                // LANGSUNG panggil DoWin di sini tanpa coroutine delay!
+                animator.SetTrigger("DoWin");
             }
         }
-
         public void SetLosePose(RpsType action = RpsType.None)
         {
             targetWandRot = Quaternion.Euler(wandLowLocalRot);
@@ -134,13 +131,11 @@ namespace WizardPunk.Reflex
             {
                 if (action != RpsType.None)
                 {
-                    TriggerActionAnim(action);
-                    StartCoroutine(TriggerAfterDelay("DoDie", dieTransitionDelay));
+                    TriggerActionAnim(action); // Nyalakan DoAttack/DoBlock/DoParry
                 }
-                else
-                {
-                    animator.SetTrigger("DoDie");
-                }
+                
+                // LANGSUNG panggil DoDie di sini tanpa coroutine delay!
+                animator.SetTrigger("DoDie");
             }
         }
 
