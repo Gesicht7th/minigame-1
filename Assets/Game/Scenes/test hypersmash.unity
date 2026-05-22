@@ -906,7 +906,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100
+  m_text: 00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c10d8b1b9bd841d4cb3dd449ee55408f, type: 2}
   m_sharedMaterial: {fileID: 7831999611859694322, guid: c10d8b1b9bd841d4cb3dd449ee55408f, type: 2}
@@ -1226,56 +1226,6 @@ MonoBehaviour:
   mouseSensitivity: 1
   keyboardAimSpeed: 0.6
   showDebugGUI: 1
---- !u!1 &256653960
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 256653961}
-  - component: {fileID: 256653962}
-  m_Layer: 0
-  m_Name: ShootingSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &256653961
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 256653960}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2072986147}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &256653962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 256653960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea225746e745cc8498b94894daf085fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.ShootingSystem
-  playerIndex: 0
-  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  firePoint: {fileID: 0}
-  projectilePrefab: {fileID: 0}
-  player1Color: {r: 1, g: 0.8, b: 0, a: 1}
-  player2Color: {r: 0, g: 0.8, b: 1, a: 1}
 --- !u!1 &322124435
 GameObject:
   m_ObjectHideFlags: 0
@@ -1582,6 +1532,10 @@ PrefabInstance:
     - target: {fileID: 188988, guid: a11aa666e5f9d644b9d848d28c5813e0, type: 3}
       propertyPath: m_Name
       value: BB_4x1x1 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 188988, guid: a11aa666e5f9d644b9d848d28c5813e0, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 450970, guid: a11aa666e5f9d644b9d848d28c5813e0, type: 3}
       propertyPath: m_LocalScale.x
@@ -2618,7 +2572,7 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
   cameraController: {fileID: 0}
   aimController: {fileID: 255355630}
-  shootingSystem: {fileID: 256653962}
+  shootingSystem: {fileID: 0}
   crystalSpawner: {fileID: 1257792465}
   scoreManager: {fileID: 401109150}
   uiManager: {fileID: 0}
@@ -4258,43 +4212,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfef46d51b135444a924c763197c4603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HyperSmashDummieUIManager
-  gameScreenPanel: {fileID: 0}
-  countdownPanel: {fileID: 0}
-  gameOverPanel: {fileID: 0}
-  gameOverPanel2: {fileID: 0}
-  interRoundPanel: {fileID: 0}
-  timerText: {fileID: 0}
+  gameScreenPanel: {fileID: 540660603}
+  countdownPanel: {fileID: 233898602}
+  gameOverPanel: {fileID: 1259576130}
+  gameOverPanel2: {fileID: 1259576130}
+  interRoundPanel: {fileID: 948216165}
+  timerText: {fileID: 1996772695}
   timerBarFill: {fileID: 0}
   speedText: {fileID: 0}
   roundLabelText: {fileID: 0}
-  scoreTextP1: {fileID: 0}
+  scoreTextP1: {fileID: 137560324}
   accuracyTextP1: {fileID: 0}
   crosshairImageP1: {fileID: 0}
-  scoreTextP2: {fileID: 0}
+  scoreTextP2: {fileID: 1265911587}
   accuracyTextP2: {fileID: 0}
   crosshairImageP2: {fileID: 0}
   crosshairDefaultColor: {r: 1, g: 1, b: 1, a: 1}
   crosshairHitColor: {r: 1, g: 0.9, b: 0, a: 1}
-  countdownText: {fileID: 0}
-  interRoundTitleText: {fileID: 0}
+  countdownText: {fileID: 1525632000}
+  interRoundTitleText: {fileID: 579498100}
   interRoundNextText: {fileID: 0}
   interRoundScoreTextP1: {fileID: 0}
   interRoundScoreTextP2: {fileID: 0}
-  gameOverScoreTextP1: {fileID: 0}
-  gameOverScoreTextP2: {fileID: 0}
+  gameOverScoreTextP1: {fileID: 1575391938}
+  gameOverScoreTextP2: {fileID: 82783607}
   newHighScoreBadgeP1: {fileID: 0}
   newHighScoreBadgeP2: {fileID: 0}
   popupBackground: {fileID: 0}
-  p1WinPanel: {fileID: 0}
-  p2WinPanel: {fileID: 0}
+  p1WinPanel: {fileID: 191518535}
+  p2WinPanel: {fileID: 1067895452}
   drawWinPanel: {fileID: 0}
-  p1PtsText: {fileID: 0}
-  p2PtsText: {fileID: 0}
+  p1PtsText: {fileID: 135347129}
+  p2PtsText: {fileID: 1956240856}
   drawPtsText: {fileID: 0}
-  p1NextButton: {fileID: 0}
-  p2NextButton: {fileID: 0}
+  p1NextButton: {fileID: 347705525}
+  p2NextButton: {fileID: 1175124273}
   drawNextButton: {fileID: 0}
-  nextSceneName: MainMenu
+  nextSceneName: ReflexShowdown
 --- !u!4 &1230986431 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8354191847313370720, guid: 90ad09efe931d6a47a3bad8cff3e8a3b, type: 3}
@@ -4511,56 +4465,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 240}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1265084128
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1265084129}
-  - component: {fileID: 1265084130}
-  m_Layer: 0
-  m_Name: ShootingSystem (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1265084129
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1265084128}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2072986147}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1265084130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1265084128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea225746e745cc8498b94894daf085fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.ShootingSystem
-  playerIndex: 1
-  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  firePoint: {fileID: 0}
-  projectilePrefab: {fileID: 0}
-  player1Color: {r: 1, g: 0.8, b: 0, a: 1}
-  player2Color: {r: 0, g: 0.8, b: 1, a: 1}
 --- !u!1 &1265911585
 GameObject:
   m_ObjectHideFlags: 0
@@ -4618,7 +4522,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100
+  m_text: 00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c10d8b1b9bd841d4cb3dd449ee55408f, type: 2}
   m_sharedMaterial: {fileID: 7831999611859694322, guid: c10d8b1b9bd841d4cb3dd449ee55408f, type: 2}
@@ -5004,6 +4908,10 @@ PrefabInstance:
     - target: {fileID: 188988, guid: a11aa666e5f9d644b9d848d28c5813e0, type: 3}
       propertyPath: m_Name
       value: BB_4x1x1
+      objectReference: {fileID: 0}
+    - target: {fileID: 188988, guid: a11aa666e5f9d644b9d848d28c5813e0, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 450970, guid: a11aa666e5f9d644b9d848d28c5813e0, type: 3}
       propertyPath: m_LocalScale.x
@@ -5927,6 +5835,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BB_8x16x1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 172978, guid: 614993480c569844787e42de9b9b3f0c, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 478750, guid: 614993480c569844787e42de9b9b3f0c, type: 3}
       propertyPath: m_LocalScale.x
       value: 4.225668
@@ -6772,8 +6684,6 @@ Transform:
   - {fileID: 2032049486}
   - {fileID: 255355629}
   - {fileID: 106399731}
-  - {fileID: 256653961}
-  - {fileID: 1265084129}
   - {fileID: 1257792464}
   - {fileID: 933742270}
   - {fileID: 70781695}
@@ -6790,6 +6700,10 @@ PrefabInstance:
     - target: {fileID: 172978, guid: 614993480c569844787e42de9b9b3f0c, type: 3}
       propertyPath: m_Name
       value: BB_8x16x1
+      objectReference: {fileID: 0}
+    - target: {fileID: 172978, guid: 614993480c569844787e42de9b9b3f0c, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 478750, guid: 614993480c569844787e42de9b9b3f0c, type: 3}
       propertyPath: m_LocalScale.x
