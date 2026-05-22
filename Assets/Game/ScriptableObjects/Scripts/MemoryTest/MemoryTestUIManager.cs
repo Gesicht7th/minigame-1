@@ -21,21 +21,27 @@ namespace WizardPunk.MemoryTest
         [SerializeField] private TextMeshProUGUI timerText;
         [SerializeField] private Image timerFillBar;
 
+        [Header("── Tutorial ──")]
+        [SerializeField] private GameObject tutorialPanel;   // Panel Tutorial
+        [SerializeField] private Button tutorialGoButton;    // Tombol GO
+
         [Header("── Result Pop-Up ──")]
-        [SerializeField] private GameObject popupBackground;    // <--- TAMBAHAN UNTUK BACKGROUND GELAP
-        [SerializeField] private GameObject p1WinPanel;     // Panel Fura Oren
-        [SerializeField] private GameObject p2WinPanel;     // Panel Oura Biru
-        [SerializeField] private GameObject drawWinPanel;   // Panel Draw (Seri)
+        [SerializeField] private GameObject popupBackground;
+        [SerializeField] private GameObject p1WinPanel;
+        [SerializeField] private GameObject p2WinPanel;
+        [SerializeField] private GameObject drawWinPanel;
 
-        [SerializeField] private TextMeshProUGUI p1PtsText; // Text Poin di panel Fura
-        [SerializeField] private TextMeshProUGUI p2PtsText; // Text Poin di panel Oura
-        [SerializeField] private TextMeshProUGUI drawPtsText; // Text Poin di panel Draw
+        [SerializeField] private TextMeshProUGUI p1PtsText;
+        [SerializeField] private TextMeshProUGUI p2PtsText;
+        [SerializeField] private TextMeshProUGUI drawPtsText;
 
-        [SerializeField] private Button p1NextButton;       // Tombol Next di panel Fura
-        [SerializeField] private Button p2NextButton;       // Tombol Next di panel Oura
-        [SerializeField] private Button drawNextButton;     // Tombol Next di panel Draw
+        [SerializeField] private Button p1NextButton;
+        [SerializeField] private Button p2NextButton;
+        [SerializeField] private Button drawNextButton;
 
-        [SerializeField] private string nextSceneName = "HyperSmash"; // Nama Scene game selanjutnya
+        [SerializeField] private string nextSceneName = "HyperSmash";
+
+        public bool IsTutorialDone { get; private set; }
 
         void Awake()
         {
@@ -47,12 +53,20 @@ namespace WizardPunk.MemoryTest
         {
             MemoryTestScoreManager.Instance.OnScoreUpdated += UpdateScoreUI;
 
-            // Matikan background gelap saat game baru mulai
             if (popupBackground != null) popupBackground.SetActive(false);
 
             if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
             if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
             if (drawNextButton != null) drawNextButton.onClick.AddListener(GoToNextGame);
+
+            // --- FUNGSI BARU: Tombol GO Tutorial ---
+            if (tutorialGoButton != null)
+            {
+                tutorialGoButton.onClick.AddListener(() =>
+                {
+                    IsTutorialDone = true;
+                });
+            }
         }
 
         void OnDestroy()
@@ -60,6 +74,19 @@ namespace WizardPunk.MemoryTest
             if (MemoryTestScoreManager.Instance != null)
                 MemoryTestScoreManager.Instance.OnScoreUpdated -= UpdateScoreUI;
         }
+
+        // --- FUNGSI BARU: Tampilkan & Sembunyikan Tutorial ---
+        public void ShowTutorial()
+        {
+            IsTutorialDone = false;
+            if (tutorialPanel != null) tutorialPanel.SetActive(true);
+        }
+
+        public void HideTutorial()
+        {
+            if (tutorialPanel != null) tutorialPanel.SetActive(false);
+        }
+        // -----------------------------------------------------
 
         private void UpdateScoreUI(int playerId, int score)
         {
@@ -96,7 +123,6 @@ namespace WizardPunk.MemoryTest
         {
             HideCenterText();
 
-            // Nyalakan background gelap
             if (popupBackground != null) popupBackground.SetActive(true);
 
             if (scoreP1 > scoreP2)

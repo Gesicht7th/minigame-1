@@ -55,7 +55,6 @@ namespace WizardPunk.Reflex
             StartCoroutine(GameFlow());
         }
 
-        // --- FUNGSI BARU: Update UI Highlight RPS secara realtime ---
         void Update()
         {
             if (p1Controller != null && uiManager != null)
@@ -64,11 +63,20 @@ namespace WizardPunk.Reflex
             if (p2Controller != null && uiManager != null)
                 uiManager.UpdateActionUI(2, p2Controller.SelectedAttack);
         }
-        // ------------------------------------------------------------
 
         private IEnumerator GameFlow()
         {
             uiManager.ShowGameScreen();
+
+            // --- TAMBAHAN: FASE TUTORIAL ---
+            uiManager.ShowTutorial();
+
+            // Berhenti di baris ini dan tunggu sampai pemain menekan tombol GO
+            yield return new WaitUntil(() => uiManager.IsTutorialDone);
+
+            uiManager.HideTutorial();
+            // -------------------------------
+
             scoreManager.ResetHearts();
 
             int round = 1;
@@ -221,7 +229,6 @@ namespace WizardPunk.Reflex
 
             scoreManager.RecordRoundResult(winner);
 
-            // Cari konfigurasi delay untuk permulaan animasi (Animation Start Delay) berdasarkan aksi p1 dan p2
             AnimationDelayConfig delayConfig = config.FindDelay(p1Attack, p2Attack);
             float p1Delay = delayConfig != null ? delayConfig.p1Delay : 0f;
             float p2Delay = delayConfig != null ? delayConfig.p2Delay : 0f;
@@ -250,9 +257,8 @@ namespace WizardPunk.Reflex
 
             uiManager.ShowRoundResult(winner, display_t1, display_t2);
 
-            // Tambahkan delay permulaan terlama ke waktu tunggu layar hasil agar aksi sempat dimainkan utuh
             float maxStartDelay = Mathf.Max(p1Delay, p2Delay);
-            
+
             yield return new WaitForSeconds(2.5f + maxStartDelay);
             uiManager.HideRoundResult();
         }
