@@ -19,20 +19,29 @@ namespace WizardPunk.Reflex
         [SerializeField] private GameObject roundResultPanel;
         [SerializeField] private GameObject interRoundPanel;
 
+        [Header("── Tutorial ──")]
+        [SerializeField] private GameObject tutorialPanel;   // Panel Tutorial
+        [SerializeField] private Button tutorialGoButton;    // Tombol GO
+
+        public bool IsTutorialDone { get; private set; }
+
         [Header("── Hearts UI ───────────────────────────")]
         [SerializeField] private GameObject[] p1HeartIcons;
         [SerializeField] private GameObject[] p2HeartIcons;
 
-        // --- TAMBAHAN UNTUK HIGHLIGHT BATU-GUNTING-KERTAS ---
+        // --- HIGHLIGHT BATU-GUNTING-KERTAS ---
         [Header("── RPS Action UI ───────────────────────")]
         [Tooltip("0: Block(Rock), 1: Penetration(Paper), 2: Counter(Scissors)")]
         [SerializeField] private Image[] p1ActionIcons;
         [SerializeField] private Image[] p2ActionIcons;
-        [SerializeField] private Color unselectedColor = new Color(0.4f, 0.4f, 0.4f, 0.6f); // Redup
-        [SerializeField] private Color selectedColor = Color.white;                         // Terang
-        [SerializeField] private float unselectedScale = 0.8f;                              // Mengecil
-        [SerializeField] private float selectedScale = 1.1f;                                // Membesar
+        [SerializeField] private Color unselectedColor = new Color(0.4f, 0.4f, 0.4f, 0.6f);
+        [SerializeField] private Color selectedColor = Color.white;
+        [SerializeField] private float unselectedScale = 0.8f;
+        [SerializeField] private float selectedScale = 1.1f;
         // ----------------------------------------------------
+
+        [Header("── Times Up Pop-Up ──")]
+        [SerializeField] private GameObject timesUpPanel;    // Panel Times Up
 
         [Header("── Result Pop-Up ──")]
         [SerializeField] private GameObject popupBackground;
@@ -84,9 +93,20 @@ namespace WizardPunk.Reflex
             if (ReflexScoreManager.Instance != null)
                 ReflexScoreManager.Instance.OnHeartsUpdated += UpdateHeartsUI;
 
+            if (timesUpPanel != null) timesUpPanel.SetActive(false); // Pastikan tertutup di awal
+
             if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
             if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
             if (drawNextButton != null) drawNextButton.onClick.AddListener(GoToNextGame);
+
+            // --- FUNGSI BARU: Tombol GO Tutorial ---
+            if (tutorialGoButton != null)
+            {
+                tutorialGoButton.onClick.AddListener(() =>
+                {
+                    IsTutorialDone = true;
+                });
+            }
         }
 
         void OnDestroy()
@@ -94,6 +114,19 @@ namespace WizardPunk.Reflex
             if (ReflexScoreManager.Instance != null)
                 ReflexScoreManager.Instance.OnHeartsUpdated -= UpdateHeartsUI;
         }
+
+        // --- FUNGSI BARU: Tampilkan & Sembunyikan Tutorial ---
+        public void ShowTutorial()
+        {
+            IsTutorialDone = false;
+            if (tutorialPanel != null) tutorialPanel.SetActive(true);
+        }
+
+        public void HideTutorial()
+        {
+            if (tutorialPanel != null) tutorialPanel.SetActive(false);
+        }
+        // -----------------------------------------------------
 
         public void HideAll()
         {
@@ -103,7 +136,8 @@ namespace WizardPunk.Reflex
             drawPanel?.SetActive(false);
             roundResultPanel?.SetActive(false);
             interRoundPanel?.SetActive(false);
-
+            tutorialPanel?.SetActive(false);
+            timesUpPanel?.SetActive(false); // Pastikan Times Up ikut tersembunyi
             popupBackground?.SetActive(false);
         }
 
@@ -112,7 +146,19 @@ namespace WizardPunk.Reflex
             gameScreenPanel?.SetActive(true);
         }
 
-        // --- FUNGSI BARU: Mengatur Visual RPS UI ---
+        // --- FUNGSI BARU: Tampilkan & Sembunyikan Times Up ---
+        public void ShowTimesUp()
+        {
+            if (timesUpPanel != null) timesUpPanel.SetActive(true);
+        }
+
+        public void HideTimesUp()
+        {
+            if (timesUpPanel != null) timesUpPanel.SetActive(false);
+        }
+        // -----------------------------------------------------
+
+        // --- MENGATUR VISUAL RPS UI ---
         public void ResetActionUI(int playerId)
         {
             Image[] icons = (playerId == 1) ? p1ActionIcons : p2ActionIcons;
@@ -147,7 +193,6 @@ namespace WizardPunk.Reflex
                 }
             }
         }
-        // ------------------------------------------
 
         // --- SISTEM HEARTS ---
         private void UpdateHeartsUI(int p1Hearts, int p2Hearts)

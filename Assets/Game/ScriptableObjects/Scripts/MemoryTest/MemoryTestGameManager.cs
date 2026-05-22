@@ -18,7 +18,6 @@ namespace WizardPunk.MemoryTest
         private int p1InputIdx, p2InputIdx;
         private bool isInputPhase;
 
-        // Dari Versi 2: Sistem kesulitan dan batas waktu
         private int currentActiveRunes;
         private readonly string[] diffNames = { "EASY", "MEDIUM", "HARD", "EXPERT" };
         private readonly int[] runeCounts = { 3, 4, 5, 6 };
@@ -26,38 +25,28 @@ namespace WizardPunk.MemoryTest
 
         void Start()
         {
-            // Bersihkan referensi "Missing" yang rusak agar auto-find bisa bekerja
             if (p1SerialReader == null) p1SerialReader = null;
             if (p2SerialReader == null) p2SerialReader = null;
 
-            // Cari semua reader di scene
             WandSerialReader[] readers = FindObjectsOfType<WandSerialReader>();
 
-            // Logika Auto-Assignment yang lebih cerdas berdasarkan nama objek
             foreach (var reader in readers)
             {
-                // Jika nama objek mengandung "P1" atau "Player1"
                 if (reader.name.ToUpper().Contains("P1") || reader.name.ToUpper().Contains("PLAYER1"))
                 {
                     if (p1SerialReader == null) p1SerialReader = reader;
                 }
-                // Jika nama objek mengandung "P2" atau "Player2"
                 else if (reader.name.ToUpper().Contains("P2") || reader.name.ToUpper().Contains("PLAYER2"))
                 {
                     if (p2SerialReader == null) p2SerialReader = reader;
                 }
             }
 
-            // Fallback terakhir: jika tetap null setelah cek nama, pakai urutan array (Lotere)
             if (p1SerialReader == null && readers.Length > 0) p1SerialReader = readers[0];
             if (p2SerialReader == null && readers.Length > 1) p2SerialReader = (readers[0] == p1SerialReader) ? readers[1] : readers[0];
 
-            // DIAGNOSIS RADIOLOGI: Jangan biarkan game jalan jika hardware tidak siap
-            if (p1SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P1 Wand Manager tidak ditemukan di scene!");
-            if (p2SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P2 Wand Manager tidak ditemukan di scene!");
-
-            Debug.Log($"[MemoryTest] P1 Linked to: {(p1SerialReader != null ? p1SerialReader.name : "NONE")}");
-            Debug.Log($"[MemoryTest] P2 Linked to: {(p2SerialReader != null ? p2SerialReader.name : "NONE")}");
+            if (p1SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P1 Wand Manager tidak ditemukan!");
+            if (p2SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P2 Wand Manager tidak ditemukan!");
 
             Time.timeScale = 1f;
             StartCoroutine(GameLoop());
@@ -73,6 +62,15 @@ namespace WizardPunk.MemoryTest
 
         private IEnumerator GameLoop()
         {
+            // --- TAMBAHAN: FASE TUTORIAL ---
+            uiManager.ShowTutorial();
+
+            // Tunggu sampai pemain menekan tombol GO (IsTutorialDone menjadi true)
+            yield return new WaitUntil(() => uiManager.IsTutorialDone);
+
+            uiManager.HideTutorial();
+            // -------------------------------
+
             scoreManager.ResetScores();
 
             // Loop ronde kesulitan
@@ -94,13 +92,9 @@ namespace WizardPunk.MemoryTest
 
                 uiManager.ShowCenterText("GO!");
 
-                // Buang semua gesture yang tertinggal dari fase hint
-                // supaya player harus benar-benar melakukan gesture baru
                 p1SerialReader?.FlushGesture();
                 p2SerialReader?.FlushGesture();
 
-                // Sedikit delay setelah flush sebelum input aktif
-                // memberi waktu buffer benar-benar bersih
                 yield return new WaitForSeconds(0.1f);
 
                 p1InputIdx = 0;
@@ -129,17 +123,19 @@ namespace WizardPunk.MemoryTest
                 runeManager.ResetAll();
             }
 
-            uiManager.ShowCenterText("MATCH FINISHED!");
-            yield return new WaitForSeconds(3f);
+            // --- PERUBAHAN: Menampilkan Pop-Up Times Up ---
+            uiManager.HideCenterText();
+            uiManager.ShowTimesUp();
+            yield return new WaitForSeconds(3f); // Tahan pop-up selama 3 detik
+            uiManager.HideTimesUp();
+            // ----------------------------------------------
 
             int finalP1Score = scoreManager.ScoreP1;
             int finalP2Score = scoreManager.ScoreP2;
 
-            // --- TAMBAHAN ENDSCREEN: Simpan Skor Game 1 ---
             PlayerPrefs.SetInt("G1_ScoreP1", finalP1Score);
             PlayerPrefs.SetInt("G1_ScoreP2", finalP2Score);
             PlayerPrefs.Save();
-            // ----------------------------------------------
 
             uiManager.ShowResultPopup(finalP1Score, finalP2Score);
         }
@@ -164,11 +160,8 @@ namespace WizardPunk.MemoryTest
 
         private WandDirection GetInput(int pId)
         {
-            // Tentukan reader aktif
-            WandSerialReader activeReader =
-                (pId == 1) ? p1SerialReader : p2SerialReader;
+            WandSerialReader activeReader = (pId == 1) ? p1SerialReader : p2SerialReader;
 
-            // ===== SERIAL INPUT =====
             if (activeReader != null)
             {
                 string gesture = activeReader.ConsumeGesture();
@@ -179,7 +172,6 @@ namespace WizardPunk.MemoryTest
                 if (gesture == "R") return WandDirection.Right;
             }
 
-            // ===== FALLBACK KEYBOARD =====
             if (pId == 1)
             {
                 if (Input.GetKeyDown(KeyCode.UpArrow)) return WandDirection.Up;
