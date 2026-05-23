@@ -260,7 +260,7 @@ namespace WizardPunk.Reflex
             drawPanel?.SetActive(true);
             if (goText != null)
             {
-                goText.text = "DRAW!";
+                goText.text = "GO!!!";
                 goText.transform.localScale = Vector3.one * 3f;
                 StartCoroutine(ScaleTo(goText.transform, Vector3.one, 0.2f));
             }
