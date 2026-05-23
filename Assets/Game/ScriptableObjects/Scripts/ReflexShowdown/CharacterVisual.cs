@@ -114,7 +114,9 @@ namespace WizardPunk.Reflex
                 if (action != RpsType.None)
                 {
                     TriggerActionAnim(action);
-                    StartCoroutine(TriggerAfterDelay("DoWin", winTransitionDelay));
+                    // Gunakan delay sangat kecil (0.1s) agar Animator sempat masuk ke state jurus
+                    // sebelum menerima trigger "DoWin", menghindari bug "Double Trigger" Unity.
+                    StartCoroutine(TriggerAfterDelay("DoWin", 0.1f));
                 }
                 else
                 {
@@ -135,7 +137,7 @@ namespace WizardPunk.Reflex
                 if (action != RpsType.None)
                 {
                     TriggerActionAnim(action);
-                    StartCoroutine(TriggerAfterDelay("DoDie", dieTransitionDelay));
+                    StartCoroutine(TriggerAfterDelay("DoDie", 0.1f));
                 }
                 else
                 {
