@@ -1,4 +1,4 @@
-// Assets/_Game/Scripts/HyperSmash/ShootingSystem.cs
+﻿// Assets/_Game/Scripts/HyperSmash/ShootingSystem.cs
 // ─────────────────────────────────────────────────────────────
 // PERUBAHAN DARI VERSI SEBELUMNYA:
 //   - Singleton dihapus → static array Instances[2]
@@ -109,10 +109,10 @@ namespace WizardPunk.HyperSmash
 
             // Cari titik jatuh tembakan (target) sejauh max range
             Vector3 targetPoint = aimRay.GetPoint(config.projectileRange);
-            
+
             // Tentukan posisi awal
             Vector3 spawnPos = firePoint != null ? firePoint.position : aimRay.origin;
-            
+
             // Arahkan proyektil dari titik spawn (Wand/Kamera) menuju target point (Crosshair)
             Vector3 fireDirection = (targetPoint - spawnPos).normalized;
 

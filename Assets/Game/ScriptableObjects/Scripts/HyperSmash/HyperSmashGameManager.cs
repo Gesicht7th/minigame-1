@@ -1,5 +1,3 @@
-// Assets/_Game/Scripts/HyperSmash/HyperSmashGameManager.cs
-
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,9 +15,7 @@ namespace WizardPunk.HyperSmash
         [SerializeField] private ShootingSystem shootingSystem;
         [SerializeField] private CrystalSpawner crystalSpawner;
         [SerializeField] private HyperSmashScoreManager scoreManager;
-
         [SerializeField] private HyperSmashDummieUIManager uiManager;
-
         [SerializeField] private CorridorBuilder corridorBuilder;
         [SerializeField] private EndlessStageManager endlessStageManager;
 
@@ -38,7 +34,6 @@ namespace WizardPunk.HyperSmash
         void Start()
         {
             Time.timeScale = 1f;
-
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
@@ -46,7 +41,6 @@ namespace WizardPunk.HyperSmash
             {
                 var go = new GameObject("SceneFlowManager_AutoCreated");
                 go.AddComponent<SceneFlowManager>();
-                Debug.LogWarning("[Scene] SceneFlowManager dibuat otomatis.");
             }
 
             StartCoroutine(GameFlow());
@@ -66,32 +60,20 @@ namespace WizardPunk.HyperSmash
         {
             scoreManager.ResetAll();
             aimController?.ResetToCenter();
-
-            // 1. Sembunyikan semua UI dan bersihkan layar
             uiManager?.HideAll();
 
-            // 2. Setup stage (lorong & kristal) SEBELUM tutorial agar layar tidak kosong
             if (endlessStageManager != null) endlessStageManager.InitializeEndlessStage();
             else corridorBuilder?.BuildCorridor();
 
-            // 3. --- FASE TUTORIAL ---
             uiManager?.ShowTutorial();
-
-            // Tunggu sampai pemain menekan tombol GO di tutorial
             yield return new WaitUntil(() => uiManager != null && uiManager.IsTutorialDone);
-
-            // Sembunyikan tutorial
             uiManager?.HideTutorial();
-            // ---------------------
 
-            // 4. SETELAH GO ditekan, baru munculkan Game Screen (HUD Skor, Timer, dll)
             uiManager?.ShowGameScreen();
 
-            // Mulai hitung mundur Ronde 1
             SetState(HyperSmashState.Countdown);
             yield return StartCoroutine(PlayCountdown("GET READY!"));
 
-            // Loop Ronde
             for (int round = 1; round <= config.roundsPerGame; round++)
             {
                 CurrentRound = round;
@@ -107,7 +89,6 @@ namespace WizardPunk.HyperSmash
         private IEnumerator PlayRound(int roundNumber)
         {
             SetState(HyperSmashState.Playing);
-
             cameraController?.ResetPosition(Vector3.zero);
             cameraController?.StartMoving();
 
@@ -115,7 +96,6 @@ namespace WizardPunk.HyperSmash
                 if (shooter != null) shooter.StartShooting();
 
             crystalSpawner?.StartSpawning();
-
             RoundTimer = config.roundDurationSeconds;
             uiManager?.ShowRoundLabel(roundNumber, config.roundsPerGame);
 
@@ -128,15 +108,15 @@ namespace WizardPunk.HyperSmash
 
             crystalSpawner?.StopSpawning();
 
-            // --- TIMES UP POP-UP ---
+            // --- AUDIO & POP-UP TIMES UP ---
             if (uiManager != null)
             {
+                HyperSmashSoundController.Instance?.PlayTimesUpSound();
                 yield return StartCoroutine(uiManager.ShowTimesUp());
             }
-            // -----------------------
+            // -------------------------------
 
             ClearAllCrystals();
-
             SetState(HyperSmashState.RoundOver);
         }
 
@@ -144,11 +124,7 @@ namespace WizardPunk.HyperSmash
         {
             int nextRound = justFinishedRound + 1;
             uiManager?.ShowInterRoundPanel(
-                justFinishedRound,
-                scoreManager.ScoreP1,
-                scoreManager.ScoreP2,
-                nextRound,
-                config.roundsPerGame
+                justFinishedRound, scoreManager.ScoreP1, scoreManager.ScoreP2, nextRound, config.roundsPerGame
             );
 
             yield return StartCoroutine(PlayCountdown($"ROUND {nextRound}"));
@@ -157,7 +133,7 @@ namespace WizardPunk.HyperSmash
 
         private IEnumerator PlayCountdown(string label)
         {
-            Time.timeScale = 0f; // FREEZE GAME
+            Time.timeScale = 0f;
             uiManager?.ShowCountdown(label);
             yield return new WaitForSecondsRealtime(0.8f);
             for (int i = config.countdownStart; i >= 1; i--)
@@ -168,7 +144,7 @@ namespace WizardPunk.HyperSmash
             uiManager?.ShowCountdown("GO!");
             yield return new WaitForSecondsRealtime(0.6f);
             uiManager?.HideCountdown();
-            Time.timeScale = 1f; // UNFREEZE GAME
+            Time.timeScale = 1f;
         }
 
         private IEnumerator EndGameSequence()
@@ -182,6 +158,10 @@ namespace WizardPunk.HyperSmash
             PlayerPrefs.SetInt("G2_ScoreP1", scoreManager.ScoreP1);
             PlayerPrefs.SetInt("G2_ScoreP2", scoreManager.ScoreP2);
             PlayerPrefs.Save();
+
+            // --- AUDIO RESULT SCENE ---
+            HyperSmashSoundController.Instance?.PlayResultSound();
+            // --------------------------
 
             uiManager?.ShowResultPopup(scoreManager.ScoreP1, scoreManager.ScoreP2);
         }

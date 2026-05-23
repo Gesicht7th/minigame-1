@@ -62,18 +62,12 @@ namespace WizardPunk.MemoryTest
 
         private IEnumerator GameLoop()
         {
-            // --- TAMBAHAN: FASE TUTORIAL ---
             uiManager.ShowTutorial();
-
-            // Tunggu sampai pemain menekan tombol GO (IsTutorialDone menjadi true)
             yield return new WaitUntil(() => uiManager.IsTutorialDone);
-
             uiManager.HideTutorial();
-            // -------------------------------
 
             scoreManager.ResetScores();
 
-            // Loop ronde kesulitan
             for (int r = 0; r < 4; r++)
             {
                 currentActiveRunes = runeCounts[r];
@@ -123,12 +117,18 @@ namespace WizardPunk.MemoryTest
                 runeManager.ResetAll();
             }
 
-            // --- PERUBAHAN: Menampilkan Pop-Up Times Up ---
+            // === UPDATE: SFX TIMES UP ===
             uiManager.HideCenterText();
+
+            if (MemoryTestSoundController.Instance != null)
+            {
+                MemoryTestSoundController.Instance.PlayTimesUpSound();
+            }
+
             uiManager.ShowTimesUp();
-            yield return new WaitForSeconds(3f); // Tahan pop-up selama 3 detik
+            yield return new WaitForSeconds(3f);
             uiManager.HideTimesUp();
-            // ----------------------------------------------
+            // ============================
 
             int finalP1Score = scoreManager.ScoreP1;
             int finalP2Score = scoreManager.ScoreP2;
@@ -137,7 +137,14 @@ namespace WizardPunk.MemoryTest
             PlayerPrefs.SetInt("G1_ScoreP2", finalP2Score);
             PlayerPrefs.Save();
 
+            // === UPDATE: SFX RESULT/PEMENANG ===
+            if (MemoryTestSoundController.Instance != null)
+            {
+                MemoryTestSoundController.Instance.PlayResultSound();
+            }
+
             uiManager.ShowResultPopup(finalP1Score, finalP2Score);
+            // ===================================
         }
 
         private void HandlePlayerInput(int pId)
@@ -154,6 +161,14 @@ namespace WizardPunk.MemoryTest
             bool correct = (dir == target.AssignedDirection);
             target.ShowResult(correct);
             scoreManager.ApplyScore(pId, correct);
+
+            if (!correct)
+            {
+                if (MemoryTestSoundController.Instance != null)
+                {
+                    MemoryTestSoundController.Instance.PlayWrongGuessSound();
+                }
+            }
 
             if (pId == 1) p1InputIdx++; else p2InputIdx++;
         }

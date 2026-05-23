@@ -698,7 +698,7 @@ MonoBehaviour:
   runeLeftObj: {fileID: 1728533369}
   runeRightObj: {fileID: 754977800}
   runeLight: {fileID: 1751998}
-  runeSfxSource: {fileID: 1229445938}
+  runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
@@ -920,7 +920,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 2375, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &78747029
@@ -1507,7 +1507,7 @@ MonoBehaviour:
   runeLeftObj: {fileID: 1083066184}
   runeRightObj: {fileID: 1416067637}
   runeLight: {fileID: 230063351}
-  runeSfxSource: {fileID: 1229445938}
+  runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
@@ -2719,7 +2719,7 @@ MonoBehaviour:
   runeLeftObj: {fileID: 1996254837}
   runeRightObj: {fileID: 138065438}
   runeLight: {fileID: 1856569270}
-  runeSfxSource: {fileID: 1229445938}
+  runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
@@ -3773,6 +3773,7 @@ GameObject:
   - component: {fileID: 359269266}
   - component: {fileID: 359269265}
   - component: {fileID: 359269268}
+  - component: {fileID: 359269269}
   m_Layer: 5
   m_Name: Draw Next
   m_TagString: Untagged
@@ -3897,6 +3898,28 @@ MonoBehaviour:
   selectClip: {fileID: 8300000, guid: 7971becaa0ef575408461574c3ca52e2, type: 3}
   backClip: {fileID: 8300000, guid: bb705f8a63df76c458e1117b49df273b, type: 3}
   isBackButton: 0
+--- !u!95 &359269269
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359269263}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cafd272d36ea67b489d769f405d3267c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &360639041
 GameObject:
   m_ObjectHideFlags: 0
@@ -4307,51 +4330,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 400440056}
   m_CullTransparentMesh: 1
---- !u!1 &401274628
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 401274629}
-  - component: {fileID: 401274630}
-  m_Layer: 0
-  m_Name: AudioManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &401274629
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401274628}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1066.3539, y: 0.00001, z: -2317.277}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 686775627}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &401274630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 401274628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbfd4735aab598749b2e5c85503d99ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.AudioManager
-  audioSource: {fileID: 0}
 --- !u!1 &403552843
 GameObject:
   m_ObjectHideFlags: 0
@@ -4800,7 +4778,7 @@ RectTransform:
   m_GameObject: {fileID: 461531764}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.85725, y: 0.85725, z: 0.85725}
+  m_LocalScale: {x: 0.72389615, y: 0.72389615, z: 0.72389615}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 753671722}
@@ -4810,7 +4788,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8, y: 62}
+  m_AnchoredPosition: {x: 0, y: 62}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &461531766
@@ -5847,7 +5825,7 @@ MonoBehaviour:
   runeLeftObj: {fileID: 282407072}
   runeRightObj: {fileID: 936453721}
   runeLight: {fileID: 951884318}
-  runeSfxSource: {fileID: 1229445938}
+  runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
@@ -6056,7 +6034,7 @@ MonoBehaviour:
   runeLeftObj: {fileID: 392112324}
   runeRightObj: {fileID: 759852331}
   runeLight: {fileID: 448421131}
-  runeSfxSource: {fileID: 1229445938}
+  runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
@@ -6547,7 +6525,6 @@ Transform:
   - {fileID: 1675116430}
   - {fileID: 592096824}
   - {fileID: 1498360661}
-  - {fileID: 401274629}
   - {fileID: 385949713}
   - {fileID: 313229517}
   - {fileID: 1295233686}
@@ -6886,7 +6863,7 @@ MonoBehaviour:
   runeLeftObj: {fileID: 1997210646}
   runeRightObj: {fileID: 1324713843}
   runeLight: {fileID: 2022911390}
-  runeSfxSource: {fileID: 1229445938}
+  runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
@@ -7004,7 +6981,7 @@ MonoBehaviour:
   runeLeftObj: {fileID: 8084811866323914296}
   runeRightObj: {fileID: 9130861833873362217}
   runeLight: {fileID: 1412377080}
-  runeSfxSource: {fileID: 1229445938}
+  runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
@@ -7844,7 +7821,7 @@ MonoBehaviour:
   runeLeftObj: {fileID: 1333861533}
   runeRightObj: {fileID: 676525042}
   runeLight: {fileID: 630433636}
-  runeSfxSource: {fileID: 1229445938}
+  runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
@@ -8743,7 +8720,7 @@ MonoBehaviour:
   runeLeftObj: {fileID: 1408488455}
   runeRightObj: {fileID: 1846883697}
   runeLight: {fileID: 2119178913}
-  runeSfxSource: {fileID: 1229445938}
+  runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
@@ -8825,7 +8802,7 @@ MonoBehaviour:
   runeLeftObj: {fileID: 1513469417}
   runeRightObj: {fileID: 510306411}
   runeLight: {fileID: 1173252547}
-  runeSfxSource: {fileID: 1229445938}
+  runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
@@ -10613,6 +10590,7 @@ GameObject:
   - component: {fileID: 1217118278}
   - component: {fileID: 1217118277}
   - component: {fileID: 1217118280}
+  - component: {fileID: 1217118281}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -10737,6 +10715,28 @@ MonoBehaviour:
   selectClip: {fileID: 8300000, guid: 7971becaa0ef575408461574c3ca52e2, type: 3}
   backClip: {fileID: 8300000, guid: bb705f8a63df76c458e1117b49df273b, type: 3}
   isBackButton: 0
+--- !u!95 &1217118281
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1217118275}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d187b471a8ad1a748856f87530cb9288, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1218402877
 GameObject:
   m_ObjectHideFlags: 0
@@ -11049,7 +11049,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1229445936}
   - component: {fileID: 1229445937}
-  - component: {fileID: 1229445938}
   m_Layer: 0
   m_Name: ArenaRoot
   m_TagString: Untagged
@@ -11113,104 +11112,7 @@ MonoBehaviour:
   idleColor: {r: 0.1, g: 0.05, b: 0.2, a: 1}
   activeColor: {r: 0.25, g: 0.1, b: 0.5, a: 1}
   runeAudioSource: {fileID: 0}
-  stoneGrindClip: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
---- !u!82 &1229445938
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1229445935}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 0.189
-  m_Pitch: -1.09
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  stoneGrindClip: {fileID: 0}
 --- !u!1 &1236913695
 GameObject:
   m_ObjectHideFlags: 0
@@ -11301,6 +11203,55 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1236913695}
   m_Mesh: {fileID: -6457054157927958932, guid: 0eb2aa87ace4f6c43b25a7bd3a3f6aa8, type: 3}
+--- !u!1 &1270737828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1270737830}
+  - component: {fileID: 1270737829}
+  m_Layer: 0
+  m_Name: SFX_MemoryTest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1270737829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1270737828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccdb01990f1af0d48873183de2e45d9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.MemoryTestSoundController
+  arrowAppearSFX: {fileID: 8300000, guid: 6325e89d87af2ba40b219e369b259fcb, type: 3}
+  stoneMoveSFX: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
+  wrongGuessSFX: {fileID: 8300000, guid: 60b1250288025e04e9b3c4c7ef93b74d, type: 3}
+  timesUpSFX: {fileID: 8300000, guid: cb3b7a4a34ac80d4a87a258a7f328b9b, type: 3}
+  resultSFX: {fileID: 8300000, guid: 57367bfab7f78034589d9ae0f7dbe37e, type: 3}
+--- !u!4 &1270737830
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1270737828}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1326.3041, y: -0.00002, z: 5276.265}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1295233685
 GameObject:
   m_ObjectHideFlags: 0
@@ -13181,7 +13132,7 @@ MonoBehaviour:
   runeLeftObj: {fileID: 1236913695}
   runeRightObj: {fileID: 555069915}
   runeLight: {fileID: 1948537756}
-  runeSfxSource: {fileID: 1229445938}
+  runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
@@ -15349,7 +15300,7 @@ MonoBehaviour:
   runeLeftObj: {fileID: 28604810}
   runeRightObj: {fileID: 1738729813}
   runeLight: {fileID: 20128312}
-  runeSfxSource: {fileID: 1229445938}
+  runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
@@ -15609,6 +15560,7 @@ GameObject:
   - component: {fileID: 1844727826}
   - component: {fileID: 1844727825}
   - component: {fileID: 1844727828}
+  - component: {fileID: 1844727829}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -15633,7 +15585,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 530, y: -307}
+  m_AnchoredPosition: {x: 0, y: -307}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1844727825
@@ -15655,7 +15607,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -15733,6 +15685,28 @@ MonoBehaviour:
   selectClip: {fileID: 8300000, guid: 7971becaa0ef575408461574c3ca52e2, type: 3}
   backClip: {fileID: 8300000, guid: bb705f8a63df76c458e1117b49df273b, type: 3}
   isBackButton: 0
+--- !u!95 &1844727829
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844727823}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 51ae08cb74c062d4eb8a40a620eee33b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1846883697
 GameObject:
   m_ObjectHideFlags: 0
@@ -17704,7 +17678,7 @@ RectTransform:
   m_GameObject: {fileID: 2097936246}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.85725, y: 0.85725, z: 0.85725}
+  m_LocalScale: {x: 0.72389615, y: 0.72389615, z: 0.72389615}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1608722968}
@@ -17714,7 +17688,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -133, y: 62}
+  m_AnchoredPosition: {x: 0, y: 62}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2097936248
@@ -17861,6 +17835,7 @@ GameObject:
   - component: {fileID: 2108166154}
   - component: {fileID: 2108166153}
   - component: {fileID: 2108166156}
+  - component: {fileID: 2108166157}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -17985,6 +17960,28 @@ MonoBehaviour:
   selectClip: {fileID: 8300000, guid: 7971becaa0ef575408461574c3ca52e2, type: 3}
   backClip: {fileID: 8300000, guid: bb705f8a63df76c458e1117b49df273b, type: 3}
   isBackButton: 0
+--- !u!95 &2108166157
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108166151}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d187b471a8ad1a748856f87530cb9288, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2116615670
 GameObject:
   m_ObjectHideFlags: 0
@@ -18955,3 +18952,4 @@ SceneRoots:
   - {fileID: 2104579269}
   - {fileID: 846542325}
   - {fileID: 508159721}
+  - {fileID: 1270737830}

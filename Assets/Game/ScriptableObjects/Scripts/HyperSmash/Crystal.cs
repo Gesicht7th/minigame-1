@@ -144,6 +144,13 @@ namespace WizardPunk.HyperSmash
             if (isDead) return;
             isDead = true;
 
+            // === TAMBAHAN AUDIO KRISTAL HANCUR ===
+            if (HyperSmashSoundController.Instance != null)
+            {
+                HyperSmashSoundController.Instance.PlayCrystalDestroySound();
+            }
+            // =====================================
+
             if (breakParticles != null)
             {
                 breakParticles.transform.SetParent(null);
@@ -151,11 +158,9 @@ namespace WizardPunk.HyperSmash
                 Destroy(breakParticles.gameObject, breakParticles.main.duration + 1f);
             }
 
-            // Notify score system — sertakan siapa yang membunuh
             OnCrystalDestroyed?.Invoke(this, killer);
             HyperSmashGameManager.Instance?.OnCrystalKilled(this, killer);
 
-            // Jika statis di dalam goa, sembunyikan saja agar bisa di-respawn nanti
             if (isStaticObstacle)
             {
                 gameObject.SetActive(false);
