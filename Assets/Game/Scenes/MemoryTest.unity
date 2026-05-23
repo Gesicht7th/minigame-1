@@ -3772,6 +3772,7 @@ GameObject:
   - component: {fileID: 359269267}
   - component: {fileID: 359269266}
   - component: {fileID: 359269265}
+  - component: {fileID: 359269268}
   m_Layer: 5
   m_Name: Draw Next
   m_TagString: Untagged
@@ -3881,6 +3882,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 359269263}
   m_CullTransparentMesh: 1
+--- !u!114 &359269268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359269263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f1497e3d9669c341bf5fef59518a2cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.MenuButtonSound
+  selectClip: {fileID: 8300000, guid: 7971becaa0ef575408461574c3ca52e2, type: 3}
+  backClip: {fileID: 8300000, guid: bb705f8a63df76c458e1117b49df273b, type: 3}
+  isBackButton: 0
 --- !u!1 &360639041
 GameObject:
   m_ObjectHideFlags: 0
@@ -4335,11 +4351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbfd4735aab598749b2e5c85503d99ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.AudioManager
-  sfxEntries: []
-  bgmEntries: []
-  masterVolume: 1
-  sfxVolume: 1
-  bgmVolume: 0.6
+  audioSource: {fileID: 0}
 --- !u!1 &403552843
 GameObject:
   m_ObjectHideFlags: 0
@@ -10600,6 +10612,7 @@ GameObject:
   - component: {fileID: 1217118279}
   - component: {fileID: 1217118278}
   - component: {fileID: 1217118277}
+  - component: {fileID: 1217118280}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -10709,6 +10722,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1217118275}
   m_CullTransparentMesh: 1
+--- !u!114 &1217118280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1217118275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f1497e3d9669c341bf5fef59518a2cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.MenuButtonSound
+  selectClip: {fileID: 8300000, guid: 7971becaa0ef575408461574c3ca52e2, type: 3}
+  backClip: {fileID: 8300000, guid: bb705f8a63df76c458e1117b49df273b, type: 3}
+  isBackButton: 0
 --- !u!1 &1218402877
 GameObject:
   m_ObjectHideFlags: 0
@@ -14285,7 +14313,7 @@ MonoBehaviour:
   p1NextButton: {fileID: 1217118277}
   p2NextButton: {fileID: 2108166153}
   drawNextButton: {fileID: 359269265}
-  nextSceneName: HyperSmash
+  nextSceneName: test hypersmash
 --- !u!114 &1655882094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15580,6 +15608,7 @@ GameObject:
   - component: {fileID: 1844727827}
   - component: {fileID: 1844727826}
   - component: {fileID: 1844727825}
+  - component: {fileID: 1844727828}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -15689,6 +15718,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844727823}
   m_CullTransparentMesh: 1
+--- !u!114 &1844727828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844727823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f1497e3d9669c341bf5fef59518a2cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.MenuButtonSound
+  selectClip: {fileID: 8300000, guid: 7971becaa0ef575408461574c3ca52e2, type: 3}
+  backClip: {fileID: 8300000, guid: bb705f8a63df76c458e1117b49df273b, type: 3}
+  isBackButton: 0
 --- !u!1 &1846883697
 GameObject:
   m_ObjectHideFlags: 0
@@ -17816,6 +17860,7 @@ GameObject:
   - component: {fileID: 2108166155}
   - component: {fileID: 2108166154}
   - component: {fileID: 2108166153}
+  - component: {fileID: 2108166156}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -17925,6 +17970,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2108166151}
   m_CullTransparentMesh: 1
+--- !u!114 &2108166156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108166151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f1497e3d9669c341bf5fef59518a2cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.MenuButtonSound
+  selectClip: {fileID: 8300000, guid: 7971becaa0ef575408461574c3ca52e2, type: 3}
+  backClip: {fileID: 8300000, guid: bb705f8a63df76c458e1117b49df273b, type: 3}
+  isBackButton: 0
 --- !u!1 &2116615670
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,7 +17,9 @@ namespace WizardPunk.HyperSmash
         [SerializeField] private ShootingSystem shootingSystem;
         [SerializeField] private CrystalSpawner crystalSpawner;
         [SerializeField] private HyperSmashScoreManager scoreManager;
-        [SerializeField] private HyperSmashUIManager uiManager;
+
+        [SerializeField] private HyperSmashDummieUIManager uiManager;
+
         [SerializeField] private CorridorBuilder corridorBuilder;
         [SerializeField] private EndlessStageManager endlessStageManager;
 
@@ -64,16 +66,32 @@ namespace WizardPunk.HyperSmash
         {
             scoreManager.ResetAll();
             aimController?.ResetToCenter();
-            uiManager?.HideAll();
-            
-            // Mulai stage endless atau fallback ke procedural
-            if (endlessStageManager != null) endlessStageManager.InitializeEndlessStage();
-            else corridorBuilder?.BuildCorridor(); 
 
-            SetState(HyperSmashState.Countdown);
+            // 1. Sembunyikan semua UI dan bersihkan layar
+            uiManager?.HideAll();
+
+            // 2. Setup stage (lorong & kristal) SEBELUM tutorial agar layar tidak kosong
+            if (endlessStageManager != null) endlessStageManager.InitializeEndlessStage();
+            else corridorBuilder?.BuildCorridor();
+
+            // 3. --- FASE TUTORIAL ---
+            uiManager?.ShowTutorial();
+
+            // Tunggu sampai pemain menekan tombol GO di tutorial
+            yield return new WaitUntil(() => uiManager != null && uiManager.IsTutorialDone);
+
+            // Sembunyikan tutorial
+            uiManager?.HideTutorial();
+            // ---------------------
+
+            // 4. SETELAH GO ditekan, baru munculkan Game Screen (HUD Skor, Timer, dll)
             uiManager?.ShowGameScreen();
+
+            // Mulai hitung mundur Ronde 1
+            SetState(HyperSmashState.Countdown);
             yield return StartCoroutine(PlayCountdown("GET READY!"));
 
+            // Loop Ronde
             for (int round = 1; round <= config.roundsPerGame; round++)
             {
                 CurrentRound = round;
@@ -109,6 +127,14 @@ namespace WizardPunk.HyperSmash
                 if (shooter != null) shooter.StopShooting();
 
             crystalSpawner?.StopSpawning();
+
+            // --- TIMES UP POP-UP ---
+            if (uiManager != null)
+            {
+                yield return StartCoroutine(uiManager.ShowTimesUp());
+            }
+            // -----------------------
+
             ClearAllCrystals();
 
             SetState(HyperSmashState.RoundOver);
@@ -153,11 +179,9 @@ namespace WizardPunk.HyperSmash
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
-            // --- TAMBAHAN ENDSCREEN: Simpan Skor Game 2 ---
             PlayerPrefs.SetInt("G2_ScoreP1", scoreManager.ScoreP1);
             PlayerPrefs.SetInt("G2_ScoreP2", scoreManager.ScoreP2);
             PlayerPrefs.Save();
-            // ----------------------------------------------
 
             uiManager?.ShowResultPopup(scoreManager.ScoreP1, scoreManager.ScoreP2);
         }
@@ -177,7 +201,7 @@ namespace WizardPunk.HyperSmash
             Crystal[] remaining = FindObjectsByType<Crystal>(FindObjectsSortMode.None);
             foreach (var c in remaining)
             {
-                if (c.isStaticObstacle) continue; // MENCEGAH KRISTAL DUMMIE DIHANCURKAN
+                if (c.isStaticObstacle) continue;
                 Destroy(c.gameObject);
             }
         }
