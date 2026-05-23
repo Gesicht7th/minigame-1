@@ -19,6 +19,9 @@ public class DualCrosshairController : MonoBehaviour
 
     void Update()
     {
+        // Cegah pergerakan dan penembakan saat game sedang Freeze (Countdown)
+        if (Time.timeScale == 0f) return;
+
         MoveCrosshair1();
         MoveCrosshair2();
 
@@ -38,7 +41,10 @@ public class DualCrosshairController : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) moveX = -1f;
         if (Input.GetKey(KeyCode.D)) moveX = 1f;
         Vector2 movement = new Vector2(moveX, moveY).normalized * speed1 * Time.deltaTime;
-        crosshair1.anchoredPosition += movement;
+        
+        Vector2 newPos = crosshair1.anchoredPosition + movement;
+        ClampCrosshairPosition(crosshair1, ref newPos);
+        crosshair1.anchoredPosition = newPos;
     }
 
     void MoveCrosshair2()
@@ -50,7 +56,28 @@ public class DualCrosshairController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow)) moveX = -1f;
         if (Input.GetKey(KeyCode.RightArrow)) moveX = 1f;
         Vector2 movement = new Vector2(moveX, moveY).normalized * speed2 * Time.deltaTime;
-        crosshair2.anchoredPosition += movement;
+        
+        Vector2 newPos = crosshair2.anchoredPosition + movement;
+        ClampCrosshairPosition(crosshair2, ref newPos);
+        crosshair2.anchoredPosition = newPos;
+    }
+
+    void ClampCrosshairPosition(RectTransform crosshair, ref Vector2 pos)
+    {
+        RectTransform parent = crosshair.parent as RectTransform;
+        if (parent == null) return;
+
+        // Batas setengah dari parent rect
+        float halfWidth = parent.rect.width / 2f;
+        float halfHeight = parent.rect.height / 2f;
+
+        // Memberikan sedikit margin berdasarkan ukuran crosshair sendiri
+        float paddingX = crosshair.rect.width / 2f;
+        float paddingY = crosshair.rect.height / 2f;
+
+        // Asumsi anchor crosshair ada di tengah (Center-Center)
+        pos.x = Mathf.Clamp(pos.x, -halfWidth + paddingX, halfWidth - paddingX);
+        pos.y = Mathf.Clamp(pos.y, -halfHeight + paddingY, halfHeight - paddingY);
     }
 
     // Fungsi dimodifikasi untuk menerima identitas Player penembak
