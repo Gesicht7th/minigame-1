@@ -42,7 +42,7 @@ namespace WizardPunk.MemoryTest
         [SerializeField] private Button p2NextButton;
         [SerializeField] private Button drawNextButton;
 
-        [SerializeField] private string nextSceneName = "HyperSmash";
+        [SerializeField] private string nextSceneName = "test hypersmash";
 
         public bool IsTutorialDone { get; private set; }
 

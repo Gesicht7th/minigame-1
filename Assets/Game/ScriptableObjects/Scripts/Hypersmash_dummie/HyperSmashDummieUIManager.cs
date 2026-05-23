@@ -16,6 +16,14 @@ public class HyperSmashDummieUIManager : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel2;
     [SerializeField] private GameObject interRoundPanel;
 
+    [Header("── Tutorial ──")]
+    [SerializeField] private GameObject tutorialPanel;   // Panel Tutorial
+    [SerializeField] private Button tutorialGoButton;    // Tombol GO
+    public bool IsTutorialDone { get; private set; }
+
+    [Header("── Times Up Pop-Up ──")]
+    [SerializeField] private GameObject timesUpPanel;    // Panel Times Up
+
     [Header("── HUD Universal ───────────────────────────")]
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private Image timerBarFill;
@@ -77,23 +85,25 @@ public class HyperSmashDummieUIManager : MonoBehaviour
 
     void Start()
     {
-        // Menyembunyikan semua panel yang tidak perlu dan hanya menampilkan HUD Game
-        HideAll();
-        if (gameScreenPanel != null) gameScreenPanel.SetActive(true);
-
         if (HyperSmashScoreManager.Instance != null)
             HyperSmashScoreManager.Instance.OnScoreChanged += OnScoreChanged;
 
         if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
         if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
         if (drawNextButton != null) drawNextButton.onClick.AddListener(GoToNextGame);
+
+        // --- TOMBOL GO TUTORIAL ---
+        if (tutorialGoButton != null)
+        {
+            tutorialGoButton.onClick.AddListener(() =>
+            {
+                IsTutorialDone = true;
+            });
+        }
     }
 
     void Update()
     {
-        // Pergerakan crosshair dihapus dari UIManager ini
-        // Posisi dan Input Crosshair ditangani secara penuh oleh DualCrosshairController
-        
         UpdateSpeedDisplay();
 
         if (HyperSmashScoreManager.Instance != null)
@@ -102,16 +112,13 @@ public class HyperSmashDummieUIManager : MonoBehaviour
             UpdateAccuracy(PlayerIndex.Player2, HyperSmashScoreManager.Instance.GetAccuracy(PlayerIndex.Player2));
         }
 
-        // Membaca timer dan ronde dari GameManager yang berjalan di latar belakang
         if (HyperSmashGameManager.Instance != null)
         {
             float currentTimer = HyperSmashGameManager.Instance.RoundTimer;
-            UpdateTimer(currentTimer, 60f); // Asumsi durasi standar 60 detik untuk progress bar
-            
-            // Juga update Round Label agar tidak nyangkut
-            ShowRoundLabel(HyperSmashGameManager.Instance.CurrentRound, 3); // Asumsi total 3 ronde
+            UpdateTimer(currentTimer, 60f);
 
-            // Deteksi perubahan state (Countdown, InterRound, GameOver)
+            ShowRoundLabel(HyperSmashGameManager.Instance.CurrentRound, 3);
+
             string currentState = HyperSmashGameManager.Instance.CurrentState.ToString();
             if (currentState != lastGameState)
             {
@@ -141,6 +148,33 @@ public class HyperSmashDummieUIManager : MonoBehaviour
             HyperSmashScoreManager.Instance.OnScoreChanged -= OnScoreChanged;
     }
 
+    #region Tutorial & Times Up
+    public void ShowTutorial()
+    {
+        IsTutorialDone = false;
+        if (tutorialPanel != null)
+        {
+            tutorialPanel.SetActive(true);
+            tutorialPanel.transform.SetAsLastSibling(); // Pastikan di depan
+        }
+    }
+
+    public void HideTutorial()
+    {
+        if (tutorialPanel != null) tutorialPanel.SetActive(false);
+    }
+
+    public IEnumerator ShowTimesUp()
+    {
+        if (timesUpPanel != null)
+        {
+            timesUpPanel.SetActive(true);
+            yield return new WaitForSecondsRealtime(1.5f);
+            timesUpPanel.SetActive(false);
+        }
+    }
+    #endregion
+
     #region Panels
     public void HideAll()
     {
@@ -150,6 +184,8 @@ public class HyperSmashDummieUIManager : MonoBehaviour
         if (gameOverPanel2 != null) gameOverPanel2.SetActive(false);
         if (interRoundPanel != null) interRoundPanel.SetActive(false);
         if (popupBackground != null) popupBackground.SetActive(false);
+        if (tutorialPanel != null) tutorialPanel.SetActive(false);
+        if (timesUpPanel != null) timesUpPanel.SetActive(false);
     }
 
     public void ShowGameScreen()
@@ -163,7 +199,6 @@ public class HyperSmashDummieUIManager : MonoBehaviour
     public void ShowResultPopup(int scoreP1, int scoreP2)
     {
         HideAll();
-
         if (popupBackground != null) popupBackground.SetActive(true);
 
         if (scoreP1 > scoreP2)
@@ -231,7 +266,7 @@ public class HyperSmashDummieUIManager : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < duration)
         {
-            elapsed += Time.unscaledDeltaTime; // Gunakan unscaled agar jalan saat Time.timeScale = 0
+            elapsed += Time.unscaledDeltaTime;
             t.localScale = Vector3.Lerp(start, target, elapsed / duration);
             yield return null;
         }
@@ -240,16 +275,15 @@ public class HyperSmashDummieUIManager : MonoBehaviour
 
     private IEnumerator PlayDummyCountdown(string startText)
     {
-        // Visual Countdown Mandiri khusus untuk Scene Dummie
         ShowCountdown(startText);
         yield return new WaitForSecondsRealtime(0.8f);
-        
+
         for (int i = 3; i >= 1; i--)
         {
             ShowCountdown(i.ToString());
-            yield return new WaitForSecondsRealtime(0.7f); // Sesuaikan dengan delay StartCountdownManager
+            yield return new WaitForSecondsRealtime(0.7f);
         }
-        
+
         ShowCountdown("GO!");
         yield return new WaitForSecondsRealtime(0.6f);
         HideCountdown();

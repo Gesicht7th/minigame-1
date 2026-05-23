@@ -1,21 +1,30 @@
+// Assets/_Game/Scripts/UI/MenuManager.cs
 using UnityEngine;
 
-public class MenuManager : MonoBehaviour
+namespace WizardPunk
 {
-    [SerializeField] private GameObject mainMenuPanel;
-    [SerializeField] private GameObject optionsPanel;
-
-    // Fungsi untuk membuka Options
-    public void OpenOptions()
+    public class MenuManager : MonoBehaviour
     {
-        mainMenuPanel.SetActive(false); // Sembunyikan menu utama
-        optionsPanel.SetActive(true);   // Munculkan pop-up options
-    }
+        [SerializeField] private GameObject mainMenuPanel;
+        [SerializeField] private GameObject optionsPanel;
 
-    // Fungsi untuk kembali (Klik tombol Back)
-    public void CloseOptions()
-    {
-        optionsPanel.SetActive(false);  // Sembunyikan pop-up options
-        mainMenuPanel.SetActive(true);  // Munculkan kembali menu utama
+        void Start()
+        {
+            // Pastikan saat game mulai, menu utama aktif dan options mati
+            mainMenuPanel.SetActive(true);
+            optionsPanel.SetActive(false);
+        }
+
+        public void OpenOptions()
+        {
+            mainMenuPanel.SetActive(false);
+            optionsPanel.SetActive(true);
+        }
+
+        public void CloseOptions()
+        {
+            optionsPanel.SetActive(false);
+            mainMenuPanel.SetActive(true);
+        }
     }
 }
