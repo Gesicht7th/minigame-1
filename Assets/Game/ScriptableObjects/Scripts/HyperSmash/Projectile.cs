@@ -1,84 +1,84 @@
-// Assets/_Game/Scripts/HyperSmash/Projectile.cs
-// ─────────────────────────────────────────────────────────────
-// PERUBAHAN DARI VERSI SEBELUMNYA:
-//   - Initialize() sekarang menerima parameter PlayerIndex
-//   - OnTriggerEnter menyertakan ownerPlayer saat RegisterHit
-//   - Crystal.TakeDamage juga diberitahu siapa yang menembak
-// ─────────────────────────────────────────────────────────────
-
 using UnityEngine;
+using WizardPunk.HyperSmash;
 
-namespace WizardPunk.HyperSmash
+public class Projectile : MonoBehaviour
 {
-    public class Projectile : MonoBehaviour
+    public float speed = 150f;
+    public float lifeTime = 3f;
+    public GameObject hitEffect;
+
+    [HideInInspector]
+    public PlayerIndex ownerPlayer;
+
+    private Vector3 lastCameraPos;
+
+    // === FUNGSI INISIALISASI ===
+    public void Initialize(Vector3 direction, float projSpeed, float projRange, PlayerIndex owner)
     {
-        #region Config
-        private float speed;
-        private float maxRange;
-        private Vector3 direction;
-        private float traveledDistance = 0f;
-        private PlayerIndex ownerPlayer = PlayerIndex.Player1;
-        #endregion
+        speed = projSpeed;
+        ownerPlayer = owner;
 
-        #region Public Properties
-        public PlayerIndex Owner => ownerPlayer;
-        #endregion
-
-        #region Setup
-        /// <summary>
-        /// Initialize projectile dengan arah, kecepatan, jangkauan, dan siapa yang menembak.
-        /// </summary>
-        public void Initialize(Vector3 dir, float projectileSpeed, float range, PlayerIndex owner)
+        // --- FIX UTAMA: MEMUTAR MODEL PELURU ---
+        // Putar peluru agar moncongnya menghadap tepat ke arah tembakan (crosshair)
+        if (direction != Vector3.zero)
         {
-            direction = dir.normalized;
-            speed = projectileSpeed;
-            maxRange = range;
-            ownerPlayer = owner;
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
+        // ---------------------------------------
+
+        lifeTime = projRange / projSpeed;
+        Destroy(gameObject, lifeTime);
+
+        if (HyperSmashSoundController.Instance != null)
+        {
+            if (ownerPlayer == PlayerIndex.Player1)
+                HyperSmashSoundController.Instance.PlayP1ShootSound();
+            else
+                HyperSmashSoundController.Instance.PlayP2ShootSound();
+        }
+    }
+
+    void Start()
+    {
+        if (Camera.main != null)
+        {
+            lastCameraPos = Camera.main.transform.position;
+        }
+    }
+
+    void Update()
+    {
+        if (Camera.main != null)
+        {
+            Vector3 cameraDelta = Camera.main.transform.position - lastCameraPos;
+            transform.position += cameraDelta;
+            lastCameraPos = Camera.main.transform.position;
         }
 
-        /// <summary>
-        /// Overload tanpa owner (default Player1) — menjaga kompatibilitas jika ada code lama.
-        /// </summary>
-        public void Initialize(Vector3 dir, float projectileSpeed, float range)
+        // Karena model peluru sudah diputar menghadap target di Initialize,
+        // kita bisa menggerakkannya lurus ke depan (Space.Self) layaknya peluru asli.
+        transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Target") || other.CompareTag("Crystal"))
         {
-            Initialize(dir, projectileSpeed, range, PlayerIndex.Player1);
-        }
-        #endregion
-
-        #region Unity Lifecycle
-        void Update()
-        {
-            // Ambil kecepatan kamera saat ini agar proyektil tidak tertinggal saat kamera bergerak cepat
-            float cameraSpeed = CameraController.Instance != null ? CameraController.Instance.CurrentSpeed : 0f;
-            Vector3 cameraVelocity = Vector3.forward * cameraSpeed;
-
-            // Hitung kecepatan total proyektil (kecepatan arah tembakan + kecepatan maju kamera)
-            Vector3 projectileVelocity = (direction * speed) + cameraVelocity;
-
-            // Pindahkan posisi proyektil
-            transform.position += projectileVelocity * Time.deltaTime;
-            
-            // Jarak tempuh dihitung berdasarkan kecepatan tembakannya saja agar range tetap konsisten
-            traveledDistance += speed * Time.deltaTime;
-
-            if (traveledDistance >= maxRange)
-                Destroy(gameObject);
-        }
-
-        void OnTriggerEnter(Collider other)
-        {
-            Crystal crystal = other.GetComponent<Crystal>();
-            if (crystal != null && !crystal.IsDead)
+            if (hitEffect != null)
             {
-                // Beritahu crystal siapa yang menyerang (untuk scoring)
-                crystal.TakeDamage(1, ownerPlayer);
-
-                // Daftarkan hit ke GameManager beserta info player
-                HyperSmashGameManager.Instance?.RegisterHit(ownerPlayer);
-
-                Destroy(gameObject);
+                Instantiate(hitEffect, transform.position, transform.rotation);
             }
+
+            Crystal crystal = other.GetComponent<Crystal>();
+
+            if (crystal != null && HyperSmashScoreManager.Instance != null)
+            {
+                HyperSmashScoreManager.Instance.RegisterHit(ownerPlayer);
+                HyperSmashScoreManager.Instance.RegisterCrystalKill(ownerPlayer, crystal);
+            }
+
+            other.gameObject.SetActive(false);
+            Destroy(gameObject);
         }
-        #endregion
     }
 }
