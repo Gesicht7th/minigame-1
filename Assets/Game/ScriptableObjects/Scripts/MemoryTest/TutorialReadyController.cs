@@ -65,6 +65,11 @@ namespace WizardPunk.MemoryTest
                 _holdTimer = 0f;
                 ResetProgressBar();
             }
+
+            if (_dualWandMode)
+            {
+                Debug.Log($"[TutReady] P1.IsHolding={p1Reader.IsHolding} | P2.IsHolding={p2Reader.IsHolding} | Timer={_holdTimer:F2}");
+            }
         }
 
         // ─────────────────────────────────────────────────────────
@@ -74,8 +79,9 @@ namespace WizardPunk.MemoryTest
         /// </summary>
         private void HandleWandHold()
         {
-            bool p1Held = p1Reader.IsActionHeld;
-            bool p2Held = p2Reader.IsActionHeld;
+            // Pastikan kedua baris ini pakai IsHolding, bukan IsActionHeld
+            bool p1Held = p1Reader.IsHolding;  // ✅ bukan IsActionHeld
+            bool p2Held = p2Reader.IsHolding;  // ✅ bukan IsActionHeld
 
             if (p1Held && p2Held)
             {
@@ -83,16 +89,13 @@ namespace WizardPunk.MemoryTest
             }
             else
             {
-                // Salah satu dilepas: reset timer
                 _holdTimer = 0f;
             }
 
-            // Update visual progress bar
             float progress = Mathf.Clamp01(_holdTimer / holdDuration);
             if (holdProgressBar != null)
                 holdProgressBar.fillAmount = progress;
 
-            // Threshold tercapai: trigger GO
             if (_holdTimer >= holdDuration)
             {
                 TriggerGo();

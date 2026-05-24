@@ -1174,7 +1174,7 @@ MonoBehaviour:
   playerIndex: 1
   config: {fileID: 11400000, guid: 5df018dabe0a84b4589b2dd545cf9c2c, type: 2}
   serialReader: {fileID: 0}
-  useKeyboard: 1
+  useKeyboard: 0
   holdKey: 304
   rockKey: 97
   scissorsKey: 115
@@ -4062,7 +4062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
-  serialPort: COM9
+  serialPort: COM10
   baudRate: 115200
   ActionHoldTimeout: 0.4
 --- !u!1 &1028643691
@@ -4432,7 +4432,7 @@ MonoBehaviour:
   playerIndex: 2
   config: {fileID: 11400000, guid: 5df018dabe0a84b4589b2dd545cf9c2c, type: 2}
   serialReader: {fileID: 0}
-  useKeyboard: 1
+  useKeyboard: 0
   holdKey: 32
   rockKey: 106
   scissorsKey: 107
