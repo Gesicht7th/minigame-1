@@ -92,6 +92,11 @@ namespace WizardPunk.MemoryTest
         }
         // -----------------------------------------------------
 
+        public void TriggerTutorialDone()
+        {
+            IsTutorialDone = true;
+        }
+
         // --- FUNGSI BARU: Tampilkan & Sembunyikan Times Up ---
         public void ShowTimesUp()
         {

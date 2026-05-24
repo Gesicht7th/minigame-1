@@ -57,11 +57,19 @@ public class WandSerialReader : MonoBehaviour
     private volatile float _gz = 0f;
 
     // Tambahkan variabel ini di bawah deklarasi variabel yang sudah ada
-    private float _lastActionTime = -100f;
-    public float ActionHoldTimeout = 0.15f; // 150ms batas toleransi stream terputus
+    // Thread-safe: pakai DateTime.UtcNow.Ticks, bukan Time.realtimeSinceStartup
+    private long _lastActionTimeTicks = 0L;  // Diakses via Interlocked, tidak perlu volatile
+    public float ActionHoldTimeout = 0.15f;
 
-    // Properti baru untuk mengecek Hold State
-    public bool IsActionHeld => (Time.realtimeSinceStartup - _lastActionTime) < ActionHoldTimeout;
+    public bool IsActionHeld
+    {
+        get
+        {
+            long lastTicks = Interlocked.Read(ref _lastActionTimeTicks);
+            double elapsed = (DateTime.UtcNow.Ticks - lastTicks) / 10_000_000.0;
+            return elapsed < ActionHoldTimeout;
+        }
+    }
 
     // Action button
     private volatile bool _actionPressed = false;
@@ -279,7 +287,7 @@ public class WandSerialReader : MonoBehaviour
         // Format Action Button: "B:ACTION"
         if (line == "B:ACTION")
         {
-            _lastActionTime = Time.realtimeSinceStartup; // Perbarui waktu terakhir data diterima
+            Interlocked.Exchange(ref _lastActionTimeTicks, DateTime.UtcNow.Ticks);
             _actionPressed = true; // Pertahankan ini jika sistem lama masih membutuhkannya
             return;
         }
