@@ -17,7 +17,7 @@ namespace WizardPunk
         {
             // Reset semua skor untuk sesi baru
             ClearGame1Score();
-            ClearGame2Score(); // Sekarang fungsi ini sudah ada dan tidak akan error
+            ClearGame2Score();
             ReflexP1Points = 0;
             ReflexP2Points = 0;
             ReflexP1Wins = 0;
@@ -64,6 +64,15 @@ namespace WizardPunk
                 return;
             }
             Instance = this;
+
+            // --- SOLUSI ROOT PAKSA (PERBAIKAN ERROR KUNING) ---
+            // Jika GameDataBridge dimasukkan ke dalam folder/parent, paksa keluar ke Root
+            if (transform.parent != null)
+            {
+                transform.SetParent(null);
+            }
+            // --------------------------------------------------
+
             DontDestroyOnLoad(gameObject); // Tetap hidup saat pindah scene
         }
         #endregion
@@ -82,7 +91,6 @@ namespace WizardPunk
             HasHyperSmashResult = false;
         }
 
-        // ── [PERBAIKAN] MENAMBAHKAN FUNGSI YANG HILANG ──
         /// <summary>
         /// Membersihkan data skor Game 2 (HyperSmash)
         /// </summary>
