@@ -187,16 +187,16 @@ namespace WizardPunk
             }
 
             // ── Click (satu kali saat action button ditekan) ──────
-            //if (_wandMode && wandReader.ConsumeAction())
-            //{
-            //    if (_hovered != null)
-            //    {
-            //        ExecuteEvents.Execute(_hovered, pointer, ExecuteEvents.pointerDownHandler);
-            //        ExecuteEvents.Execute(_hovered, pointer, ExecuteEvents.pointerUpHandler);
-            //        ExecuteEvents.Execute(_hovered, pointer, ExecuteEvents.pointerClickHandler);
-            //        Debug.Log($"[WandCursor] Clicked: {_hovered.name}");
-            //    }
-            //}
+            if (_wandMode && wandReader.ConsumeAction())
+            {
+                if (_hovered != null)
+                {
+                    ExecuteEvents.Execute(_hovered, pointer, ExecuteEvents.pointerDownHandler);
+                    ExecuteEvents.Execute(_hovered, pointer, ExecuteEvents.pointerUpHandler);
+                    ExecuteEvents.Execute(_hovered, pointer, ExecuteEvents.pointerClickHandler);
+                    Debug.Log($"[WandCursor] Clicked: {_hovered.name}");
+                }
+            }
             // Fallback: klik kiri mouse
             else if (!_wandMode && mouseFallback && Input.GetMouseButtonDown(0))
             {
