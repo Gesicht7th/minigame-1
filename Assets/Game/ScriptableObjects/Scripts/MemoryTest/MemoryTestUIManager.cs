@@ -9,6 +9,9 @@ namespace WizardPunk.MemoryTest
     {
         public static MemoryTestUIManager Instance { get; private set; }
 
+        [Header("Cursor")]
+        [SerializeField] private Image cursor;
+        
         [Header("HUD Score")]
         [SerializeField] private TextMeshProUGUI scoreP1Text;
         [SerializeField] private TextMeshProUGUI scoreP2Text;
@@ -101,6 +104,22 @@ namespace WizardPunk.MemoryTest
         public void ShowTimesUp()
         {
             if (timesUpPanel != null) timesUpPanel.SetActive(true);
+        }
+
+        public void ShowCursor()
+        {
+            if (cursor != null)
+            {
+                cursor.gameObject.SetActive(true);
+            }
+        }
+
+        public void HideCursor()
+        {
+            if (cursor != null)
+            {
+                cursor.gameObject.SetActive(false);
+            }
         }
 
         public void HideTimesUp()

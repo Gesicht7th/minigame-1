@@ -48,6 +48,9 @@ namespace WizardPunk.MemoryTest
             if (p1SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P1 Wand Manager tidak ditemukan!");
             if (p2SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P2 Wand Manager tidak ditemukan!");
 
+            Cursor.visible = false;
+            uiManager.HideCursor();
+
             Time.timeScale = 1f;
             StartCoroutine(GameLoop());
         }
@@ -62,6 +65,7 @@ namespace WizardPunk.MemoryTest
 
         private IEnumerator GameLoop()
         {
+            uiManager.HideCursor();
             uiManager.ShowTutorial();
             yield return new WaitUntil(() => uiManager.IsTutorialDone);
             uiManager.HideTutorial();
@@ -143,6 +147,7 @@ namespace WizardPunk.MemoryTest
                 MemoryTestSoundController.Instance.PlayResultSound();
             }
 
+            uiManager.ShowCursor();
             uiManager.ShowResultPopup(finalP1Score, finalP2Score);
             // ===================================
         }
