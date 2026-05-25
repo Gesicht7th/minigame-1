@@ -29,6 +29,7 @@ namespace WizardPunk.MemoryTest
             if (p2SerialReader == null) p2SerialReader = null;
 
             WandSerialReader[] readers = FindObjectsOfType<WandSerialReader>();
+            uiManager.HideCursor();
 
             foreach (var reader in readers)
             {
@@ -65,7 +66,7 @@ namespace WizardPunk.MemoryTest
 
         private IEnumerator GameLoop()
         {
-            uiManager.HideCursor();
+
             uiManager.ShowTutorial();
             yield return new WaitUntil(() => uiManager.IsTutorialDone);
             uiManager.HideTutorial();
