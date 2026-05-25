@@ -108,18 +108,24 @@ namespace WizardPunk.MemoryTest
 
         public void ShowCursor()
         {
+            // System cursor
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+            // Virtual cursor image
             if (cursor != null)
-            {
                 cursor.gameObject.SetActive(true);
-            }
         }
 
         public void HideCursor()
         {
+            // System cursor
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
+            // Virtual cursor image
             if (cursor != null)
-            {
                 cursor.gameObject.SetActive(false);
-            }
         }
 
         public void HideTimesUp()

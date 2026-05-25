@@ -157,8 +157,8 @@ namespace WizardPunk.MemoryTest
         /// </summary>
         private void OnDisable()
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            //Cursor.visible = true;
+            //Cursor.lockState = CursorLockMode.None;
             _triggered = false;
             _holdTimer = 0f;
             ResetProgressBar();
