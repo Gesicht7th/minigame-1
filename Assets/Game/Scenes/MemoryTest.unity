@@ -7537,17 +7537,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 791314263}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 418f90fa75683ab4496c808e8a2f65ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 813aedc189fbdff4aa9fb0749818e849, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.WandMenuCursor
-  wandReader: {fileID: 1295233687}
-  cursorRect: {fileID: 629420005}
-  graphicRaycaster: {fileID: 1655882094}
-  gyroDeadzone: 2.5
-  gyroSensitivity: 0.05
-  aimSmoothing: 12
-  borderPadding: 0.03
-  mouseFallback: 1
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.CursorGlobal
+  virtualPointer: {fileID: 629420006}
+  hideSystemCursor: 1
+  gameplayLockMode: 1
+  allowEscapeCursor: 1
 --- !u!1 &814577862
 GameObject:
   m_ObjectHideFlags: 0
@@ -9322,6 +9318,58 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035268734}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1036391096
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1036391098}
+  - component: {fileID: 1036391097}
+  m_Layer: 0
+  m_Name: WandPointerController (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1036391097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036391096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e8014201cb1ef4db67d899abcbce00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.WandPointerController
+  wandReader: {fileID: 1295233687}
+  pointerRect: {fileID: 629420005}
+  graphicRaycaster: {fileID: 1655882094}
+  gyroDeadzone: 2.5
+  gyroSensitivity: 0.05
+  movementSmoothing: 12
+  borderPadding: 0.03
+  debugLogs: 1
+--- !u!4 &1036391098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036391096}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1067.1569, y: 0, z: 2308.3738}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1070409237
 GameObject:
   m_ObjectHideFlags: 0
@@ -13992,6 +14040,37 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &1584600031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1584600032}
+  m_Layer: 0
+  m_Name: WandPointerController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1584600032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584600031}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1062.5793, y: 0, z: 2311.6487}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1593055645
 GameObject:
   m_ObjectHideFlags: 0
@@ -14495,7 +14574,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17337d807ed2bbd4b9c6f16fd8df50d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.MemoryTest.MemoryTestUIManager
-  cursor: {fileID: 629420006}
   scoreP1Text: {fileID: 814577864}
   scoreP2Text: {fileID: 1937124033}
   centerPhaseText: {fileID: 0}
@@ -19280,3 +19358,5 @@ SceneRoots:
   - {fileID: 508159721}
   - {fileID: 1270737830}
   - {fileID: 791314265}
+  - {fileID: 1584600032}
+  - {fileID: 1036391098}

@@ -1,23 +1,22 @@
 ﻿// Assets/_Game/Scripts/UI/CursorGlobal.cs
 //
-// Global Cursor Controller
+// GLOBAL POINTER SYSTEM
 //
 // Fungsi:
-// - Hide system cursor Unity
-// - Control virtual cursor visibility
-// - Singleton global access
-// - Aman dari conflict UnityEngine.Cursor
+// - Hide real Windows cursor sepanjang gameplay
+// - Show real cursor hanya saat ESC
+// - Manage virtual pointer visibility
+// - Reusable untuk semua minigame
+// - Pointer logic tetap aktif walaupun visual hidden
 //
-// Cara Pakai:
+// NOTE:
+// Script ini TIDAK menggerakkan pointer.
+// Script ini hanya mengatur visibility dan global state.
 //
-// Hide cursor:
-// CursorGlobal.HideVirtualCursor();
-//
-// Show cursor:
-// CursorGlobal.ShowVirtualCursor();
-//
-// Register virtual cursor:
-// otomatis lewat Inspector
+// Pointer movement tetap ditangani oleh:
+// - WandPointerController
+// - WandCursorController
+// - atau script movement lain
 //
 
 using UnityEngine;
@@ -31,27 +30,46 @@ namespace WizardPunk
         // SINGLETON
         // ============================================================
 
-        public static CursorGlobal Instance { get; private set; }
+        public static CursorGlobal Instance
+        {
+            get;
+            private set;
+        }
 
         // ============================================================
         // INSPECTOR
         // ============================================================
 
-        [Header("── Virtual Cursor ─────────────────────")]
-        [SerializeField] private Image virtualCursor;
+        [Header("── Virtual Pointer ───────────────────")]
 
-        [Header("── Cursor Settings ─────────────────────")]
-        [SerializeField] private bool hideSystemCursor = true;
-
+        [Tooltip("Image UI pointer virtual")]
         [SerializeField]
-        private CursorLockMode lockMode =
+        private Image virtualPointer;
+
+        [Header("── System Cursor ─────────────────────")]
+
+        [Tooltip("Hide cursor asli Windows saat game")]
+        [SerializeField]
+        private bool hideSystemCursor = true;
+
+        [Tooltip("Cursor lock mode saat gameplay")]
+        [SerializeField]
+        private CursorLockMode gameplayLockMode =
             CursorLockMode.Locked;
+
+        [Header("── ESC Debug ─────────────────────────")]
+
+        [Tooltip("ESC memunculkan cursor asli")]
+        [SerializeField]
+        private bool allowEscapeCursor = true;
 
         // ============================================================
         // STATE
         // ============================================================
 
-        private bool isVisible = false;
+        private bool pointerVisible = false;
+
+        private bool realCursorVisible = false;
 
         // ============================================================
         // UNITY
@@ -60,7 +78,8 @@ namespace WizardPunk
         private void Awake()
         {
             // Singleton
-            if (Instance != null && Instance != this)
+            if (Instance != null &&
+                Instance != this)
             {
                 Destroy(gameObject);
                 return;
@@ -71,94 +90,155 @@ namespace WizardPunk
 
         private void Start()
         {
-            // Hide system cursor
-            ApplySystemCursorSettings();
+            // ========================================================
+            // REAL CURSOR
+            // ========================================================
 
-            // Hide virtual cursor at start
+            HideRealCursor();
+
+            // ========================================================
+            // VIRTUAL POINTER
+            // ========================================================
+
             HideVirtualCursor();
+        }
+
+        private void Update()
+        {
+            // ========================================================
+            // ESC = SHOW REAL CURSOR
+            // ========================================================
+
+            if (allowEscapeCursor &&
+                Input.GetKeyDown(KeyCode.Escape))
+            {
+                ShowRealCursor();
+            }
         }
 
         private void OnDisable()
         {
-            // Restore system cursor
+            // Restore cursor saat object disable
             UnityEngine.Cursor.visible = true;
+
             UnityEngine.Cursor.lockState =
                 CursorLockMode.None;
         }
 
         // ============================================================
-        // SYSTEM CURSOR
+        // REAL CURSOR CONTROL
         // ============================================================
 
-        private void ApplySystemCursorSettings()
+        public static void HideRealCursor()
         {
+            if (Instance == null) return;
+
+            Instance.HideRealCursor_Internal();
+        }
+
+        public static void ShowRealCursor()
+        {
+            if (Instance == null) return;
+
+            Instance.ShowRealCursor_Internal();
+        }
+
+        private void HideRealCursor_Internal()
+        {
+            realCursorVisible = false;
+
             if (hideSystemCursor)
             {
                 UnityEngine.Cursor.visible = false;
-                UnityEngine.Cursor.lockState = lockMode;
+
+                UnityEngine.Cursor.lockState =
+                    gameplayLockMode;
             }
         }
 
+        private void ShowRealCursor_Internal()
+        {
+            realCursorVisible = true;
+
+            UnityEngine.Cursor.visible = true;
+
+            UnityEngine.Cursor.lockState =
+                CursorLockMode.None;
+        }
+
         // ============================================================
-        // STATIC API
+        // VIRTUAL POINTER CONTROL
         // ============================================================
 
         public static void ShowVirtualCursor()
         {
             if (Instance == null) return;
 
-            Instance.ShowCursor_Internal();
+            Instance.ShowVirtualCursor_Internal();
         }
 
         public static void HideVirtualCursor()
         {
             if (Instance == null) return;
 
-            Instance.HideCursor_Internal();
+            Instance.HideVirtualCursor_Internal();
         }
 
-        public static bool IsCursorVisible()
+        private void ShowVirtualCursor_Internal()
         {
-            if (Instance == null) return false;
+            pointerVisible = true;
 
-            return Instance.isVisible;
-        }
-
-        // ============================================================
-        // INTERNAL
-        // ============================================================
-
-        private void ShowCursor_Internal()
-        {
-            isVisible = true;
-
-            ApplySystemCursorSettings();
-
-            if (virtualCursor != null)
+            if (virtualPointer != null)
             {
-                virtualCursor.enabled = true;
+                // IMPORTANT:
+                // Jangan pakai SetActive(false)
+                // supaya movement script tetap jalan
+
+                virtualPointer.enabled = true;
             }
         }
 
-        private void HideCursor_Internal()
+        private void HideVirtualCursor_Internal()
         {
-            isVisible = false;
+            pointerVisible = false;
 
-            ApplySystemCursorSettings();
-
-            if (virtualCursor != null)
+            if (virtualPointer != null)
             {
-                virtualCursor.enabled = false;
+                virtualPointer.enabled = false;
             }
+        }
+
+        // ============================================================
+        // GETTERS
+        // ============================================================
+
+        public static bool IsVirtualCursorVisible()
+        {
+            if (Instance == null)
+            {
+                return false;
+            }
+
+            return Instance.pointerVisible;
+        }
+
+        public static bool IsRealCursorVisible()
+        {
+            if (Instance == null)
+            {
+                return false;
+            }
+
+            return Instance.realCursorVisible;
         }
 
         // ============================================================
         // OPTIONAL REGISTER
         // ============================================================
 
-        public void RegisterCursor(Image cursorImage)
+        public void RegisterPointer(Image pointerImage)
         {
-            virtualCursor = cursorImage;
+            virtualPointer = pointerImage;
         }
     }
 }
