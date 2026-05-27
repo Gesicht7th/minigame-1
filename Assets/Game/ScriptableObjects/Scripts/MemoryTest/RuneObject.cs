@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/MemoryTest/RuneObject.cs
+// Assets/_Game/Scripts/MemoryTest/RuneObject.cs
 using System.Collections;
 using UnityEngine;
 
@@ -20,6 +20,10 @@ namespace WizardPunk.MemoryTest
         [Header("── Audio ──")]
         [SerializeField] private AudioSource runeSfxSource;
         [SerializeField] private AudioClip flipSound;
+
+        [Header("── Particles ──")]
+        [SerializeField] private GameObject correctParticlePrefab;
+        [SerializeField] private GameObject wrongParticlePrefab;
 
         [Header("Colors")]
         public Color colorIdle = Color.gray;
@@ -117,11 +121,22 @@ namespace WizardPunk.MemoryTest
             if (correct)
             {
                 PlayFlipSound();
+                
+                if (correctParticlePrefab != null)
+                {
+                    Instantiate(correctParticlePrefab, transform.position, Quaternion.Euler(-90,0,0));
+                }
+
                 if (flipCoroutine != null) StopCoroutine(flipCoroutine);
                 flipCoroutine = StartCoroutine(FlipAnimation(transform.localRotation, Quaternion.Euler(0f, 180f, 0f)));
             }
             else
             {
+                if (wrongParticlePrefab != null)
+                {
+                    Instantiate(wrongParticlePrefab, transform.position, Quaternion.Euler(-90, 0, 0));
+                }
+
                 if (flipCoroutine != null) StopCoroutine(flipCoroutine);
                 transform.localRotation = Quaternion.identity;
             }

@@ -700,6 +700,8 @@ MonoBehaviour:
   runeLight: {fileID: 1751998}
   runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
+  correctParticlePrefab: {fileID: 5416372629311772584, guid: 7be98a88c9bacd2468535472c58fd77c, type: 3}
+  wrongParticlePrefab: {fileID: 7481907201801238657, guid: bf6a839b48315af4b9c93caa75168eee, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
   colorCorrect: {r: 0.1, g: 1, b: 0.3, a: 1}
@@ -1509,6 +1511,8 @@ MonoBehaviour:
   runeLight: {fileID: 230063351}
   runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
+  correctParticlePrefab: {fileID: 5416372629311772584, guid: 7be98a88c9bacd2468535472c58fd77c, type: 3}
+  wrongParticlePrefab: {fileID: 7481907201801238657, guid: bf6a839b48315af4b9c93caa75168eee, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
   colorCorrect: {r: 0.1, g: 1, b: 0.3, a: 1}
@@ -2721,6 +2725,8 @@ MonoBehaviour:
   runeLight: {fileID: 1856569270}
   runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
+  correctParticlePrefab: {fileID: 5416372629311772584, guid: 7be98a88c9bacd2468535472c58fd77c, type: 3}
+  wrongParticlePrefab: {fileID: 7481907201801238657, guid: bf6a839b48315af4b9c93caa75168eee, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
   colorCorrect: {r: 0.1, g: 1, b: 0.3, a: 1}
@@ -4470,7 +4476,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &425542311
 Transform:
   m_ObjectHideFlags: 0
@@ -5203,7 +5209,7 @@ GameObject:
   - component: {fileID: 508159720}
   - component: {fileID: 508159719}
   m_Layer: 0
-  m_Name: spritesheet_1
+  m_Name: FuraCharacterSprites
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5847,6 +5853,8 @@ MonoBehaviour:
   runeLight: {fileID: 951884318}
   runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
+  correctParticlePrefab: {fileID: 5416372629311772584, guid: 7be98a88c9bacd2468535472c58fd77c, type: 3}
+  wrongParticlePrefab: {fileID: 7481907201801238657, guid: bf6a839b48315af4b9c93caa75168eee, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
   colorCorrect: {r: 0.1, g: 1, b: 0.3, a: 1}
@@ -6131,6 +6139,8 @@ MonoBehaviour:
   runeLight: {fileID: 448421131}
   runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
+  correctParticlePrefab: {fileID: 5416372629311772584, guid: 7be98a88c9bacd2468535472c58fd77c, type: 3}
+  wrongParticlePrefab: {fileID: 7481907201801238657, guid: bf6a839b48315af4b9c93caa75168eee, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
   colorCorrect: {r: 0.1, g: 1, b: 0.3, a: 1}
@@ -6960,6 +6970,8 @@ MonoBehaviour:
   runeLight: {fileID: 2022911390}
   runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
+  correctParticlePrefab: {fileID: 5416372629311772584, guid: 7be98a88c9bacd2468535472c58fd77c, type: 3}
+  wrongParticlePrefab: {fileID: 7481907201801238657, guid: bf6a839b48315af4b9c93caa75168eee, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
   colorCorrect: {r: 0.1, g: 1, b: 0.3, a: 1}
@@ -7078,6 +7090,8 @@ MonoBehaviour:
   runeLight: {fileID: 1412377080}
   runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
+  correctParticlePrefab: {fileID: 5416372629311772584, guid: 7be98a88c9bacd2468535472c58fd77c, type: 3}
+  wrongParticlePrefab: {fileID: 7481907201801238657, guid: bf6a839b48315af4b9c93caa75168eee, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
   colorCorrect: {r: 0.1, g: 1, b: 0.3, a: 1}
@@ -7970,6 +7984,8 @@ MonoBehaviour:
   runeLight: {fileID: 630433636}
   runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
+  correctParticlePrefab: {fileID: 5416372629311772584, guid: 7be98a88c9bacd2468535472c58fd77c, type: 3}
+  wrongParticlePrefab: {fileID: 7481907201801238657, guid: bf6a839b48315af4b9c93caa75168eee, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
   colorCorrect: {r: 0.1, g: 1, b: 0.3, a: 1}
@@ -8869,6 +8885,8 @@ MonoBehaviour:
   runeLight: {fileID: 2119178913}
   runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
+  correctParticlePrefab: {fileID: 5416372629311772584, guid: 7be98a88c9bacd2468535472c58fd77c, type: 3}
+  wrongParticlePrefab: {fileID: 7481907201801238657, guid: bf6a839b48315af4b9c93caa75168eee, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
   colorCorrect: {r: 0.1, g: 1, b: 0.3, a: 1}
@@ -8951,6 +8969,8 @@ MonoBehaviour:
   runeLight: {fileID: 1173252547}
   runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
+  correctParticlePrefab: {fileID: 5416372629311772584, guid: 7be98a88c9bacd2468535472c58fd77c, type: 3}
+  wrongParticlePrefab: {fileID: 7481907201801238657, guid: bf6a839b48315af4b9c93caa75168eee, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
   colorCorrect: {r: 0.1, g: 1, b: 0.3, a: 1}
@@ -13383,6 +13403,8 @@ MonoBehaviour:
   runeLight: {fileID: 1948537756}
   runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
+  correctParticlePrefab: {fileID: 5416372629311772584, guid: 7be98a88c9bacd2468535472c58fd77c, type: 3}
+  wrongParticlePrefab: {fileID: 7481907201801238657, guid: bf6a839b48315af4b9c93caa75168eee, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
   colorCorrect: {r: 0.1, g: 1, b: 0.3, a: 1}
@@ -15627,6 +15649,8 @@ MonoBehaviour:
   runeLight: {fileID: 20128312}
   runeSfxSource: {fileID: 0}
   flipSound: {fileID: 8300000, guid: 23f1fcc0d15903b4d92781d067d3b307, type: 3}
+  correctParticlePrefab: {fileID: 5416372629311772584, guid: 7be98a88c9bacd2468535472c58fd77c, type: 3}
+  wrongParticlePrefab: {fileID: 7481907201801238657, guid: bf6a839b48315af4b9c93caa75168eee, type: 3}
   colorIdle: {r: 0.4433962, g: 0.15267888, b: 0.4433962, a: 1}
   colorShow: {r: 1, g: 0, b: 0.9843137, a: 1}
   colorCorrect: {r: 0.1, g: 1, b: 0.3, a: 1}
