@@ -1544,6 +1544,11 @@ MonoBehaviour:
   rockKey: 97
   scissorsKey: 115
   paperKey: 100
+--- !u!4 &274229223 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8859239817093012943, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
+  m_PrefabInstance: {fileID: 1895044555}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &274495191
 GameObject:
   m_ObjectHideFlags: 0
@@ -3996,6 +4001,8 @@ MonoBehaviour:
   parrySpawnPoint: {fileID: 0}
   parrySparksVfxPrefab: {fileID: 0}
   parrySparksSpawnPoint: {fileID: 0}
+  shieldVfxPrefab: {fileID: 0}
+  shieldSpawnPoint: {fileID: 0}
 --- !u!1 &791434298
 GameObject:
   m_ObjectHideFlags: 0
@@ -9665,6 +9672,8 @@ MonoBehaviour:
   parrySpawnPoint: {fileID: 717685878}
   parrySparksVfxPrefab: {fileID: 4873303050181663134, guid: e3571d770329efa4da32a9b05ba2afc8, type: 3}
   parrySparksSpawnPoint: {fileID: 1024852255}
+  shieldVfxPrefab: {fileID: 5325224790275171523, guid: 47156a75ffb495449be49c1119d8290c, type: 3}
+  shieldSpawnPoint: {fileID: 274229223}
 --- !u!4 &1895044560 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3608834655442110075, guid: f41cadcbf7d20574cbc060b120746779, type: 3}

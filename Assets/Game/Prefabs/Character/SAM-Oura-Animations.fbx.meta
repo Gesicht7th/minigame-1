@@ -249,7 +249,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.6897275
+      - time: 0.67234993
         functionName: PlayStrikeVFX
         data: 
         objectReferenceParameter: {instanceID: 0}

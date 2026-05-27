@@ -4470,7 +4470,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &425542311
 Transform:
   m_ObjectHideFlags: 0
@@ -5298,12 +5298,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 508159718}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.048849784, y: 0, z: 0, w: 0.9988062}
-  m_LocalPosition: {x: 2.01, y: 0.94, z: -0.15}
-  m_LocalScale: {x: 0.2168638, y: 0.2168638, z: 0.2168638}
+  m_LocalRotation: {x: -0.048849784, y: -0, z: -0, w: 0.9988062}
+  m_LocalPosition: {x: -2.026, y: 0.94, z: -0.15}
+  m_LocalScale: {x: 0.2168638, y: 0.21686377, z: 0.21686377}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2128019784}
   m_LocalEulerAnglesHint: {x: -5.6, y: 0, z: 0}
 --- !u!1 &510306411
 GameObject:
@@ -6641,7 +6641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &689612629
 Transform:
   m_ObjectHideFlags: 0
@@ -14325,7 +14325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1616448196
 Transform:
   m_ObjectHideFlags: 0
@@ -14494,6 +14494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17337d807ed2bbd4b9c6f16fd8df50d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.MemoryTest.MemoryTestUIManager
+  cursor: {fileID: 0}
   scoreP1Text: {fileID: 814577864}
   scoreP2Text: {fileID: 1937124033}
   centerPhaseText: {fileID: 0}
@@ -18643,6 +18644,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1229445936}
+  - {fileID: 508159721}
   - {fileID: 1616448196}
   - {fileID: 689612629}
   - {fileID: 8795212007621603111}
@@ -19275,7 +19277,6 @@ SceneRoots:
   - {fileID: 98277505}
   - {fileID: 2104579269}
   - {fileID: 846542325}
-  - {fileID: 508159721}
   - {fileID: 1270737830}
   - {fileID: 791314265}
   - {fileID: 1153908066}
