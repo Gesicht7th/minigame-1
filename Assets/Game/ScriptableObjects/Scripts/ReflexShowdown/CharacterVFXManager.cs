@@ -27,6 +27,10 @@ namespace WizardPunk.Reflex
         // [SerializeField] private GameObject parryAbsorbVfxPrefab;
         // [SerializeField] private Transform parryAbsorbSpawnPoint;
 
+        [Header("── Shield Oura VFX ─────────────────────────────")]
+        [SerializeField] private GameObject shieldVfxPrefab;
+        [SerializeField] private Transform shieldSpawnPoint;
+
         // Anda bisa menambahkan banyak VFX lain di sini nantinya
         // [Header("── Magic VFX ─────────────────────────────")]
         // [SerializeField] private GameObject fireballPrefab;
@@ -83,5 +87,12 @@ namespace WizardPunk.Reflex
         //         Instantiate(parryAbsorbVfxPrefab, parryAbsorbSpawnPoint.position, parryAbsorbSpawnPoint.rotation, parryAbsorbSpawnPoint);
         //     }
         // }
+        public void PlayShieldVFX()
+        {
+            if (shieldVfxPrefab != null && shieldSpawnPoint != null)
+            {
+                Instantiate(shieldVfxPrefab, shieldSpawnPoint.position, Quaternion.identity);
+            }
+        }
     }
 }
