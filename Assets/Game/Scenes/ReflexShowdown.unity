@@ -1915,11 +1915,11 @@ Transform:
   m_GameObject: {fileID: 384181419}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.131, y: 0.71, z: -0.87}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1488518988}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &408285071
 GameObject:
@@ -2250,9 +2250,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 450808975}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.042594045, y: -0.70582265, z: -0.042594045, w: 0.7058228}
-  m_LocalPosition: {x: -0.0011699996, y: -0.0023825655, z: -0.0013549601}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.009999999}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 65945625}
@@ -2590,11 +2590,20 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -233698844570068230, guid: 7df4105fac4fac845ab2756505984049, type: 3}
       insertIndex: 0
+      addedObject: {fileID: 717685878}
+    - targetCorrespondingSourceObject: {fileID: -233698844570068230, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      insertIndex: 1
       addedObject: {fileID: 450808976}
+    - targetCorrespondingSourceObject: {fileID: -233698844570068230, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 1024852255}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7df4105fac4fac845ab2756505984049, type: 3}
       insertIndex: -1
       addedObject: {fileID: 784697585}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7df4105fac4fac845ab2756505984049, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 784697587}
   m_SourcePrefab: {fileID: 100100000, guid: 7df4105fac4fac845ab2756505984049, type: 3}
 --- !u!1 &583246188
 GameObject:
@@ -3275,6 +3284,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 645593775}
   m_CullTransparentMesh: 1
+--- !u!1 &661680524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 661680525}
+  m_Layer: 0
+  m_Name: OuraAbsorb
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &661680525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661680524}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.0000003688036, y: -0.7071069, z: 0.000000167638, w: -0.70710677}
+  m_LocalPosition: {x: 0, y: 0.00584, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1895044560}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &681379128
 GameObject:
   m_ObjectHideFlags: 0
@@ -3538,6 +3578,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 695846315}
   m_CullTransparentMesh: 1
+--- !u!1 &717685877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 717685878}
+  m_Layer: 0
+  m_Name: Parry Oura VFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &717685878
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 717685877}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0.0299, z: 0.0021}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 65945625}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
 --- !u!1 &719123060
 GameObject:
   m_ObjectHideFlags: 0
@@ -3903,6 +3974,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7df4105fac4fac845ab2756505984049, type: 3}
   m_PrefabInstance: {fileID: 581786274}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &784697587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784697583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5ddf9d1ead62bb4caff4cb25ebfac85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.Reflex.CharacterVFXManager
+  strikeVfxPrefab: {fileID: 0}
+  strikeSpawnPoint: {fileID: 0}
+  sparksVfxPrefab: {fileID: 0}
+  sparksSpawnPoint: {fileID: 0}
+  absorbVfxPrefab: {fileID: 0}
+  absorbSpawnPoint: {fileID: 0}
+  parryVfxPrefab: {fileID: 0}
+  parrySpawnPoint: {fileID: 0}
+  parrySparksVfxPrefab: {fileID: 0}
+  parrySparksSpawnPoint: {fileID: 0}
 --- !u!1 &791434298
 GameObject:
   m_ObjectHideFlags: 0
@@ -4808,6 +4901,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015303253}
   m_CullTransparentMesh: 1
+--- !u!1 &1024852254
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1024852255}
+  m_Layer: 0
+  m_Name: Parry landOura VFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1024852255
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024852254}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.042594045, y: -0.70582265, z: -0.042594045, w: 0.7058228}
+  m_LocalPosition: {x: 0.000030000783, y: -0.0007808466, z: 0.00005790824}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 65945625}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1028264619
 GameObject:
   m_ObjectHideFlags: 0
@@ -7306,6 +7430,38 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1488518987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1488518988}
+  m_Layer: 0
+  m_Name: Oura VFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1488518988
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488518987}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.131, y: 0.71, z: -0.87}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 384181420}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1491595481
 GameObject:
   m_ObjectHideFlags: 0
@@ -9443,7 +9599,10 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e9414db0e42e2ed45b93bd3fc0543482, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -3608834655442110075, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 661680525}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
       insertIndex: -1
@@ -9500,6 +9659,17 @@ MonoBehaviour:
   strikeSpawnPoint: {fileID: 384181420}
   sparksVfxPrefab: {fileID: 4873303050181663134, guid: e3571d770329efa4da32a9b05ba2afc8, type: 3}
   sparksSpawnPoint: {fileID: 450808976}
+  absorbVfxPrefab: {fileID: 6714793051463417579, guid: 95aff5b85ea62894885d1848a6bbd3fd, type: 3}
+  absorbSpawnPoint: {fileID: 661680525}
+  parryVfxPrefab: {fileID: 2287567517716264657, guid: 7558228baf620144682cbbada9e17813, type: 3}
+  parrySpawnPoint: {fileID: 717685878}
+  parrySparksVfxPrefab: {fileID: 4873303050181663134, guid: e3571d770329efa4da32a9b05ba2afc8, type: 3}
+  parrySparksSpawnPoint: {fileID: 1024852255}
+--- !u!4 &1895044560 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3608834655442110075, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
+  m_PrefabInstance: {fileID: 1895044555}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1898489190
 GameObject:
   m_ObjectHideFlags: 0
@@ -11768,4 +11938,4 @@ SceneRoots:
   - {fileID: 543450653625852845}
   - {fileID: 6855869965040963013}
   - {fileID: 209437747783562437}
-  - {fileID: 384181420}
+  - {fileID: 1488518988}

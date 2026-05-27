@@ -9,12 +9,23 @@ namespace WizardPunk.Reflex
     /// </summary>
     public class CharacterVFXManager : MonoBehaviour
     {
-        [Header("── Melee VFX ─────────────────────────────")]
+        [Header("── Melee Oura VFX ─────────────────────────────")]
         [SerializeField] private GameObject strikeVfxPrefab;
         [SerializeField] private Transform strikeSpawnPoint;
         
         [SerializeField] private GameObject sparksVfxPrefab;
         [SerializeField] private Transform sparksSpawnPoint;
+
+        [SerializeField] private GameObject absorbVfxPrefab;
+        [SerializeField] private Transform absorbSpawnPoint;
+
+        [Header("── Parry Oura VFX ─────────────────────────────")]
+        [SerializeField] private GameObject parryVfxPrefab;
+        [SerializeField] private Transform parrySpawnPoint;
+        [SerializeField] private GameObject parrySparksVfxPrefab;
+        [SerializeField] private Transform parrySparksSpawnPoint;
+        // [SerializeField] private GameObject parryAbsorbVfxPrefab;
+        // [SerializeField] private Transform parryAbsorbSpawnPoint;
 
         // Anda bisa menambahkan banyak VFX lain di sini nantinya
         // [Header("── Magic VFX ─────────────────────────────")]
@@ -42,5 +53,35 @@ namespace WizardPunk.Reflex
                 Instantiate(sparksVfxPrefab, sparksSpawnPoint.position, sparksSpawnPoint.rotation);
             }
         }
+
+        public void PlayAbsorbVFX()
+        {
+            if (absorbVfxPrefab != null && absorbSpawnPoint != null)
+            {
+                Instantiate(absorbVfxPrefab, absorbSpawnPoint.position, absorbSpawnPoint.rotation, absorbSpawnPoint);
+            }
+        }
+
+        public void PlayParryVFX()
+        {
+            if (parryVfxPrefab != null && parrySpawnPoint != null)
+            {
+                Instantiate(parryVfxPrefab, parrySpawnPoint.position, parrySpawnPoint.rotation);
+            }
+        }
+        public void PlayParrySparksVFX()
+        {
+            if (parrySparksVfxPrefab != null && parrySparksSpawnPoint != null)
+            {
+                Instantiate(parrySparksVfxPrefab, parrySparksSpawnPoint.position, parrySparksSpawnPoint.rotation);
+            }
+        }
+        // public void PlayParryAbsorbVFX()
+        // {
+        //     if (parryAbsorbVfxPrefab != null && parryAbsorbSpawnPoint != null)
+        //     {
+        //         Instantiate(parryAbsorbVfxPrefab, parryAbsorbSpawnPoint.position, parryAbsorbSpawnPoint.rotation, parryAbsorbSpawnPoint);
+        //     }
+        // }
     }
 }
