@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/MemoryTest/MemoryTestGameManager.cs
+// Assets/_Game/Scripts/MemoryTest/MemoryTestGameManager.cs
 using System.Collections;
 using UnityEngine;
 
@@ -10,6 +10,10 @@ namespace WizardPunk.MemoryTest
         [SerializeField] private RuneManager runeManager;
         [SerializeField] private MemoryTestUIManager uiManager;
         [SerializeField] private MemoryTestScoreManager scoreManager;
+
+        [Header("── Animators ──────────────────────")]
+        [SerializeField] private Animator p1Animator;
+        [SerializeField] private Animator p2Animator;
 
         [Header("── Wand Inputs ──────────────────────")]
         [SerializeField] private WandSerialReader p1SerialReader;
@@ -74,6 +78,9 @@ namespace WizardPunk.MemoryTest
 
             for (int r = 0; r < 4; r++)
             {
+                int startScoreP1 = scoreManager.ScoreP1;
+                int startScoreP2 = scoreManager.ScoreP2;
+
                 currentActiveRunes = runeCounts[r];
                 uiManager.UpdateDifficultyText(diffNames[r]);
 
@@ -86,7 +93,13 @@ namespace WizardPunk.MemoryTest
 
                 uiManager.ShowCenterText("MEMORIZE!");
 
+                if (p1Animator != null) p1Animator.SetBool("IsThinking", true);
+                if (p2Animator != null) p2Animator.SetBool("IsThinking", true);
+
                 yield return StartCoroutine(runeManager.PlaySequence(delay, config.memorizationTime));
+
+                if (p1Animator != null) p1Animator.SetBool("IsThinking", false);
+                if (p2Animator != null) p2Animator.SetBool("IsThinking", false);
 
                 uiManager.ShowCenterText("GO!");
 
@@ -115,6 +128,36 @@ namespace WizardPunk.MemoryTest
 
                 isInputPhase = false;
                 uiManager.UpdateTimerUI(0, maxTime);
+
+                // --- Cek Pemenang Ronde untuk Animasi Win/Lose ---
+                int roundScoreP1 = scoreManager.ScoreP1 - startScoreP1;
+                int roundScoreP2 = scoreManager.ScoreP2 - startScoreP2;
+
+                if (roundScoreP1 > roundScoreP2)
+                {
+                    if (p1Animator != null) p1Animator.SetTrigger("Win");
+                    if (p2Animator != null) p2Animator.SetTrigger("Lose");
+                }
+                else if (roundScoreP2 > roundScoreP1)
+                {
+                    if (p1Animator != null) p1Animator.SetTrigger("Lose");
+                    if (p2Animator != null) p2Animator.SetTrigger("Win");
+                }
+                else
+                {
+                    // Jika seri, cek apakah mereka lebih banyak menjawab benar atau salah
+                    float halfRunes = currentActiveRunes / 2f;
+                    if (roundScoreP1 >= halfRunes)
+                    {
+                        if (p1Animator != null) p1Animator.SetTrigger("Win");
+                        if (p2Animator != null) p2Animator.SetTrigger("Win");
+                    }
+                    else
+                    {
+                        if (p1Animator != null) p1Animator.SetTrigger("Lose");
+                        if (p2Animator != null) p2Animator.SetTrigger("Lose");
+                    }
+                }
 
                 yield return new WaitForSeconds(1.5f);
                 yield return StartCoroutine(runeManager.AnimateAllRunesToIdle());
@@ -160,6 +203,18 @@ namespace WizardPunk.MemoryTest
 
             WandDirection dir = GetInput(pId);
             if (dir == WandDirection.None) return;
+
+            Animator targetAnim = (pId == 1) ? p1Animator : p2Animator;
+            if (targetAnim != null)
+            {
+                switch (dir)
+                {
+                    case WandDirection.Up: targetAnim.SetTrigger("Up"); break;
+                    case WandDirection.Down: targetAnim.SetTrigger("Down"); break;
+                    case WandDirection.Left: targetAnim.SetTrigger("Left"); break;
+                    case WandDirection.Right: targetAnim.SetTrigger("Right"); break;
+                }
+            }
 
             RuneObject target = (pId == 1) ? runeManager.RunesP1[idx] : runeManager.RunesP2[idx];
 
