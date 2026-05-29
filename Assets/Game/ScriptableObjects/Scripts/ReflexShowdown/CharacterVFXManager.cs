@@ -9,7 +9,7 @@ namespace WizardPunk.Reflex
     /// </summary>
     public class CharacterVFXManager : MonoBehaviour
     {
-        [Header("── Melee Oura VFX ─────────────────────────────")]
+        [Header("── Melee VFX ─────────────────────────────")]
         [SerializeField] private GameObject strikeVfxPrefab;
         [SerializeField] private Transform strikeSpawnPoint;
         
@@ -19,7 +19,7 @@ namespace WizardPunk.Reflex
         [SerializeField] private GameObject absorbVfxPrefab;
         [SerializeField] private Transform absorbSpawnPoint;
 
-        [Header("── Parry Oura VFX ─────────────────────────────")]
+        [Header("── Parry VFX ─────────────────────────────")]
         [SerializeField] private GameObject parryVfxPrefab;
         [SerializeField] private Transform parrySpawnPoint;
         [SerializeField] private GameObject parrySparksVfxPrefab;
@@ -27,7 +27,7 @@ namespace WizardPunk.Reflex
         // [SerializeField] private GameObject parryAbsorbVfxPrefab;
         // [SerializeField] private Transform parryAbsorbSpawnPoint;
 
-        [Header("── Shield Oura VFX ─────────────────────────────")]
+        [Header("── Shield VFX ─────────────────────────────")]
         [SerializeField] private GameObject shieldVfxPrefab;
         [SerializeField] private Transform shieldSpawnPoint;
 
@@ -91,7 +91,7 @@ namespace WizardPunk.Reflex
         {
             if (shieldVfxPrefab != null && shieldSpawnPoint != null)
             {
-                Instantiate(shieldVfxPrefab, shieldSpawnPoint.position, Quaternion.identity);
+                Instantiate(shieldVfxPrefab, shieldSpawnPoint.position, Quaternion.identity, shieldSpawnPoint);
             }
         }
     }
