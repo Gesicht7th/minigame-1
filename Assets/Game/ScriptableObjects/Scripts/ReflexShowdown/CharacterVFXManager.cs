@@ -18,6 +18,9 @@ namespace WizardPunk.Reflex
 
         [SerializeField] private GameObject absorbVfxPrefab;
         [SerializeField] private Transform absorbSpawnPoint;
+        [SerializeField] private GameObject absorbLightObject; // Objek Light (bisa berupa Point Light atau Game Object biasa)
+        [SerializeField] private float absorbLightDuration = 0.5f; // Berapa lama light menyala
+        [SerializeField] private float absorbLightMaxIntensity = 5f; // Intensitas maksimal saat paling cerah
 
         [Header("── Parry VFX ─────────────────────────────")]
         [SerializeField] private GameObject parryVfxPrefab;
@@ -31,6 +34,18 @@ namespace WizardPunk.Reflex
         [SerializeField] private GameObject shieldVfxPrefab;
         [SerializeField] private Transform shieldSpawnPoint;
 
+        [Header("── Ult Absorb VFX ─────────────────────────────")]
+        [SerializeField] private GameObject ultAbsorbVfxPrefab;
+        [SerializeField] private Transform ultAbsorbSpawnPoint;
+
+        private bool isUltAbsorbCondition = false;
+
+        public void SetMatchCondition(bool isLoser, RpsType myAction, RpsType opponentAction)
+        {
+            // Kondisi: kalah saat menggunakan Paper melawan Scissors
+            isUltAbsorbCondition = (isLoser && myAction == RpsType.Paper && opponentAction == RpsType.Scissors);
+        }
+
         // Anda bisa menambahkan banyak VFX lain di sini nantinya
         // [Header("── Magic VFX ─────────────────────────────")]
         // [SerializeField] private GameObject fireballPrefab;
@@ -41,6 +56,12 @@ namespace WizardPunk.Reflex
         /// </summary>
         public void PlayStrikeVFX()
         {
+            if (isUltAbsorbCondition)
+            {
+                PlayUltAbsorbVFX();
+                return;
+            }
+
             if (strikeVfxPrefab != null && strikeSpawnPoint != null)
             {
                 Instantiate(strikeVfxPrefab, strikeSpawnPoint.position, strikeSpawnPoint.rotation);
@@ -52,9 +73,19 @@ namespace WizardPunk.Reflex
         /// </summary>
         public void PlaySparksVFX()
         {
+            if (isUltAbsorbCondition) return;
+
             if (sparksVfxPrefab != null && sparksSpawnPoint != null)
             {
                 Instantiate(sparksVfxPrefab, sparksSpawnPoint.position, sparksSpawnPoint.rotation);
+            }
+        }
+
+        public void PlayUltAbsorbVFX()
+        {
+            if (ultAbsorbVfxPrefab != null && ultAbsorbSpawnPoint != null)
+            {
+                Instantiate(ultAbsorbVfxPrefab, ultAbsorbSpawnPoint.position, ultAbsorbSpawnPoint.rotation);
             }
         }
 
@@ -64,6 +95,48 @@ namespace WizardPunk.Reflex
             {
                 Instantiate(absorbVfxPrefab, absorbSpawnPoint.position, absorbSpawnPoint.rotation, absorbSpawnPoint);
             }
+
+            if (absorbLightObject != null)
+            {
+                StopCoroutine(nameof(FlashAbsorbLight));
+                StartCoroutine(nameof(FlashAbsorbLight));
+            }
+        }
+
+        private System.Collections.IEnumerator FlashAbsorbLight()
+        {
+            if (absorbLightObject == null) yield break;
+
+            absorbLightObject.SetActive(true);
+            
+            // Mencari komponen Light di objek ini atau anaknya
+            Light lightComp = absorbLightObject.GetComponent<Light>();
+            if (lightComp == null) lightComp = absorbLightObject.GetComponentInChildren<Light>();
+
+            if (lightComp != null)
+            {
+                float elapsed = 0f;
+                while (elapsed < absorbLightDuration)
+                {
+                    elapsed += Time.deltaTime;
+                    float t = elapsed / absorbLightDuration;
+                    
+                    // Efek Fade In: Intensitas naik perlahan dari 0 ke Max (redup menuju cerah)
+                    lightComp.intensity = Mathf.Lerp(0f, absorbLightMaxIntensity, t);
+                    
+                    // Catatan: Jika ingin efek menyala lalu redup kembali secara halus, bisa gunakan:
+                    // lightComp.intensity = Mathf.Lerp(0f, absorbLightMaxIntensity, Mathf.Sin(t * Mathf.PI));
+
+                    yield return null;
+                }
+            }
+            else
+            {
+                // Fallback jika tidak ada komponen Light (hanya GameObject biasa)
+                yield return new WaitForSeconds(absorbLightDuration);
+            }
+
+            absorbLightObject.SetActive(false);
         }
 
         public void PlayParryVFX()

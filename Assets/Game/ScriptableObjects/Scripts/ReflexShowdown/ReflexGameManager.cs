@@ -229,6 +229,12 @@ namespace WizardPunk.Reflex
 
             scoreManager.RecordRoundResult(winner);
 
+            CharacterVFXManager p1VFX = p1Visual.GetComponentInChildren<CharacterVFXManager>();
+            CharacterVFXManager p2VFX = p2Visual.GetComponentInChildren<CharacterVFXManager>();
+
+            if (p1VFX != null) p1VFX.SetMatchCondition(winner == 2, p1Attack, p2Attack);
+            if (p2VFX != null) p2VFX.SetMatchCondition(winner == 1, p2Attack, p1Attack);
+
             AnimationDelayConfig delayConfig = config.FindDelay(p1Attack, p2Attack);
             float p1Delay = delayConfig != null ? delayConfig.p1Delay : 0f;
             float p2Delay = delayConfig != null ? delayConfig.p2Delay : 0f;
