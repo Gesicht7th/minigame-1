@@ -11729,7 +11729,7 @@ MonoBehaviour:
   uiManager: {fileID: 1655882093}
   scoreManager: {fileID: 1675116431}
   p1Animator: {fileID: 508159719}
-  p2Animator: {fileID: 0}
+  p2Animator: {fileID: 1455124726}
   p1SerialReader: {fileID: 313229518}
   p2SerialReader: {fileID: 1295233687}
 --- !u!1 &1324713843
