@@ -3492,7 +3492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
-  serialPort: COM10
+  serialPort: COM8
   baudRate: 115200
   ActionHoldTimeout: 0.15
 --- !u!1 &322117164
@@ -5876,7 +5876,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &629420005
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7526,7 +7526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &791314264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10410,7 +10410,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1153908063
 MonoBehaviour:
   m_ObjectHideFlags: 0
