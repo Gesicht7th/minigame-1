@@ -162,6 +162,7 @@ namespace WizardPunk.MemoryTest
         public void ShowResultPopup(int scoreP1, int scoreP2)
         {
             HideCenterText();
+            GlobalVirtualCursor.Instance?.Show();
 
             if (popupBackground != null) popupBackground.SetActive(true);
 
