@@ -8,15 +8,48 @@ public class DualCrosshairController : MonoBehaviour
     public float speed1 = 500f;
     public KeyCode shootKey1 = KeyCode.Space; 
     public Animator animator1;
+    [Tooltip("Masukan object 'AimFura' (Transform) di sini, BUKAN character utamanya")]
+    public Transform aimTarget1;
+    public float aimMoveSpeed1 = 15f;
+    [Tooltip("Faktor skala pergerakan Aim Target terhadap Crosshair")]
+    public float aimScale1 = 0.01f;
 
     [Header("Crosshair 2 (Arrow Keys)")]
     public RectTransform crosshair2;
     public float speed2 = 500f;
     public KeyCode shootKey2 = KeyCode.RightControl; 
     public Animator animator2;
+    [Tooltip("Masukan object 'AimOura' (Transform) di sini, BUKAN character utamanya")]
+    public Transform aimTarget2;
+    public float aimMoveSpeed2 = 15f;
+    [Tooltip("Faktor skala pergerakan Aim Target terhadap Crosshair")]
+    public float aimScale2 = 0.01f;
+
+    [Header("Character Model Settings")]
+    [Tooltip("Masukan object 'SAM-Fura' (Transform model karakter) di sini")]
+    public Transform characterModel1;
+    [Tooltip("Masukan object 'SAM-Oura' (Transform model karakter) di sini")]
+    public Transform characterModel2;
+    [Tooltip("Seberapa besar model karakter ikut bergerak? (0.15 = 15%)")]
+    [Range(0f, 1f)]
+    public float characterFollowWeight = 0.15f;
+
+    private Vector3 initialAimPos1;
+    private Vector3 initialAimPos2;
+    private Vector3 initialCharPos1;
+    private Vector3 initialCharPos2;
 
     [Header("Shooting Settings")]
     public GameObject projectilePrefab; 
+
+    void Start()
+    {
+        if (aimTarget1 != null) initialAimPos1 = aimTarget1.localPosition;
+        if (aimTarget2 != null) initialAimPos2 = aimTarget2.localPosition;
+        
+        if (characterModel1 != null) initialCharPos1 = characterModel1.localPosition;
+        if (characterModel2 != null) initialCharPos2 = characterModel2.localPosition;
+    }
     public float spawnDepthFromCamera = 1.0f;
 
     void Update()
@@ -26,6 +59,10 @@ public class DualCrosshairController : MonoBehaviour
 
         MoveCrosshair1();
         MoveCrosshair2();
+
+        // --- UPDATE POSISI AIM TARGET & KARAKTER ---
+        UpdateAimTargetPosition(aimTarget1, characterModel1, crosshair1, aimMoveSpeed1, aimScale1, initialAimPos1, initialCharPos1);
+        UpdateAimTargetPosition(aimTarget2, characterModel2, crosshair2, aimMoveSpeed2, aimScale2, initialAimPos2, initialCharPos2);
 
         // Mengirimkan data Player1 saat crosshair 1 menembak
         if (Input.GetKeyDown(shootKey1)) ShootFromCrosshair(crosshair1, PlayerIndex.Player1);
@@ -62,6 +99,34 @@ public class DualCrosshairController : MonoBehaviour
         Vector2 newPos = crosshair2.anchoredPosition + movement;
         ClampCrosshairPosition(crosshair2, ref newPos);
         crosshair2.anchoredPosition = newPos;
+    }
+
+    void UpdateAimTargetPosition(Transform aimTarget, Transform characterModel, RectTransform crosshair, float moveSpeed, float scale, Vector3 initialAimPos, Vector3 initialCharPos)
+    {
+        if (aimTarget == null)
+        {
+            Debug.LogWarning("WARNING: Aim Target belum di-assign di Inspector Crosshair Manager!");
+            return;
+        }
+        if (crosshair == null) return;
+
+        // Mengambil offset dari pergerakan UI Crosshair
+        float offsetX = crosshair.anchoredPosition.x * scale;
+        float offsetY = crosshair.anchoredPosition.y * scale;
+
+        // 1. MENGGERAKKAN AIM TARGET (100% Offset)
+        Vector3 targetLocalPos = new Vector3(initialAimPos.x + offsetX, initialAimPos.y + offsetY, initialAimPos.z);
+        aimTarget.localPosition = Vector3.Lerp(aimTarget.localPosition, targetLocalPos, Time.deltaTime * moveSpeed);
+
+        // 2. MENGGERAKKAN MODEL KARAKTER (Berdasarkan persentase characterFollowWeight)
+        if (characterModel != null)
+        {
+            float charOffsetX = offsetX * characterFollowWeight;
+            float charOffsetY = offsetY * characterFollowWeight;
+            
+            Vector3 charTargetPos = new Vector3(initialCharPos.x + charOffsetX, initialCharPos.y + charOffsetY, initialCharPos.z);
+            characterModel.localPosition = Vector3.Lerp(characterModel.localPosition, charTargetPos, Time.deltaTime * moveSpeed);
+        }
     }
 
     void ClampCrosshairPosition(RectTransform crosshair, ref Vector2 pos)

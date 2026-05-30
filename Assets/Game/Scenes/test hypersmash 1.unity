@@ -218,13 +218,13 @@ Transform:
   m_GameObject: {fileID: 22372586}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1832803127}
-  - {fileID: 986581917}
   - {fileID: 543450652998359193}
+  - {fileID: 986581917}
   - {fileID: 61738718}
   m_Father: {fileID: 926840056}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -245,7 +245,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &32170500
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1380,7 +1380,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &135347128
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2683,12 +2683,12 @@ GameObject:
   - component: {fileID: 347705525}
   - component: {fileID: 347705528}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Button f
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &347705524
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4576,7 +4576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &697587261
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6783,10 +6783,19 @@ MonoBehaviour:
   speed1: 1500
   shootKey1: 32
   animator1: {fileID: 710328180}
+  aimTarget1: {fileID: 1832803127}
+  aimMoveSpeed1: 15
+  aimScale1: 0.01
   crosshair2: {fileID: 1584406611}
   speed2: 1500
   shootKey2: 307
   animator2: {fileID: 61738719}
+  aimTarget2: {fileID: 986581917}
+  aimMoveSpeed2: 15
+  aimScale2: 0.01
+  characterModel1: {fileID: 543450652998359193}
+  characterModel2: {fileID: 61738718}
+  characterFollowWeight: 0.1
   projectilePrefab: {fileID: 5108986311740894512, guid: 66ade16da2e27784cb076c74686bf55f, type: 3}
   spawnDepthFromCamera: 5
 --- !u!4 &787606357
@@ -9957,7 +9966,7 @@ GameObject:
   - component: {fileID: 1175124273}
   - component: {fileID: 1175124276}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Button o
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13963,8 +13972,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832803126}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: -1.26, z: 7.23}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2, y: -1.2600002, z: 7.2299805}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
