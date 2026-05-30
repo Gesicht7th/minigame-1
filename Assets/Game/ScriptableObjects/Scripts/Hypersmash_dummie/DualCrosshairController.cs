@@ -7,11 +7,13 @@ public class DualCrosshairController : MonoBehaviour
     public RectTransform crosshair1;
     public float speed1 = 500f;
     public KeyCode shootKey1 = KeyCode.Space; 
+    public Animator animator1;
 
     [Header("Crosshair 2 (Arrow Keys)")]
     public RectTransform crosshair2;
     public float speed2 = 500f;
     public KeyCode shootKey2 = KeyCode.RightControl; 
+    public Animator animator2;
 
     [Header("Shooting Settings")]
     public GameObject projectilePrefab; 
@@ -84,6 +86,9 @@ public class DualCrosshairController : MonoBehaviour
     void ShootFromCrosshair(RectTransform crosshair, PlayerIndex player)
     {
         if (projectilePrefab == null || crosshair == null) return;
+
+        Animator anim = (player == PlayerIndex.Player1) ? animator1 : animator2;
+        if (anim != null) anim.SetTrigger("Attack");
 
         Vector3 screenPos = crosshair.position;
         Ray ray = Camera.main.ScreenPointToRay(screenPos);

@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/HyperSmash/ShootingSystem.cs
+// Assets/_Game/Scripts/HyperSmash/ShootingSystem.cs
 // ─────────────────────────────────────────────────────────────
 // PERUBAHAN DARI VERSI SEBELUMNYA:
 //   - Singleton dihapus → static array Instances[2]
@@ -46,6 +46,10 @@ namespace WizardPunk.HyperSmash
         [SerializeField] private Color player1Color = new Color(1f, 0.8f, 0.0f);
         [Tooltip("Warna projectile Player2 (default: cyan)")]
         [SerializeField] private Color player2Color = new Color(0.0f, 0.8f, 1f);
+
+        [Header("── Animation ───────────────────────────────")]
+        [Tooltip("Animator karakter untuk memainkan animasi saat menembak")]
+        [SerializeField] private Animator characterAnimator;
         #endregion
 
         #region Private
@@ -77,6 +81,9 @@ namespace WizardPunk.HyperSmash
         {
             if (firePoint == null && Camera.main != null)
                 firePoint = Camera.main.transform;
+
+            if (characterAnimator == null)
+                characterAnimator = GetComponentInChildren<Animator>();
         }
 
         void Update()
@@ -104,6 +111,11 @@ namespace WizardPunk.HyperSmash
             // Ambil WandAimController sesuai player ini
             WandAimController aimCtrl = WandAimController.Get(playerIndex);
             if (aimCtrl == null) return;
+
+            if (characterAnimator != null)
+            {
+                characterAnimator.SetTrigger("Attack");
+            }
 
             Ray aimRay = aimCtrl.AimRay;
 
