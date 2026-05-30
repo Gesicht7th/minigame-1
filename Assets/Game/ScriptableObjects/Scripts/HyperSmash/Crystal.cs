@@ -130,7 +130,7 @@ namespace WizardPunk.HyperSmash
 
             if (animator != null)
             {
-                animator.Play("CrystalHit", 0, 0f);
+                animator.SetTrigger("Hit");
             }
 
             StartCoroutine(HitFlash());
