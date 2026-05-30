@@ -54,6 +54,7 @@ namespace WizardPunk.MemoryTest
 
             Cursor.visible = false;
             uiManager.HideCursor();
+            GlobalVirtualCursor.Instance?.Hide();
 
             Time.timeScale = 1f;
             StartCoroutine(GameLoop());
@@ -70,6 +71,7 @@ namespace WizardPunk.MemoryTest
         private IEnumerator GameLoop()
         {
             uiManager.HideCursor();
+            GlobalVirtualCursor.Instance?.Hide();
             uiManager.ShowTutorial();
             yield return new WaitUntil(() => uiManager.IsTutorialDone);
             uiManager.HideTutorial();

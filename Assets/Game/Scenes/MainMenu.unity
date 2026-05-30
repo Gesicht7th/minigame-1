@@ -4898,11 +4898,11 @@ MonoBehaviour:
   wandReader: {fileID: 1768661942}
   cursorRect: {fileID: 1699748145}
   graphicRaycaster: {fileID: 239313413}
-  gyroDeadzone: 4.08
+  gyroDeadzone: 4
   gyroSensitivity: 0.05
   aimSmoothing: 12
   borderPadding: 0.03
-  mouseFallback: 1
+  mouseFallback: 0
 --- !u!1001 &2323886383082319188
 PrefabInstance:
   m_ObjectHideFlags: 0
