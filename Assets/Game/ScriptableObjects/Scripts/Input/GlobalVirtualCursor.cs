@@ -30,6 +30,7 @@ namespace WizardPunk
         private GameObject hovered;
         private bool visible = true;
         private bool wandMode;
+        private string wandReaderPortHint;
 
         private void Awake()
         {
@@ -46,6 +47,9 @@ namespace WizardPunk
 
         private void Start()
         {
+            if (wandReader != null)
+                wandReaderPortHint = wandReader.serialPort;
+
             RefreshInputMode();
             ApplyVisibility();
             UpdateCursorRect();
@@ -93,7 +97,12 @@ namespace WizardPunk
         public void SetVisible(bool show)
         {
             if (visible == show)
+            {
+                if (show)
+                    ApplyVisibility();
+
                 return;
+            }
 
             visible = show;
             ApplyVisibility();
@@ -111,6 +120,9 @@ namespace WizardPunk
 
         private void RefreshInputMode()
         {
+            if (wandReader != null && wandReader.IsConnected)
+                wandReaderPortHint = wandReader.serialPort;
+
             if (wandReader == null || !wandReader.IsConnected)
                 ReacquireWandReader();
 
@@ -126,24 +138,41 @@ namespace WizardPunk
         {
             WandSerialReader[] readers = FindObjectsOfType<WandSerialReader>();
             WandSerialReader fallbackReader = null;
+            WandSerialReader connectedReader = null;
 
             foreach (WandSerialReader reader in readers)
             {
                 if (reader == null)
                     continue;
 
-                if (reader.IsConnected)
+                if (!string.IsNullOrEmpty(wandReaderPortHint) && reader.serialPort == wandReaderPortHint && reader.IsConnected)
                 {
                     wandReader = reader;
                     return;
+                }
+
+                if (reader.IsConnected)
+                {
+                    if (connectedReader == null)
+                        connectedReader = reader;
                 }
 
                 if (fallbackReader == null)
                     fallbackReader = reader;
             }
 
+            if (connectedReader != null)
+            {
+                wandReader = connectedReader;
+                wandReaderPortHint = wandReader.serialPort;
+                return;
+            }
+
             if (wandReader == null || !wandReader)
                 wandReader = fallbackReader;
+
+            if (wandReader != null)
+                wandReaderPortHint = wandReader.serialPort;
         }
 
         private void ApplyVisibility()
