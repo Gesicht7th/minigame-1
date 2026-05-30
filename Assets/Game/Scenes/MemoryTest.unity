@@ -14652,7 +14652,7 @@ MonoBehaviour:
   p1NextButton: {fileID: 1217118277}
   p2NextButton: {fileID: 2108166153}
   drawNextButton: {fileID: 359269265}
-  nextSceneName: test hypersmash
+  nextSceneName: test hypersmash 1
 --- !u!114 &1655882094
 MonoBehaviour:
   m_ObjectHideFlags: 0
