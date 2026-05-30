@@ -46,9 +46,6 @@ namespace WizardPunk
 
         private void Start()
         {
-            if (wandReader == null)
-                wandReader = FindObjectOfType<WandSerialReader>();
-
             RefreshInputMode();
             ApplyVisibility();
             UpdateCursorRect();
@@ -114,12 +111,39 @@ namespace WizardPunk
 
         private void RefreshInputMode()
         {
+            if (wandReader == null || !wandReader.IsConnected)
+                ReacquireWandReader();
+
             wandMode = wandReader != null && wandReader.IsConnected;
 
             Cursor.visible = !visible || !wandMode;
             Cursor.lockState = visible && wandMode
                 ? CursorLockMode.Locked
                 : CursorLockMode.None;
+        }
+
+        private void ReacquireWandReader()
+        {
+            WandSerialReader[] readers = FindObjectsOfType<WandSerialReader>();
+            WandSerialReader fallbackReader = null;
+
+            foreach (WandSerialReader reader in readers)
+            {
+                if (reader == null)
+                    continue;
+
+                if (reader.IsConnected)
+                {
+                    wandReader = reader;
+                    return;
+                }
+
+                if (fallbackReader == null)
+                    fallbackReader = reader;
+            }
+
+            if (wandReader == null || !wandReader)
+                wandReader = fallbackReader;
         }
 
         private void ApplyVisibility()
