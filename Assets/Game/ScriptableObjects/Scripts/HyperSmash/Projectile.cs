@@ -71,13 +71,19 @@ public class Projectile : MonoBehaviour
 
             Crystal crystal = other.GetComponent<Crystal>();
 
-            if (crystal != null && HyperSmashScoreManager.Instance != null)
+            if (crystal != null)
             {
-                HyperSmashScoreManager.Instance.RegisterHit(ownerPlayer);
-                HyperSmashScoreManager.Instance.RegisterCrystalKill(ownerPlayer, crystal);
+                if (HyperSmashScoreManager.Instance != null)
+                {
+                    HyperSmashScoreManager.Instance.RegisterHit(ownerPlayer);
+                }
+                crystal.TakeDamage(1, ownerPlayer);
+            }
+            else
+            {
+                other.gameObject.SetActive(false);
             }
 
-            other.gameObject.SetActive(false);
             Destroy(gameObject);
         }
     }

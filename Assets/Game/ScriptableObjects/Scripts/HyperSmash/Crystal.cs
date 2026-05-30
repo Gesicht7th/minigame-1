@@ -45,6 +45,7 @@ namespace WizardPunk.HyperSmash
         private Vector3 startLocalPos;
         private float floatTime;
         private Material mat;
+        private Animator animator;
 
         // Siapa yang pertama kali menyerang kristal ini
         private PlayerIndex lastAttacker = PlayerIndex.Player1;
@@ -69,6 +70,8 @@ namespace WizardPunk.HyperSmash
 
             if (crystalRenderer != null)
                 mat = crystalRenderer.material;
+
+            animator = GetComponentInChildren<Animator>();
 
             startLocalPos = transform.localPosition;
             floatTime = Random.Range(0f, Mathf.PI * 2f);
@@ -125,9 +128,18 @@ namespace WizardPunk.HyperSmash
             lastAttacker = killer;
             currentHP -= damage;
 
+            if (animator != null)
+            {
+                animator.Play("CrystalHit", 0, 0f);
+            }
+
             StartCoroutine(HitFlash());
             if (hitParticles != null)
-                hitParticles.Play();
+            {
+                ParticleSystem hitVfx = Instantiate(hitParticles, transform.position, Quaternion.identity);
+                hitVfx.Play();
+                Destroy(hitVfx.gameObject, hitVfx.main.duration + 0.5f);
+            }
 
             if (currentHP <= 0)
                 Die(killer);
@@ -153,9 +165,9 @@ namespace WizardPunk.HyperSmash
 
             if (breakParticles != null)
             {
-                breakParticles.transform.SetParent(null);
-                breakParticles.Play();
-                Destroy(breakParticles.gameObject, breakParticles.main.duration + 1f);
+                ParticleSystem breakVfx = Instantiate(breakParticles, transform.position, Quaternion.identity);
+                breakVfx.Play();
+                Destroy(breakVfx.gameObject, breakVfx.main.duration + 1f);
             }
 
             OnCrystalDestroyed?.Invoke(this, killer);
