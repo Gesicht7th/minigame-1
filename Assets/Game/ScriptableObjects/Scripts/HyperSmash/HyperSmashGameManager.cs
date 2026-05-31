@@ -154,6 +154,7 @@ namespace WizardPunk.HyperSmash
 
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+            GlobalVirtualCursor.Instance?.Show();
 
             PlayerPrefs.SetInt("G2_ScoreP1", scoreManager.ScoreP1);
             PlayerPrefs.SetInt("G2_ScoreP2", scoreManager.ScoreP2);

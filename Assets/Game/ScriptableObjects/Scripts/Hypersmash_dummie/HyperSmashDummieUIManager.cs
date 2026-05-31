@@ -164,6 +164,11 @@ public class HyperSmashDummieUIManager : MonoBehaviour
         if (tutorialPanel != null) tutorialPanel.SetActive(false);
     }
 
+    public void TriggerTutorialDone()
+    {
+        IsTutorialDone = true;
+    }
+
     public IEnumerator ShowTimesUp()
     {
         if (timesUpPanel != null)
