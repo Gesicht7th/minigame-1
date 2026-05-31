@@ -86,6 +86,25 @@ public class DualCrosshairController : MonoBehaviour
     void MoveCrosshair1()
     {
         if (crosshair1 == null) return;
+
+        // Coba gunakan input dari Wand terlebih dahulu
+        WandAimController wand = WandAimController.Get(PlayerIndex.Player1);
+        if (wand != null && wand.serialReader != null && wand.serialReader.IsConnected)
+        {
+            RectTransform parent = crosshair1.parent as RectTransform;
+            if (parent != null)
+            {
+                // Konversi Normalized (0 sampai 1) menjadi AnchoredPosition
+                Vector2 norm = wand.CrosshairNormalized;
+                crosshair1.anchoredPosition = new Vector2(
+                    (norm.x - 0.5f) * parent.rect.width,
+                    (norm.y - 0.5f) * parent.rect.height
+                );
+            }
+            return; // Lewati fallback keyboard jika Wand aktif
+        }
+
+        // Fallback Keyboard
         float moveX = 0f; float moveY = 0f;
         if (Input.GetKey(KeyCode.W)) moveY = 1f;
         if (Input.GetKey(KeyCode.S)) moveY = -1f;
@@ -101,6 +120,25 @@ public class DualCrosshairController : MonoBehaviour
     void MoveCrosshair2()
     {
         if (crosshair2 == null) return;
+
+        // Coba gunakan input dari Wand terlebih dahulu
+        WandAimController wand = WandAimController.Get(PlayerIndex.Player2);
+        if (wand != null && wand.serialReader != null && wand.serialReader.IsConnected)
+        {
+            RectTransform parent = crosshair2.parent as RectTransform;
+            if (parent != null)
+            {
+                // Konversi Normalized (0 sampai 1) menjadi AnchoredPosition
+                Vector2 norm = wand.CrosshairNormalized;
+                crosshair2.anchoredPosition = new Vector2(
+                    (norm.x - 0.5f) * parent.rect.width,
+                    (norm.y - 0.5f) * parent.rect.height
+                );
+            }
+            return; // Lewati fallback keyboard jika Wand aktif
+        }
+
+        // Fallback Keyboard
         float moveX = 0f; float moveY = 0f;
         if (Input.GetKey(KeyCode.UpArrow)) moveY = 1f;
         if (Input.GetKey(KeyCode.DownArrow)) moveY = -1f;
