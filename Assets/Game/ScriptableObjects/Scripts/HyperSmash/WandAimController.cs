@@ -68,8 +68,14 @@ namespace WizardPunk.HyperSmash
                 }
             }
 
+            // SESUDAH
             if (playerIndex == PlayerIndex.Player2)
-                UpdateKeyboardWASD();
+            {
+                if (serialReader != null)
+                    UpdateGyroAiming();
+                else
+                    UpdateKeyboardWASD();
+            }
 
             CrosshairNormalized = Vector2.Lerp(
                 CrosshairNormalized,

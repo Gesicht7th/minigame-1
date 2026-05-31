@@ -259,11 +259,11 @@ public class WandSerialReader : MonoBehaviour
             Debug.Log("[WandSerial] ESP32 Ready!");
         }
 
-        //if (line == "ZEROED")
-        //{
-        //    _zeroed = true;
-        //    Debug.Log("[WandSerial] Zeroed received!");
-        //}
+        if (line == "ZEROED")
+        {
+            _zeroed = true;
+            Debug.Log("[WandSerial] Zeroed received!");
+        }
 
         // Format Velocity: "V:gx,gy,gz"
         if (line.StartsWith("V:"))
