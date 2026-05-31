@@ -33,6 +33,7 @@ namespace WizardPunk.HyperSmash
 
         void Start()
         {
+            GlobalVirtualCursor.Instance?.Hide();
             Time.timeScale = 1f;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -58,6 +59,7 @@ namespace WizardPunk.HyperSmash
 
         private IEnumerator GameFlow()
         {
+            GlobalVirtualCursor.Instance?.Hide();
             scoreManager.ResetAll();
             aimController?.ResetToCenter();
             uiManager?.HideAll();
@@ -151,6 +153,13 @@ namespace WizardPunk.HyperSmash
         {
             SetState(HyperSmashState.GameOver);
             yield return new WaitForSeconds(0.3f);
+
+            // Flush buffered inputs before showing cursor
+            WandSerialReader[] readers = FindObjectsByType<WandSerialReader>(FindObjectsSortMode.None);
+            foreach (var reader in readers)
+            {
+                if (reader != null) reader.ConsumeAction();
+            }
 
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
