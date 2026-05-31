@@ -3,6 +3,8 @@ using WizardPunk.HyperSmash; // Memanggil namespace dari sistem lama Anda
 
 public class DualCrosshairController : MonoBehaviour
 {
+    public static DualCrosshairController Instance { get; private set; }
+
     [Header("Crosshair 1 (WASD)")]
     public RectTransform crosshair1;
     public float speed1 = 500f;
@@ -41,6 +43,16 @@ public class DualCrosshairController : MonoBehaviour
 
     [Header("Shooting Settings")]
     public GameObject projectilePrefab; 
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     void Start()
     {
@@ -188,5 +200,12 @@ public class DualCrosshairController : MonoBehaviour
             HyperSmashScoreManager.Instance.RegisterShot(player);
         }
         // -------------------------------
+    }
+
+    public Ray GetAimRay(PlayerIndex player)
+    {
+        RectTransform crosshair = (player == PlayerIndex.Player1) ? crosshair1 : crosshair2;
+        if (crosshair == null) return new Ray(Vector3.zero, Vector3.forward);
+        return Camera.main.ScreenPointToRay(crosshair.position);
     }
 }

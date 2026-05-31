@@ -108,16 +108,25 @@ namespace WizardPunk.HyperSmash
         #region Shooting
         private void Fire()
         {
-            // Ambil WandAimController sesuai player ini
-            WandAimController aimCtrl = WandAimController.Get(playerIndex);
-            if (aimCtrl == null) return;
+            Ray aimRay;
+
+            // Prioritaskan DualCrosshairController (Crosshair Baru) jika ada
+            if (DualCrosshairController.Instance != null)
+            {
+                aimRay = DualCrosshairController.Instance.GetAimRay(playerIndex);
+            }
+            else
+            {
+                // Fallback ke WandAimController (Aset Lama)
+                WandAimController aimCtrl = WandAimController.Get(playerIndex);
+                if (aimCtrl == null) return;
+                aimRay = aimCtrl.AimRay;
+            }
 
             if (characterAnimator != null)
             {
                 characterAnimator.SetTrigger("Attack");
             }
-
-            Ray aimRay = aimCtrl.AimRay;
 
             // Cari titik jatuh tembakan (target) sejauh max range
             Vector3 targetPoint = aimRay.GetPoint(config.projectileRange);
