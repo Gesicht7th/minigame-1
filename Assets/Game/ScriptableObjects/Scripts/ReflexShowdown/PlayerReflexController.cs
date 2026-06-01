@@ -50,7 +50,7 @@ namespace WizardPunk.Reflex
 
         void Update()
         {
-            if (playerIndex == 1 && !useKeyboard) UpdateWand();
+            if (!useKeyboard) UpdateWand();
             else UpdateKeyboard();
 
             // Deteksi perubahan posisi

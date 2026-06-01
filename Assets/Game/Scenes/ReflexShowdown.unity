@@ -1719,8 +1719,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.Reflex.PlayerReflexController
   playerIndex: 1
   config: {fileID: 11400000, guid: 5df018dabe0a84b4589b2dd545cf9c2c, type: 2}
-  serialReader: {fileID: 0}
-  useKeyboard: 1
+  serialReader: {fileID: 1028264621}
+  useKeyboard: 0
   holdKey: 304
   rockKey: 97
   scissorsKey: 115
@@ -1798,6 +1798,53 @@ Transform:
   - {fileID: 222701773}
   - {fileID: 1659302403}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &344375469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 344375471}
+  - component: {fileID: 344375470}
+  m_Layer: 0
+  m_Name: SerialManager 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &344375470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344375469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
+  serialPort: COM9
+  baudRate: 115200
+  ActionHoldTimeout: 0.4
+--- !u!4 &344375471
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344375469}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 593020392}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &349726110
 GameObject:
@@ -3087,6 +3134,7 @@ Transform:
   - {fileID: 1253189762}
   - {fileID: 1681083314}
   - {fileID: 1028264620}
+  - {fileID: 344375471}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &604853440
@@ -5284,7 +5332,7 @@ GameObject:
   - component: {fileID: 1028264620}
   - component: {fileID: 1028264621}
   m_Layer: 0
-  m_Name: SerialManagerNew
+  m_Name: SerialManager 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5317,7 +5365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
-  serialPort: COM10
+  serialPort: COM8
   baudRate: 115200
   ActionHoldTimeout: 0.4
 --- !u!1 &1028643691
@@ -5686,7 +5734,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.Reflex.PlayerReflexController
   playerIndex: 2
   config: {fileID: 11400000, guid: 5df018dabe0a84b4589b2dd545cf9c2c, type: 2}
-  serialReader: {fileID: 0}
+  serialReader: {fileID: 344375470}
   useKeyboard: 0
   holdKey: 32
   rockKey: 106
@@ -7027,6 +7075,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1331795677}
   m_CullTransparentMesh: 1
+--- !u!1 &1369360492
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1369360493}
+  - component: {fileID: 1369360495}
+  - component: {fileID: 1369360494}
+  m_Layer: 5
+  m_Name: HoldProgressBar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1369360493
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1369360492}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1487333361}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.00012207031, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1369360494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1369360492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 0
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1369360495
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1369360492}
+  m_CullTransparentMesh: 1
 --- !u!1 &1387197756
 GameObject:
   m_ObjectHideFlags: 0
@@ -8331,6 +8454,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1487333361}
+  - component: {fileID: 1487333362}
   m_Layer: 5
   m_Name: TutorialPanel
   m_TagString: Untagged
@@ -8354,6 +8478,7 @@ RectTransform:
   - {fileID: 1518931474}
   - {fileID: 762404270}
   - {fileID: 1561095497}
+  - {fileID: 1369360493}
   m_Father: {fileID: 1446389180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -8361,6 +8486,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1487333362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487333360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9abd6f58d3162ce4f93b878a43a2d219, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.Reflex.ReflexTutorialReadyController
+  p1Reader: {fileID: 1028264621}
+  p2Reader: {fileID: 344375470}
+  uiManager: {fileID: 1446389181}
+  goButton: {fileID: 762404271}
+  holdProgressBar: {fileID: 1369360494}
+  holdDuration: 1.5
 --- !u!1 &1488518987
 GameObject:
   m_ObjectHideFlags: 0

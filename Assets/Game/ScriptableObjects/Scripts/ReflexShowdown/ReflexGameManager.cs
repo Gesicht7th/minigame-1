@@ -66,6 +66,7 @@ namespace WizardPunk.Reflex
 
         private IEnumerator GameFlow()
         {
+            GlobalVirtualCursor.Instance?.Hide();
             uiManager.ShowGameScreen();
 
             // --- TAMBAHAN: FASE TUTORIAL ---
@@ -312,6 +313,17 @@ namespace WizardPunk.Reflex
             yield return new WaitForSeconds(3f); // Tahan pop-up selama 3 detik
             uiManager.HideTimesUp();
             // ----------------------------------------------
+
+            // Flush buffered inputs before showing cursor
+            WandSerialReader[] readers = FindObjectsByType<WandSerialReader>(FindObjectsSortMode.None);
+            foreach (var reader in readers)
+            {
+                if (reader != null) reader.ConsumeAction();
+            }
+
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            GlobalVirtualCursor.Instance?.Show();
 
             uiManager.ShowResultPopup(gameWinner);
 
