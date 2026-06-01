@@ -160,7 +160,7 @@ public class WandSerialReader : MonoBehaviour
             {
                 ReadTimeout = 1000,
                 WriteTimeout = 1000,
-                DtrEnable = true,   // Reset ESP32 saat connect (opsional)
+                DtrEnable = false,   // Reset ESP32 saat connect (opsional)
             };
             _serial.Open();
 

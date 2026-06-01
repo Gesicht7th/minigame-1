@@ -1102,7 +1102,7 @@ MonoBehaviour:
   playerIndex: 1
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
   serialReader: {fileID: 36404790}
-  gyroDeadzone: 2.5
+  gyroDeadzone: 10
   gyroSensitivity: 0.05
   useMouseFallback: 0
   mouseSensitivity: 1
@@ -1897,25 +1897,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea225746e745cc8498b94894daf085fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.ShootingSystem
-  playerIndex: 1
-  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  firePoint: {fileID: 0}
-  projectilePrefab: {fileID: 0}
-  player1Color:
-    r: 1
-    g: 0.8
-    b: 0
-    a: 1
-  player2Color:
-    r: 0
-    g: 0.8
-    b: 1
-    a: 1
-  characterAnimator: {fileID: 0}
-  isShooting: 0
-  nextFireTime: 0
-  fireInterval: 0
-  <TotalShots>k__BackingField: 0
 --- !u!1001 &149578896
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2360,25 +2341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea225746e745cc8498b94894daf085fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.ShootingSystem
-  playerIndex: 0
-  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  firePoint: {fileID: 0}
-  projectilePrefab: {fileID: 0}
-  player1Color:
-    r: 1
-    g: 0.8
-    b: 0
-    a: 1
-  player2Color:
-    r: 0
-    g: 0.8
-    b: 1
-    a: 1
-  characterAnimator: {fileID: 0}
-  isShooting: 0
-  nextFireTime: 0
-  fireInterval: 0
-  <TotalShots>k__BackingField: 0
 --- !u!4 &252138770 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7134375633722532235, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
@@ -2431,7 +2393,7 @@ MonoBehaviour:
   playerIndex: 0
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
   serialReader: {fileID: 1557435683}
-  gyroDeadzone: 2.5
+  gyroDeadzone: 10
   gyroSensitivity: 0.05
   useMouseFallback: 0
   mouseSensitivity: 1
@@ -7043,11 +7005,12 @@ MonoBehaviour:
   characterModel1: {fileID: 543450652998359193}
   characterModel2: {fileID: 61738718}
   characterFollowWeight: 0.1
-  projectilePrefab: {fileID: 5108986311740894512, guid: 66ade16da2e27784cb076c74686bf55f, type: 3}
+  projectilePrefabP1: {fileID: 5108986311740894512, guid: 66ade16da2e27784cb076c74686bf55f, type: 3}
+  projectilePrefabP2: {fileID: 5108986311740894512, guid: abb75958c6a207942934ceca08408fad, type: 3}
   fireRateP1: 5
   fireRateP2: 5
-  bulletSpeed: 20
-  bulletRange: 100
+  bulletSpeed: 30
+  bulletRange: 40
   spawnDepthFromCamera: 5
 --- !u!4 &787606357
 Transform:
