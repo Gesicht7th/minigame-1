@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿// Assets/_Game/Scripts/ReflexShowdown/ReflexUIManager.cs
+
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using WizardPunk;
-using WizardPunk.HyperSmash;
 
 namespace WizardPunk.Reflex
 {
@@ -36,6 +36,24 @@ namespace WizardPunk.Reflex
         [SerializeField] private Color selectedColor = Color.white;
         [SerializeField] private float unselectedScale = 0.8f;
         [SerializeField] private float selectedScale = 1.1f;
+
+        [Header("── Character Slide Animations ──────────")]
+        [Tooltip("Masukkan RectTransform gambar Fura (Player 1) di sini")]
+        [SerializeField] private RectTransform p1CharacterRect;
+        [Tooltip("Masukkan RectTransform gambar Oura (Player 2) di sini")]
+        [SerializeField] private RectTransform p2CharacterRect;
+        [Tooltip("Jarak geser ke luar layar (Besarkan jika gambar kurang tersembunyi)")]
+        [SerializeField] private float slideDistance = 1000f;
+
+        private Vector2 p1CharShownPos;
+        private Vector2 p2CharShownPos;
+        private Vector2 p1CharHiddenPos;
+        private Vector2 p2CharHiddenPos;
+
+        private Coroutine p1CharSlideCoroutine;
+        private Coroutine p2CharSlideCoroutine;
+        private RpsType lastP1Action = RpsType.None;
+        private RpsType lastP2Action = RpsType.None;
 
         [Header("── Times Up Pop-Up ──")]
         [SerializeField] private GameObject timesUpPanel;
@@ -100,6 +118,19 @@ namespace WizardPunk.Reflex
             {
                 tutorialGoButton.onClick.AddListener(() => { IsTutorialDone = true; });
             }
+
+            if (p1CharacterRect != null)
+            {
+                p1CharShownPos = p1CharacterRect.anchoredPosition;
+                p1CharHiddenPos = p1CharShownPos + new Vector2(-slideDistance, 0);
+                p1CharacterRect.anchoredPosition = p1CharHiddenPos;
+            }
+            if (p2CharacterRect != null)
+            {
+                p2CharShownPos = p2CharacterRect.anchoredPosition;
+                p2CharHiddenPos = p2CharShownPos + new Vector2(slideDistance, 0);
+                p2CharacterRect.anchoredPosition = p2CharHiddenPos;
+            }
         }
 
         void OnDestroy()
@@ -108,7 +139,6 @@ namespace WizardPunk.Reflex
                 ReflexScoreManager.Instance.OnHeartsUpdated -= UpdateHeartsUI;
         }
 
-        // --- ANIMASI POPUP (FUNGSI BARU) ---
         private IEnumerator AnimatePopup(GameObject panel)
         {
             panel.transform.localScale = Vector3.zero;
@@ -119,7 +149,7 @@ namespace WizardPunk.Reflex
 
             while (elapsed < duration)
             {
-                elapsed += Time.deltaTime;
+                elapsed += Time.unscaledDeltaTime;
                 float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
                 panel.transform.localScale = Vector3.Lerp(Vector3.zero, new Vector3(1.1f, 1.1f, 1.1f), t);
                 yield return null;
@@ -130,14 +160,50 @@ namespace WizardPunk.Reflex
             Vector3 startScale = panel.transform.localScale;
             while (elapsed < duration)
             {
-                elapsed += Time.deltaTime;
+                elapsed += Time.unscaledDeltaTime;
                 float t = elapsed / duration;
                 panel.transform.localScale = Vector3.Lerp(startScale, Vector3.one, t);
                 yield return null;
             }
             panel.transform.localScale = Vector3.one;
         }
-        // ------------------------------------
+
+        // --- ANIMASI CUT-IN KARAKTER OTOMATIS (MUNCUL -> TAHAN -> HILANG) ---
+        private IEnumerator PlayCharacterCutIn(RectTransform charRect, Vector2 shownPos, Vector2 hiddenPos, float stayDuration)
+        {
+            if (charRect == null) yield break;
+
+            // 1. Muncul (Slide In)
+            float duration = 0.15f;
+            float elapsed = 0f;
+            Vector2 startPos = charRect.anchoredPosition;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+                charRect.anchoredPosition = Vector2.Lerp(startPos, shownPos, t);
+                yield return null;
+            }
+            charRect.anchoredPosition = shownPos;
+
+            // 2. Tahan gambar di layar selama beberapa saat (Contoh: 1 detik)
+            yield return new WaitForSecondsRealtime(stayDuration);
+
+            // 3. Menghilang (Slide Out) secara otomatis
+            elapsed = 0f;
+            startPos = charRect.anchoredPosition;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+                charRect.anchoredPosition = Vector2.Lerp(startPos, hiddenPos, t);
+                yield return null;
+            }
+            charRect.anchoredPosition = hiddenPos;
+        }
+        // --------------------------------------------------------------------
 
         public void ShowTutorial()
         {
@@ -182,7 +248,6 @@ namespace WizardPunk.Reflex
 
             if (popupBackground != null)
             {
-                // Panggil animasi pop
                 StartCoroutine(AnimatePopup(popupBackground));
             }
 
@@ -196,7 +261,6 @@ namespace WizardPunk.Reflex
             if (SceneFlowManager.Instance != null) SceneFlowManager.Instance.GoTo(nextSceneName);
         }
 
-        // --- Sisa fungsi HUD/Phase UI tetap sama persis seperti kode asli Anda ---
         public void ShowReadyPrompt() { readyPanel?.SetActive(true); if (readyTitleText != null) readyTitleText.text = "HOLD WAND LOW!\nBoth players ready..."; }
         public void UpdateReadyStatus(bool p1Ready, bool p2Ready) { if (p1ReadyIndicator != null) p1ReadyIndicator.color = p1Ready ? readyColor : notReadyColor; if (p2ReadyIndicator != null) p2ReadyIndicator.color = p2Ready ? readyColor : notReadyColor; }
         public void HideReadyPrompt() => readyPanel?.SetActive(false);
@@ -205,14 +269,120 @@ namespace WizardPunk.Reflex
         public void ShowGo() { drawPanel?.SetActive(true); if (goText != null) { goText.text = "GO!!!"; goText.transform.localScale = Vector3.one * 3f; StartCoroutine(ScaleTo(goText.transform, Vector3.one, 0.2f)); } if (p1TimerText != null) p1TimerText.text = "---"; if (p2TimerText != null) p2TimerText.text = "---"; }
         public void UpdateDrawTimers(float t1, float t2, bool p1Fired, bool p2Fired) { if (p1TimerText != null) p1TimerText.text = p1Fired ? $"{t1:F3}s" : $"{t1:F2}s..."; if (p2TimerText != null) p2TimerText.text = p2Fired ? $"{t2:F3}s" : $"{t2:F2}s..."; }
         public void HideGo() => drawPanel?.SetActive(false);
-        public void ShowRoundResult(int winner, float t1, float t2) { roundResultPanel?.SetActive(true); falseStartText?.gameObject.SetActive(false); if (roundWinnerText != null) { roundWinnerText.text = winner == 0 ? "DRAW!" : $"PLAYER {winner} WINS!"; roundWinnerText.color = winner == 1 ? new Color(0.3f, 0.6f, 1f) : winner == 2 ? new Color(1f, 0.4f, 0.2f) : Color.white; } if (p1TimeText != null) p1TimeText.text = t1 >= 0 ? $"P1: {t1:F3}s" : "P1: NO FIRE"; if (p2TimeText != null) p2TimeText.text = t2 >= 0 ? $"P2: {t2:F3}s" : "P2: NO FIRE"; }
-        public void ShowFalseStartResult(bool p1False, bool p2False) { roundResultPanel?.SetActive(true); falseStartText?.gameObject.SetActive(true); if (falseStartText != null) { string who = (p1False && p2False) ? "BOTH PLAYERS" : p1False ? "PLAYER 1" : "PLAYER 2"; falseStartText.text = $"FALSE START!\n{who} fired early!"; falseStartText.color = new Color(1f, 0.8f, 0f); } if (roundWinnerText != null) { int winner = (p1False && !p2False) ? 2 : (!p1False && p2False) ? 1 : 0; roundWinnerText.text = winner == 0 ? "DRAW!" : $"PLAYER {winner} WINS!"; } }
+
+        public void ShowRoundResult(int winner, float t1, float t2)
+        {
+            roundResultPanel?.SetActive(true);
+            falseStartText?.gameObject.SetActive(false);
+            if (roundWinnerText != null)
+            {
+                roundWinnerText.text = winner == 0 ? "DRAW!" : $"PLAYER {winner} WINS!";
+                roundWinnerText.color = winner == 1 ? new Color(0.3f, 0.6f, 1f) : winner == 2 ? new Color(1f, 0.4f, 0.2f) : Color.white;
+            }
+            if (p1TimeText != null) p1TimeText.text = t1 >= 0 ? $"P1: {t1:F3}s" : "P1: NO FIRE";
+            if (p2TimeText != null) p2TimeText.text = t2 >= 0 ? $"P2: {t2:F3}s" : "P2: NO FIRE";
+        }
+
+        public void ShowFalseStartResult(bool p1False, bool p2False)
+        {
+            roundResultPanel?.SetActive(true);
+            falseStartText?.gameObject.SetActive(true);
+            if (falseStartText != null)
+            {
+                string who = (p1False && p2False) ? "BOTH PLAYERS" : p1False ? "PLAYER 1" : "PLAYER 2";
+                falseStartText.text = $"FALSE START!\n{who} fired early!";
+                falseStartText.color = new Color(1f, 0.8f, 0f);
+            }
+            if (roundWinnerText != null)
+            {
+                int winner = (p1False && !p2False) ? 2 : (!p1False && p2False) ? 1 : 0;
+                roundWinnerText.text = winner == 0 ? "DRAW!" : $"PLAYER {winner} WINS!";
+            }
+        }
+
         public void HideRoundResult() => roundResultPanel?.SetActive(false);
         public void ShowInterRound(int round) { interRoundPanel?.SetActive(true); if (interRoundTitleText != null) interRoundTitleText.text = $"ROUND {round} COMPLETE"; }
         public void HideInterRound() => interRoundPanel?.SetActive(false);
         public void UpdateRoundLabel(int cur) { if (roundLabelText != null) roundLabelText.text = $"ROUND {cur}"; }
-        private IEnumerator ScaleTo(Transform t, Vector3 target, float dur) { Vector3 start = t.localScale; float el = 0f; while (el < dur) { el += Time.deltaTime; t.localScale = Vector3.Lerp(start, target, el / dur); yield return null; } t.localScale = target; }
-        public void ResetActionUI(int p) { Image[] icons = (p == 1) ? p1ActionIcons : p2ActionIcons; if (icons == null) return; foreach (var icon in icons) if (icon != null) { icon.color = unselectedColor; icon.transform.localScale = Vector3.one * unselectedScale; } }
-        public void UpdateActionUI(int p, RpsType s) { Image[] icons = (p == 1) ? p1ActionIcons : p2ActionIcons; if (icons == null || icons.Length < 3) return; int idx = (s == RpsType.Rock) ? 0 : (s == RpsType.Paper) ? 1 : 2; for (int i = 0; i < icons.Length; i++) if (icons[i] != null) { bool isSel = (i == idx); icons[i].color = isSel ? selectedColor : unselectedColor; icons[i].transform.localScale = Vector3.one * (isSel ? selectedScale : unselectedScale); } }
+
+        private IEnumerator ScaleTo(Transform t, Vector3 target, float dur)
+        {
+            Vector3 start = t.localScale;
+            float el = 0f;
+            while (el < dur)
+            {
+                el += Time.deltaTime;
+                t.localScale = Vector3.Lerp(start, target, el / dur);
+                yield return null;
+            }
+            t.localScale = target;
+        }
+
+        public void ResetActionUI(int p)
+        {
+            if (p == 1) lastP1Action = RpsType.None;
+            else lastP2Action = RpsType.None;
+
+            // Reset dan sembunyikan gambar seketika saat ronde disetel ulang
+            if (p == 1 && p1CharacterRect != null)
+            {
+                if (p1CharSlideCoroutine != null) StopCoroutine(p1CharSlideCoroutine);
+                p1CharacterRect.anchoredPosition = p1CharHiddenPos;
+            }
+            else if (p == 2 && p2CharacterRect != null)
+            {
+                if (p2CharSlideCoroutine != null) StopCoroutine(p2CharSlideCoroutine);
+                p2CharacterRect.anchoredPosition = p2CharHiddenPos;
+            }
+
+            Image[] icons = (p == 1) ? p1ActionIcons : p2ActionIcons;
+            if (icons == null) return;
+            foreach (var icon in icons) if (icon != null)
+                {
+                    icon.color = unselectedColor;
+                    icon.transform.localScale = Vector3.one * unselectedScale;
+                }
+        }
+
+        public void UpdateActionUI(int p, RpsType s)
+        {
+            Image[] icons = (p == 1) ? p1ActionIcons : p2ActionIcons;
+            if (icons == null || icons.Length < 3) return;
+
+            int idx = (s == RpsType.Rock) ? 0 : (s == RpsType.Paper) ? 1 : 2;
+
+            // Deteksi aksi
+            bool actionChanged = false;
+            if (p == 1 && s != lastP1Action) { actionChanged = true; lastP1Action = s; }
+            else if (p == 2 && s != lastP2Action) { actionChanged = true; lastP2Action = s; }
+
+            // Jika pemain menembak, mainkan animasi "Cut-In" dengan durasi 1 detik (1f)
+            if (actionChanged && s != RpsType.None)
+            {
+                if (p == 1 && p1CharacterRect != null)
+                {
+                    if (p1CharSlideCoroutine != null) StopCoroutine(p1CharSlideCoroutine);
+
+                    // Angka 1.0f di bawah adalah lama waktu gambar tertahan di layar (1 detik)
+                    p1CharSlideCoroutine = StartCoroutine(PlayCharacterCutIn(p1CharacterRect, p1CharShownPos, p1CharHiddenPos, 1.0f));
+                }
+                else if (p == 2 && p2CharacterRect != null)
+                {
+                    if (p2CharSlideCoroutine != null) StopCoroutine(p2CharSlideCoroutine);
+
+                    p2CharSlideCoroutine = StartCoroutine(PlayCharacterCutIn(p2CharacterRect, p2CharShownPos, p2CharHiddenPos, 1.0f));
+                }
+            }
+
+            for (int i = 0; i < icons.Length; i++)
+            {
+                if (icons[i] != null)
+                {
+                    bool isSel = (i == idx);
+                    icons[i].color = isSel ? selectedColor : unselectedColor;
+                    icons[i].transform.localScale = Vector3.one * (isSel ? selectedScale : unselectedScale);
+                }
+            }
+        }
     }
 }
