@@ -41,8 +41,21 @@ public class DualCrosshairController : MonoBehaviour
     private Vector3 initialCharPos1;
     private Vector3 initialCharPos2;
 
-    [Header("Shooting Settings")]
+    [Header("Shooting Settings (Manual & Auto-Fire)")]
     public GameObject projectilePrefab; 
+
+    [Tooltip("Berapa peluru per detik (Player 1)")]
+    public float fireRateP1 = 5f;
+    [Tooltip("Berapa peluru per detik (Player 2)")]
+    public float fireRateP2 = 5f;
+    [Tooltip("Kecepatan luncur peluru (sphere)")]
+    public float bulletSpeed = 20f;
+    [Tooltip("Jarak maksimal peluru sebelum hancur")]
+    public float bulletRange = 100f;
+
+    private bool isAutoFiring = false;
+    private float nextFireP1;
+    private float nextFireP2;
 
     void Awake()
     {
@@ -76,11 +89,42 @@ public class DualCrosshairController : MonoBehaviour
         UpdateAimTargetPosition(aimTarget1, characterModel1, crosshair1, aimMoveSpeed1, aimScale1, initialAimPos1, initialCharPos1);
         UpdateAimTargetPosition(aimTarget2, characterModel2, crosshair2, aimMoveSpeed2, aimScale2, initialAimPos2, initialCharPos2);
 
-        // Mengirimkan data Player1 saat crosshair 1 menembak
-        if (Input.GetKeyDown(shootKey1)) ShootFromCrosshair(crosshair1, PlayerIndex.Player1);
+        // Mengirimkan data Player1 saat crosshair 1 menembak secara manual
+        if (Input.GetKeyDown(shootKey1)) PerformShoot(PlayerIndex.Player1, bulletSpeed, bulletRange);
         
-        // Mengirimkan data Player2 saat crosshair 2 menembak
-        if (Input.GetKeyDown(shootKey2)) ShootFromCrosshair(crosshair2, PlayerIndex.Player2);
+        // Mengirimkan data Player2 saat crosshair 2 menembak secara manual
+        if (Input.GetKeyDown(shootKey2)) PerformShoot(PlayerIndex.Player2, bulletSpeed, bulletRange);
+
+        UpdateAutoFire();
+    }
+
+    public void StartAutoFire()
+    {
+        isAutoFiring = true;
+        nextFireP1 = Time.time + (1f / fireRateP1);
+        nextFireP2 = Time.time + (1f / fireRateP2) + 0.15f; 
+    }
+
+    public void StopAutoFire()
+    {
+        isAutoFiring = false;
+    }
+
+    private void UpdateAutoFire()
+    {
+        if (!isAutoFiring || Time.timeScale == 0f) return;
+
+        if (Time.time >= nextFireP1)
+        {
+            PerformShoot(PlayerIndex.Player1, bulletSpeed, bulletRange);
+            nextFireP1 = Time.time + (1f / fireRateP1);
+        }
+
+        if (Time.time >= nextFireP2)
+        {
+            PerformShoot(PlayerIndex.Player2, bulletSpeed, bulletRange);
+            nextFireP2 = Time.time + (1f / fireRateP2);
+        }
     }
 
     void MoveCrosshair1()
@@ -197,9 +241,10 @@ public class DualCrosshairController : MonoBehaviour
         pos.y = Mathf.Clamp(pos.y, -halfHeight + paddingY, halfHeight - paddingY);
     }
 
-    // Fungsi dimodifikasi untuk menerima identitas Player penembak
-    void ShootFromCrosshair(RectTransform crosshair, PlayerIndex player)
+    // Fungsi dibuat public agar bisa dipanggil oleh sistem Auto-Fire
+    public void PerformShoot(PlayerIndex player, float speed = 20f, float range = 100f)
     {
+        RectTransform crosshair = (player == PlayerIndex.Player1) ? crosshair1 : crosshair2;
         if (projectilePrefab == null || crosshair == null) return;
 
         Animator anim = (player == PlayerIndex.Player1) ? animator1 : animator2;
@@ -230,6 +275,9 @@ public class DualCrosshairController : MonoBehaviour
         if (projScript != null)
         {
             projScript.ownerPlayer = player;
+            // Kita juga panggil Initialize dengan kecepatan custom dari AutoFire Manager
+            Vector3 fireDirection = (targetPoint - spawnPosition).normalized;
+            projScript.Initialize(fireDirection, speed, range, player); 
         }
 
         // 2. Laporkan ke ScoreManager bahwa player ini telah melepaskan 1 kali tembakan

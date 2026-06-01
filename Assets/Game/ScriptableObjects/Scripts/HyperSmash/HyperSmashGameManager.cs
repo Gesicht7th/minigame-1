@@ -12,7 +12,7 @@ namespace WizardPunk.HyperSmash
         [SerializeField] private HyperSmashConfig config;
         [SerializeField] private CameraController cameraController;
         [SerializeField] private WandAimController aimController;
-        [SerializeField] private ShootingSystem shootingSystem;
+
         [SerializeField] private CrystalSpawner crystalSpawner;
         [SerializeField] private HyperSmashScoreManager scoreManager;
         [SerializeField] private HyperSmashDummieUIManager uiManager;
@@ -94,8 +94,8 @@ namespace WizardPunk.HyperSmash
             cameraController?.ResetPosition(Vector3.zero);
             cameraController?.StartMoving();
 
-            foreach (var shooter in ShootingSystem.Instances)
-                if (shooter != null) shooter.StartShooting();
+            // Panggil sistem Auto Fire baru jika ada di scene
+            DualCrosshairController.Instance?.StartAutoFire();
 
             crystalSpawner?.StartSpawning();
             RoundTimer = config.roundDurationSeconds;
@@ -105,8 +105,8 @@ namespace WizardPunk.HyperSmash
 
             cameraController?.StopMoving();
 
-            foreach (var shooter in ShootingSystem.Instances)
-                if (shooter != null) shooter.StopShooting();
+            // Hentikan sistem Auto Fire baru
+            DualCrosshairController.Instance?.StopAutoFire();
 
             crystalSpawner?.StopSpawning();
 
