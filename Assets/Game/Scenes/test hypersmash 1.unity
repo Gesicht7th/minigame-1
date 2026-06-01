@@ -1295,7 +1295,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -554, y: 401}
+  m_AnchoredPosition: {x: -581, y: 401}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &120267450
@@ -1656,7 +1656,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -506, y: 415}
+  m_AnchoredPosition: {x: -533, y: 415}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &137560324
@@ -1901,9 +1901,21 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
   firePoint: {fileID: 0}
   projectilePrefab: {fileID: 0}
-  player1Color: {r: 1, g: 0.8, b: 0, a: 1}
-  player2Color: {r: 0, g: 0.8, b: 1, a: 1}
+  player1Color:
+    r: 1
+    g: 0.8
+    b: 0
+    a: 1
+  player2Color:
+    r: 0
+    g: 0.8
+    b: 1
+    a: 1
   characterAnimator: {fileID: 0}
+  isShooting: 0
+  nextFireTime: 0
+  fireInterval: 0
+  <TotalShots>k__BackingField: 0
 --- !u!1001 &149578896
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2352,9 +2364,21 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
   firePoint: {fileID: 0}
   projectilePrefab: {fileID: 0}
-  player1Color: {r: 1, g: 0.8, b: 0, a: 1}
-  player2Color: {r: 0, g: 0.8, b: 1, a: 1}
+  player1Color:
+    r: 1
+    g: 0.8
+    b: 0
+    a: 1
+  player2Color:
+    r: 0
+    g: 0.8
+    b: 1
+    a: 1
   characterAnimator: {fileID: 0}
+  isShooting: 0
+  nextFireTime: 0
+  fireInterval: 0
+  <TotalShots>k__BackingField: 0
 --- !u!4 &252138770 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7134375633722532235, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
@@ -6336,7 +6360,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 556, y: 393}
+  m_AnchoredPosition: {x: 586, y: 393}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &712740084
@@ -6831,7 +6855,6 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
   cameraController: {fileID: 0}
   aimController: {fileID: 106399732}
-  shootingSystem: {fileID: 0}
   crystalSpawner: {fileID: 1257792465}
   scoreManager: {fileID: 401109150}
   uiManager: {fileID: 1226687768}
@@ -7021,6 +7044,10 @@ MonoBehaviour:
   characterModel2: {fileID: 61738718}
   characterFollowWeight: 0.1
   projectilePrefab: {fileID: 5108986311740894512, guid: 66ade16da2e27784cb076c74686bf55f, type: 3}
+  fireRateP1: 5
+  fireRateP2: 5
+  bulletSpeed: 20
+  bulletRange: 100
   spawnDepthFromCamera: 5
 --- !u!4 &787606357
 Transform:
@@ -10599,14 +10626,14 @@ RectTransform:
   m_GameObject: {fileID: 1236857397}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.5761905, y: 2.8981962, z: 2.8981962}
+  m_LocalScale: {x: 4.1960273, y: 2.1808636, z: 2.1808636}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1460624964}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2, y: 394}
+  m_AnchoredPosition: {x: 4, y: 431}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1236857399
@@ -11009,7 +11036,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 499, y: 407}
+  m_AnchoredPosition: {x: 529, y: 407}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1265911587
@@ -14755,7 +14782,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 786, y: 390}
+  m_AnchoredPosition: {x: 816, y: 390}
   m_SizeDelta: {x: 126, y: 126}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1906812556
@@ -15206,7 +15233,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 29, y: 474}
+  m_AnchoredPosition: {x: 23, y: 485}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1996772695
@@ -15256,8 +15283,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 90
-  m_fontSizeBase: 90
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
