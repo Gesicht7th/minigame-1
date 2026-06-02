@@ -221,6 +221,11 @@ public class WandSerialReader : MonoBehaviour
     // ============================================================
     private void ParseLine(string line)
     {
+        if (line == "RDY" || line == "BOOT_COMPLETE")
+        {
+            Debug.Log($"[WAND BOOT] {serialPort} -> {line}");
+        }
+
         // Format Euler: "E:pitch,roll,yaw"
         if (line.StartsWith("E:"))
         {
@@ -280,6 +285,12 @@ public class WandSerialReader : MonoBehaviour
                 _gx = gx;
                 _gy = gy;
                 _gz = gz;
+
+                float mag = Mathf.Abs(_gx) + Mathf.Abs(_gy) + Mathf.Abs(_gz);
+                if (mag > 5f)
+                {
+                    Debug.Log($"[GYRO RAW] {serialPort} -> {_gx:F2}, {_gy:F2}, {_gz:F2}");
+                }
             }
             return;
         }

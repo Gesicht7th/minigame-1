@@ -101,6 +101,11 @@ namespace WizardPunk.HyperSmash
         {
             Vector3 gyro = serialReader.GyroVelocity;
 
+            if (gyro.magnitude > 3f)
+            {
+                Debug.Log($"[{playerIndex}] Gyro={gyro} Target={targetNormalized}");
+            }
+
             // Mapping dipertahankan dari penemuan sebelumnya: z = horizontal, x = vertical
             float inputX = ApplyDeadzone(gyro.z, gyroDeadzone);
             float inputY = ApplyDeadzone(gyro.x, gyroDeadzone);
