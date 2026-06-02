@@ -3289,6 +3289,7 @@ GameObject:
   - component: {fileID: 612032312}
   - component: {fileID: 612032311}
   - component: {fileID: 612032315}
+  - component: {fileID: 612032316}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3416,6 +3417,109 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &612032316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612032310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a4eed7c2a53de8488ce5b7c837a106a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraShake
+  profiles:
+  - profileName: Rock_vs_Scissors
+    delayBeforePunch: 0
+    delayBeforeShake: 2.7
+    useFovPunch: 1
+    targetFov: 55
+    fovDropDuration: 2.7
+    fovRestoreSpeed: 20
+    shakeDuration: 1
+    shakeMagnitude: 0.4
+    dampingSpeed: 20
+  - profileName: Scissors_vs_Rock
+    delayBeforePunch: 0
+    delayBeforeShake: 2.7
+    useFovPunch: 1
+    targetFov: 55
+    fovDropDuration: 2.7
+    fovRestoreSpeed: 20
+    shakeDuration: 1
+    shakeMagnitude: 0.4
+    dampingSpeed: 20
+  - profileName: Scissors_vs_Paper
+    delayBeforePunch: 0
+    delayBeforeShake: 4
+    useFovPunch: 1
+    targetFov: 55
+    fovDropDuration: 4
+    fovRestoreSpeed: 20
+    shakeDuration: 1.5
+    shakeMagnitude: 0.4
+    dampingSpeed: 10
+  - profileName: Paper_vs_Scissors
+    delayBeforePunch: 0
+    delayBeforeShake: 4.2
+    useFovPunch: 1
+    targetFov: 55
+    fovDropDuration: 4.2
+    fovRestoreSpeed: 20
+    shakeDuration: 1.5
+    shakeMagnitude: 0.4
+    dampingSpeed: 10
+  - profileName: Paper_vs_Rock
+    delayBeforePunch: 0
+    delayBeforeShake: 2
+    useFovPunch: 1
+    targetFov: 55
+    fovDropDuration: 2
+    fovRestoreSpeed: 20
+    shakeDuration: 1.5
+    shakeMagnitude: 0.4
+    dampingSpeed: 10
+  - profileName: Rock_vs_Paper
+    delayBeforePunch: 0
+    delayBeforeShake: 2
+    useFovPunch: 1
+    targetFov: 55
+    fovDropDuration: 2
+    fovRestoreSpeed: 20
+    shakeDuration: 1.5
+    shakeMagnitude: 0.4
+    dampingSpeed: 10
+  - profileName: Scissors_vs_Scissors
+    delayBeforePunch: 0
+    delayBeforeShake: 0
+    useFovPunch: 1
+    targetFov: 55
+    fovDropDuration: 2.5
+    fovRestoreSpeed: 20
+    shakeDuration: 1.5
+    shakeMagnitude: 0
+    dampingSpeed: 10
+  - profileName: Paper_vs_Paper
+    delayBeforePunch: 0
+    delayBeforeShake: 0
+    useFovPunch: 1
+    targetFov: 55
+    fovDropDuration: 2.5
+    fovRestoreSpeed: 20
+    shakeDuration: 1.5
+    shakeMagnitude: 0
+    dampingSpeed: 10
+  - profileName: Rock_vs_Rock
+    delayBeforePunch: 0
+    delayBeforeShake: 0
+    useFovPunch: 1
+    targetFov: 55
+    fovDropDuration: 2.5
+    fovRestoreSpeed: 20
+    shakeDuration: 1.5
+    shakeMagnitude: 0
+    dampingSpeed: 10
 --- !u!1 &614266749
 GameObject:
   m_ObjectHideFlags: 0
@@ -10017,7 +10121,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.49, y: 4.47197, z: 18.29}
-  m_LocalScale: {x: 4.449595, y: 1, z: 2.8021}
+  m_LocalScale: {x: 6.81, y: 1, z: 4.03}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

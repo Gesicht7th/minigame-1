@@ -1060,7 +1060,7 @@ MonoBehaviour:
   useMouseFallback: 0
   mouseSensitivity: 1
   keyboardAimSpeed: 0.6
-  showDebugGUI: 1
+  showDebugGUI: 0
 --- !u!1001 &108745452
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2351,7 +2351,7 @@ MonoBehaviour:
   useMouseFallback: 0
   mouseSensitivity: 1
   keyboardAimSpeed: 0.6
-  showDebugGUI: 1
+  showDebugGUI: 0
 --- !u!1001 &257149023
 PrefabInstance:
   m_ObjectHideFlags: 0
