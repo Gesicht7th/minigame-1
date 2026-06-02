@@ -38,6 +38,10 @@ namespace WizardPunk
         private Vector3 p1IndicatorOriginalScale = Vector3.one;
         private Vector3 p2IndicatorOriginalScale = Vector3.one;
 
+        // --- PENGAMAN COROUTINE AGAR ANIMASI TIDAK GLITCH SAAT TOMBOL DILEPAS ---
+        private Coroutine p1AnimCoroutine;
+        private Coroutine p2AnimCoroutine;
+
         void Start()
         {
             if (p1SerialReader == null)
@@ -90,7 +94,7 @@ namespace WizardPunk
         private IEnumerator WaitForPlayersReady()
         {
             isWaitingForPlayers = true;
-            
+
             float holdDuration = 1.5f;
             float holdTimer = 0f;
 
@@ -99,6 +103,7 @@ namespace WizardPunk
 
             while (holdTimer < holdDuration)
             {
+                // Menggunakan sistem IsHolding dari skrip pembaca ESP32 Anda
                 bool p1Held = Input.GetKey(KeyCode.Space) || (p1SerialReader != null && p1SerialReader.IsHolding);
                 bool p2Held = Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter) || (p2SerialReader != null && p2SerialReader.IsHolding);
 
@@ -106,42 +111,59 @@ namespace WizardPunk
                 if (p1Held && !p1WasHolding)
                 {
                     if (p1ReadyIndicator != null)
-                        StartCoroutine(AnimateIndicator(p1ReadyIndicator, p1IndicatorOriginalScale));
+                    {
+                        // Hentikan animasi lama jika ada, lalu mulai yang baru
+                        if (p1AnimCoroutine != null) StopCoroutine(p1AnimCoroutine);
+                        p1AnimCoroutine = StartCoroutine(AnimateIndicator(p1ReadyIndicator, p1IndicatorOriginalScale));
+                    }
                     if (SoundManager.Instance != null) SoundManager.Instance.PlaySound(null);
                 }
-                else if (!p1Held && p1WasHolding)
+                else if (!p1Held && p1WasHolding) // Saat P1 melepas tombol sebelum selesai
                 {
-                    if (p1ReadyIndicator != null) p1ReadyIndicator.SetActive(false);
+                    if (p1ReadyIndicator != null)
+                    {
+                        if (p1AnimCoroutine != null) StopCoroutine(p1AnimCoroutine);
+                        p1ReadyIndicator.SetActive(false);
+                    }
                 }
 
                 // Cek Player 2
                 if (p2Held && !p2WasHolding)
                 {
                     if (p2ReadyIndicator != null)
-                        StartCoroutine(AnimateIndicator(p2ReadyIndicator, p2IndicatorOriginalScale));
+                    {
+                        // Hentikan animasi lama jika ada, lalu mulai yang baru
+                        if (p2AnimCoroutine != null) StopCoroutine(p2AnimCoroutine);
+                        p2AnimCoroutine = StartCoroutine(AnimateIndicator(p2ReadyIndicator, p2IndicatorOriginalScale));
+                    }
                     if (SoundManager.Instance != null) SoundManager.Instance.PlaySound(null);
                 }
-                else if (!p2Held && p2WasHolding)
+                else if (!p2Held && p2WasHolding) // Saat P2 melepas tombol sebelum selesai
                 {
-                    if (p2ReadyIndicator != null) p2ReadyIndicator.SetActive(false);
+                    if (p2ReadyIndicator != null)
+                    {
+                        if (p2AnimCoroutine != null) StopCoroutine(p2AnimCoroutine);
+                        p2ReadyIndicator.SetActive(false);
+                    }
                 }
 
                 p1WasHolding = p1Held;
                 p2WasHolding = p2Held;
 
+                // Hitung Timer HANYA jika KEDUA pemain menahan tombolnya
                 if (p1Held && p2Held)
                 {
                     holdTimer += Time.deltaTime;
                 }
                 else
                 {
-                    holdTimer = 0f;
+                    holdTimer = 0f; // Jika salah satu melepas, timer otomatis Reset ke 0
                 }
 
                 yield return null;
             }
 
-            // Memastikan indikator menyala penuh sebelum transisi
+            // Memastikan indikator menyala penuh sebelum pindah scene
             if (p1ReadyIndicator != null) p1ReadyIndicator.SetActive(true);
             if (p2ReadyIndicator != null) p2ReadyIndicator.SetActive(true);
 

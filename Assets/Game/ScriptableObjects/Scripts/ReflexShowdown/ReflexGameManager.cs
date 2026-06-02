@@ -57,6 +57,14 @@ namespace WizardPunk.Reflex
 
         void Update()
         {
+            // --- PERBAIKAN BUG: PENGUNCI INPUT UI ---
+            // Jangan proses UI Attack (Icon & Animasi Swipe) jika game masih dalam fase Tutorial (Idle), Ready, atau Countdown.
+            // Ini mencegah sensor MPU yang miring tidak sengaja memicu animasi sebelum waktunya.
+            bool isGameActive = (CurrentState == ReflexState.WaitGo || CurrentState == ReflexState.Draw || CurrentState == ReflexState.RoundResult);
+
+            if (!isGameActive) return;
+            // ----------------------------------------
+
             if (p1Controller != null && uiManager != null)
                 uiManager.UpdateActionUI(1, p1Controller.SelectedAttack);
 
