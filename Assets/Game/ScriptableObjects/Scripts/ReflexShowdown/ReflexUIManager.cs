@@ -45,6 +45,22 @@ namespace WizardPunk.Reflex
         [Tooltip("Jarak geser ke luar layar (Besarkan jika gambar kurang tersembunyi)")]
         [SerializeField] private float slideDistance = 1000f;
 
+        [Header("── P1 Action SFX (Fura) ────────────────")]
+        [SerializeField] private AudioClip p1BlockSFX;
+        [SerializeField] private AudioClip p1PenetrationSFX;
+        [SerializeField] private AudioClip p1CounterSFX;
+
+        [Header("── P2 Action SFX (Oura) ────────────────")]
+        [SerializeField] private AudioClip p2BlockSFX;
+        [SerializeField] private AudioClip p2PenetrationSFX;
+        [SerializeField] private AudioClip p2CounterSFX;
+
+        [Header("── Game Flow SFX ───────────────────────")]
+        [Tooltip("Suara saat angka 3, 2, 1 muncul")]
+        [SerializeField] private AudioClip countdownTickSFX;
+        [Tooltip("Suara saat tulisan GO!!! muncul")]
+        [SerializeField] private AudioClip goSFX;
+
         private Vector2 p1CharShownPos;
         private Vector2 p2CharShownPos;
         private Vector2 p1CharHiddenPos;
@@ -52,6 +68,12 @@ namespace WizardPunk.Reflex
 
         private Coroutine p1CharSlideCoroutine;
         private Coroutine p2CharSlideCoroutine;
+        private Coroutine countdownScaleCoroutine;
+
+        // --- PENGAMAN AUDIO COUNTDOWN ---
+        private bool isCountdownAudioPlayed = false;
+        // --------------------------------
+
         private RpsType lastP1Action = RpsType.None;
         private RpsType lastP2Action = RpsType.None;
 
@@ -114,7 +136,6 @@ namespace WizardPunk.Reflex
             if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
             if (drawNextButton != null) drawNextButton.onClick.AddListener(GoToNextGame);
 
-            // Fungsi tombol GO masih dipertahankan berjaga-jaga jika tombol dikembalikan
             if (tutorialGoButton != null)
             {
                 tutorialGoButton.onClick.AddListener(() => { IsTutorialDone = true; });
@@ -134,20 +155,16 @@ namespace WizardPunk.Reflex
             }
         }
 
-        // --- TAMBAHAN BARU: UPDATE UNTUK BACA KEYBOARD ---
         void Update()
         {
-            // Jika layar tutorial sedang aktif dan belum selesai
             if (!IsTutorialDone && tutorialPanel != null && tutorialPanel.activeSelf)
             {
-                // Tekan Spasi atau Enter untuk menutup tutorial dan memulai game
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
                 {
                     IsTutorialDone = true;
                 }
             }
         }
-        // ------------------------------------------------
 
         void OnDestroy()
         {
@@ -275,9 +292,62 @@ namespace WizardPunk.Reflex
         public void ShowReadyPrompt() { readyPanel?.SetActive(true); if (readyTitleText != null) readyTitleText.text = "HOLD WAND LOW!\nBoth players ready..."; }
         public void UpdateReadyStatus(bool p1Ready, bool p2Ready) { if (p1ReadyIndicator != null) p1ReadyIndicator.color = p1Ready ? readyColor : notReadyColor; if (p2ReadyIndicator != null) p2ReadyIndicator.color = p2Ready ? readyColor : notReadyColor; }
         public void HideReadyPrompt() => readyPanel?.SetActive(false);
-        public void ShowCountdown(string text) { countdownPanel?.SetActive(true); if (countdownText == null) return; countdownText.text = text; countdownText.transform.localScale = Vector3.one * 2f; StartCoroutine(ScaleTo(countdownText.transform, Vector3.one, 0.3f)); }
-        public void HideCountdown() => countdownPanel?.SetActive(false);
-        public void ShowGo() { drawPanel?.SetActive(true); if (goText != null) { goText.text = "GO!!!"; goText.transform.localScale = Vector3.one * 3f; StartCoroutine(ScaleTo(goText.transform, Vector3.one, 0.2f)); } if (p1TimerText != null) p1TimerText.text = "---"; if (p2TimerText != null) p2TimerText.text = "---"; }
+
+        public void ShowCountdown(string text)
+        {
+            countdownPanel?.SetActive(true);
+            if (countdownText == null) return;
+            countdownText.text = text;
+            countdownText.transform.localScale = Vector3.one * 2f;
+
+            if (countdownScaleCoroutine != null) StopCoroutine(countdownScaleCoroutine);
+            countdownScaleCoroutine = StartCoroutine(ScaleTo(countdownText.transform, Vector3.one, 0.3f));
+
+            // --- PERBAIKAN: HANYA PUTAR SFX JIKA BELUM DIPUTAR DI RONDE INI ---
+            if (!isCountdownAudioPlayed)
+            {
+                if (SoundManager.Instance != null) SoundManager.Instance.StopSound();
+                if (SoundManager.Instance != null && countdownTickSFX != null)
+                {
+                    SoundManager.Instance.PlaySound(countdownTickSFX);
+                }
+                isCountdownAudioPlayed = true; // Kunci agar tidak diputar ulang di angka 2 dan 1
+            }
+            // -------------------------------------------------------------------
+        }
+
+        // Fungsi Hide kini menerima parameter untuk mendeteksi False Start
+        public void HideCountdown(bool isFalseStart = false)
+        {
+            countdownPanel?.SetActive(false);
+
+            // --- HANYA HENTIKAN SUARA JIKA PEMAIN MELANGGAR ATURAN (FALSE START) ---
+            if (isFalseStart && SoundManager.Instance != null)
+            {
+                SoundManager.Instance.StopSound();
+            }
+
+            isCountdownAudioPlayed = false; // Reset kuncian untuk ronde berikutnya
+        }
+
+        public void ShowGo()
+        {
+            drawPanel?.SetActive(true);
+            if (goText != null)
+            {
+                goText.text = "GO!!!";
+                goText.transform.localScale = Vector3.one * 3f;
+                StartCoroutine(ScaleTo(goText.transform, Vector3.one, 0.2f));
+            }
+            if (p1TimerText != null) p1TimerText.text = "---";
+            if (p2TimerText != null) p2TimerText.text = "---";
+
+            if (SoundManager.Instance != null && goSFX != null)
+            {
+                SoundManager.Instance.PlaySound(goSFX);
+            }
+        }
+
         public void UpdateDrawTimers(float t1, float t2, bool p1Fired, bool p2Fired) { if (p1TimerText != null) p1TimerText.text = p1Fired ? $"{t1:F3}s" : $"{t1:F2}s..."; if (p2TimerText != null) p2TimerText.text = p2Fired ? $"{t2:F3}s" : $"{t2:F2}s..."; }
         public void HideGo() => drawPanel?.SetActive(false);
 
@@ -370,6 +440,22 @@ namespace WizardPunk.Reflex
 
             if (actionChanged && s != RpsType.None)
             {
+                if (SoundManager.Instance != null)
+                {
+                    if (p == 1)
+                    {
+                        if (s == RpsType.Rock && p1BlockSFX != null) SoundManager.Instance.PlaySound(p1BlockSFX);
+                        else if (s == RpsType.Paper && p1PenetrationSFX != null) SoundManager.Instance.PlaySound(p1PenetrationSFX);
+                        else if (s == RpsType.Scissors && p1CounterSFX != null) SoundManager.Instance.PlaySound(p1CounterSFX);
+                    }
+                    else if (p == 2)
+                    {
+                        if (s == RpsType.Rock && p2BlockSFX != null) SoundManager.Instance.PlaySound(p2BlockSFX);
+                        else if (s == RpsType.Paper && p2PenetrationSFX != null) SoundManager.Instance.PlaySound(p2PenetrationSFX);
+                        else if (s == RpsType.Scissors && p2CounterSFX != null) SoundManager.Instance.PlaySound(p2CounterSFX);
+                    }
+                }
+
                 if (p == 1 && p1CharacterRect != null)
                 {
                     if (p1CharSlideCoroutine != null) StopCoroutine(p1CharSlideCoroutine);

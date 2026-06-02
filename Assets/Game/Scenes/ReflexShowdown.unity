@@ -3692,6 +3692,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 645593775}
   m_CullTransparentMesh: 1
+--- !u!1001 &658499328
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 84716513782011668, guid: bb77bac60635bc44cb873d12a6b2e0a5, type: 3}
+      propertyPath: m_Name
+      value: GlobalSoundManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 166402204320039794, guid: bb77bac60635bc44cb873d12a6b2e0a5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1291.2238
+      objectReference: {fileID: 0}
+    - target: {fileID: 166402204320039794, guid: bb77bac60635bc44cb873d12a6b2e0a5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 166402204320039794, guid: bb77bac60635bc44cb873d12a6b2e0a5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4275.554
+      objectReference: {fileID: 0}
+    - target: {fileID: 166402204320039794, guid: bb77bac60635bc44cb873d12a6b2e0a5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 166402204320039794, guid: bb77bac60635bc44cb873d12a6b2e0a5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 166402204320039794, guid: bb77bac60635bc44cb873d12a6b2e0a5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 166402204320039794, guid: bb77bac60635bc44cb873d12a6b2e0a5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 166402204320039794, guid: bb77bac60635bc44cb873d12a6b2e0a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 166402204320039794, guid: bb77bac60635bc44cb873d12a6b2e0a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 166402204320039794, guid: bb77bac60635bc44cb873d12a6b2e0a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bb77bac60635bc44cb873d12a6b2e0a5, type: 3}
 --- !u!1 &661680524
 GameObject:
   m_ObjectHideFlags: 0
@@ -8279,6 +8336,14 @@ MonoBehaviour:
   p1CharacterRect: {fileID: 1256017374}
   p2CharacterRect: {fileID: 35232588}
   slideDistance: 1000
+  p1BlockSFX: {fileID: 8300000, guid: b3d6478e0c3e1764bb77cf0b598b4911, type: 3}
+  p1PenetrationSFX: {fileID: 8300000, guid: 6567b34bf0e695c479fe2b721ba7f500, type: 3}
+  p1CounterSFX: {fileID: 8300000, guid: b3d6478e0c3e1764bb77cf0b598b4911, type: 3}
+  p2BlockSFX: {fileID: 8300000, guid: e27737facf66ea242abed32700da4f32, type: 3}
+  p2PenetrationSFX: {fileID: 8300000, guid: d531b97a85f20db48af66974906f07c6, type: 3}
+  p2CounterSFX: {fileID: 8300000, guid: e27737facf66ea242abed32700da4f32, type: 3}
+  countdownTickSFX: {fileID: 8300000, guid: 209c23cca5ae91642806c8218cb77c84, type: 3}
+  goSFX: {fileID: 0}
   timesUpPanel: {fileID: 2131995047}
   popupBackground: {fileID: 370566428}
   p1WinPanel: {fileID: 2020127265}
@@ -14456,3 +14521,4 @@ SceneRoots:
   - {fileID: 1153988513}
   - {fileID: 3718689015571824548}
   - {fileID: 1658916832}
+  - {fileID: 658499328}

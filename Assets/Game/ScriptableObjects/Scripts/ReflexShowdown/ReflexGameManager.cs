@@ -57,13 +57,9 @@ namespace WizardPunk.Reflex
 
         void Update()
         {
-            // --- PERBAIKAN BUG: PENGUNCI INPUT UI ---
-            // Jangan proses UI Attack (Icon & Animasi Swipe) jika game masih dalam fase Tutorial (Idle), Ready, atau Countdown.
-            // Ini mencegah sensor MPU yang miring tidak sengaja memicu animasi sebelum waktunya.
             bool isGameActive = (CurrentState == ReflexState.WaitGo || CurrentState == ReflexState.Draw || CurrentState == ReflexState.RoundResult);
 
             if (!isGameActive) return;
-            // ----------------------------------------
 
             if (p1Controller != null && uiManager != null)
                 uiManager.UpdateActionUI(1, p1Controller.SelectedAttack);
@@ -77,14 +73,9 @@ namespace WizardPunk.Reflex
             GlobalVirtualCursor.Instance?.Hide();
             uiManager.ShowGameScreen();
 
-            // --- TAMBAHAN: FASE TUTORIAL ---
             uiManager.ShowTutorial();
-
-            // Berhenti di baris ini dan tunggu sampai pemain menekan tombol GO
             yield return new WaitUntil(() => uiManager.IsTutorialDone);
-
             uiManager.HideTutorial();
-            // -------------------------------
 
             scoreManager.ResetHearts();
 
@@ -168,16 +159,25 @@ namespace WizardPunk.Reflex
             for (int i = config.countdownStart; i >= 1; i--)
             {
                 uiManager.ShowCountdown(i.ToString());
-                yield return new WaitForSeconds(config.countdownStepDuration);
 
-                if (p1Controller.FalseStartTriggered || p2Controller.FalseStartTriggered)
+                // --- PEMANTAUAN FALSE START REAL-TIME ---
+                float timer = 0f;
+                while (timer < config.countdownStepDuration)
                 {
-                    uiManager.HideCountdown();
-                    yield break;
+                    timer += Time.deltaTime;
+
+                    if (p1Controller.FalseStartTriggered || p2Controller.FalseStartTriggered)
+                    {
+                        uiManager.HideCountdown(true); // Kirim 'true' agar audio berhenti
+                        yield break;
+                    }
+
+                    yield return null;
                 }
+                // ----------------------------------------
             }
 
-            uiManager.HideCountdown();
+            uiManager.HideCountdown(false); // Kirim 'false' agar audio berlanjut ke GO
             p1Controller.SetCountdownMode(false);
             p2Controller.SetCountdownMode(false);
         }
@@ -248,9 +248,6 @@ namespace WizardPunk.Reflex
             float p1Delay = delayConfig != null ? delayConfig.p1Delay : 0f;
             float p2Delay = delayConfig != null ? delayConfig.p2Delay : 0f;
 
-            if (delayConfig != null)
-                Debug.Log($"[Reflex] AnimStartDelay: P1({p1Attack})={p1Delay}s  P2({p2Attack})={p2Delay}s");
-
             if (winner == 1)
             {
                 StartCoroutine(PlayVisualsWithDelay(() => { p1Visual.SetWinPose(p1Attack); p1Visual.PlayFireEffect(); }, p1Delay));
@@ -288,7 +285,7 @@ namespace WizardPunk.Reflex
         private IEnumerator HandleFalseStart(bool p1False, bool p2False)
         {
             SetState(ReflexState.RoundResult);
-            uiManager.HideCountdown();
+            uiManager.HideCountdown(true); // Pastikan audio diputus saat masuk function False Start
 
             if (p1False) p1Visual.PlayFalseStartEffect();
             if (p2False) p2Visual.PlayFalseStartEffect();
@@ -316,13 +313,10 @@ namespace WizardPunk.Reflex
             PlayerPrefs.SetInt("G3_Winner", gameWinner);
             PlayerPrefs.Save();
 
-            // --- PERUBAHAN: Menampilkan Pop-Up Times Up ---
             uiManager.ShowTimesUp();
-            yield return new WaitForSeconds(3f); // Tahan pop-up selama 3 detik
+            yield return new WaitForSeconds(3f);
             uiManager.HideTimesUp();
-            // ----------------------------------------------
 
-            // Flush buffered inputs before showing cursor
             WandSerialReader[] readers = FindObjectsByType<WandSerialReader>(FindObjectsSortMode.None);
             foreach (var reader in readers)
             {

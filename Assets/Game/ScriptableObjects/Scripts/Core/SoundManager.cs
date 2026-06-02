@@ -14,8 +14,6 @@ namespace WizardPunk
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
 
-                // --- KEAMANAN OTOMATIS ---
-                // Jika AudioSource belum di-assign di Inspector, ambil komponen yang ada di objek ini
                 if (audioSource == null)
                 {
                     audioSource = GetComponent<AudioSource>();
@@ -29,7 +27,6 @@ namespace WizardPunk
 
         public void PlaySound(AudioClip clip)
         {
-            // Cek sekali lagi sebelum memutar
             if (audioSource != null && clip != null)
             {
                 audioSource.PlayOneShot(clip);
@@ -39,5 +36,15 @@ namespace WizardPunk
                 Debug.LogWarning("SoundManager: AudioSource atau Clip kosong!");
             }
         }
+
+        // --- FUNGSI BARU UNTUK MENGHENTIKAN SUARA SECARA INSTAN ---
+        public void StopSound()
+        {
+            if (audioSource != null)
+            {
+                audioSource.Stop();
+            }
+        }
+        // -----------------------------------------------------------
     }
 }
