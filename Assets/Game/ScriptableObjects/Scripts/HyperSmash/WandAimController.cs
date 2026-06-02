@@ -49,7 +49,8 @@ namespace WizardPunk.HyperSmash
             {
                 string targetPort = (playerIndex == PlayerIndex.Player1) ? "COM8" : "COM9";
                 serialReader = WandSerialReader.GetByPort(targetPort);
-                Debug.Log($"[ReaderResolve] {playerIndex} -> {targetPort}");
+                if (serialReader != null) Debug.Log($"[ReaderResolve] SUCCESS {targetPort}");
+                else Debug.Log($"[ReaderResolve] FAILED {targetPort}");
             }
 
             if (playerIndex == PlayerIndex.Player1 && useMouseFallback && serialReader == null)

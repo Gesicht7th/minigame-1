@@ -49,13 +49,14 @@ namespace WizardPunk.Reflex
             {
                 string targetPort = (playerIndex == 1) ? "COM8" : "COM9";
                 serialReader = WandSerialReader.GetByPort(targetPort);
-                Debug.Log($"[ReaderResolve] Player{playerIndex} -> {targetPort}");
+                if (serialReader != null) Debug.Log($"[ReaderResolve] SUCCESS {targetPort}");
+                else Debug.Log($"[ReaderResolve] FAILED {targetPort}");
             }
         }
 
         void Update()
         {
-            if (!useKeyboard) UpdateWand();
+            if (serialReader != null && serialReader.IsConnected) UpdateWand();
             else UpdateKeyboard();
 
             // Deteksi perubahan posisi

@@ -32,12 +32,14 @@ namespace WizardPunk.MemoryTest
             if (p1SerialReader == null)
             {
                 p1SerialReader = WandSerialReader.GetByPort("COM8");
-                Debug.Log("[ReaderResolve] Player1 -> COM8");
+                if (p1SerialReader != null) Debug.Log("[ReaderResolve] SUCCESS COM8");
+                else Debug.Log("[ReaderResolve] FAILED COM8");
             }
             if (p2SerialReader == null)
             {
                 p2SerialReader = WandSerialReader.GetByPort("COM9");
-                Debug.Log("[ReaderResolve] Player2 -> COM9");
+                if (p2SerialReader != null) Debug.Log("[ReaderResolve] SUCCESS COM9");
+                else Debug.Log("[ReaderResolve] FAILED COM9");
             }
 
             if (p1SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P1 Wand Manager tidak ditemukan!");
