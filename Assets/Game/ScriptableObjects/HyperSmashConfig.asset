@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HyperSmashConfig
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.HyperSmashConfig
   roundsPerGame: 3
-  roundDurationSeconds: 40
+  roundDurationSeconds: 20
   interRoundBreakDuration: 3
   initialCameraSpeed: 3
   maxCameraSpeed: 10
