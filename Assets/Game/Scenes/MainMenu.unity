@@ -4399,7 +4399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
-  serialPort: COM6
+  serialPort: COM8
   baudRate: 115200
   ActionHoldTimeout: 0.15
 --- !u!4 &1541449939

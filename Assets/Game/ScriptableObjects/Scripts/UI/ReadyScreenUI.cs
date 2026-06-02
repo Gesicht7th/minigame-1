@@ -43,18 +43,23 @@ namespace WizardPunk
 
         void Start()
         {
-            if (p1WandReader == null)
+            GlobalVirtualCursor.Instance?.Hide();
+
+            if (!WandSerialReader.IsAlive(p1WandReader))
             {
-                p1WandReader = WandSerialReader.GetByPort("COM8");
-                if (p1WandReader != null) Debug.Log("[ReaderResolve] SUCCESS COM8");
-                else Debug.Log("[ReaderResolve] FAILED COM8");
+                p1WandReader = PlayerAssignment.PlayerA;
+                if (p1WandReader != null) Debug.Log("[ReaderResolve] Recovered PlayerA");
+                else Debug.Log("[ReaderResolve] FAILED PlayerA");
             }
-            if (p2WandReader == null)
+            if (!WandSerialReader.IsAlive(p2WandReader))
             {
-                p2WandReader = WandSerialReader.GetByPort("COM9");
-                if (p2WandReader != null) Debug.Log("[ReaderResolve] SUCCESS COM9");
-                else Debug.Log("[ReaderResolve] FAILED COM9");
+                p2WandReader = PlayerAssignment.PlayerB;
+                if (p2WandReader != null) Debug.Log("[ReaderResolve] Recovered PlayerB");
+                else Debug.Log("[ReaderResolve] FAILED PlayerB");
             }
+
+            p1WandReader?.FlushInput();
+            p2WandReader?.FlushInput();
 
             UpdateIndicators();
             if (bothReadyText != null) bothReadyText.gameObject.SetActive(false);

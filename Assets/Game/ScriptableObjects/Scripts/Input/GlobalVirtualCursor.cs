@@ -92,6 +92,7 @@ namespace WizardPunk
         public void Hide()
         {
             SetVisible(false);
+            Debug.Log("[VirtualCursor] Input blocked because hidden");
         }
 
         public void SetVisible(bool show)
@@ -136,43 +137,15 @@ namespace WizardPunk
 
         private void ReacquireWandReader()
         {
-            WandSerialReader[] readers = FindObjectsOfType<WandSerialReader>();
-            WandSerialReader fallbackReader = null;
-            WandSerialReader connectedReader = null;
-
-            foreach (WandSerialReader reader in readers)
+            if (!WandSerialReader.IsAlive(wandReader))
             {
-                if (reader == null)
-                    continue;
-
-                if (!string.IsNullOrEmpty(wandReaderPortHint) && reader.serialPort == wandReaderPortHint && reader.IsConnected)
+                wandReader = PlayerAssignment.PlayerA;
+                if (wandReader != null)
                 {
-                    wandReader = reader;
-                    return;
+                    wandReaderPortHint = wandReader.serialPort;
+                    Debug.Log("[ReaderResolve] Recovered PlayerA for GlobalVirtualCursor");
                 }
-
-                if (reader.IsConnected)
-                {
-                    if (connectedReader == null)
-                        connectedReader = reader;
-                }
-
-                if (fallbackReader == null)
-                    fallbackReader = reader;
             }
-
-            if (connectedReader != null)
-            {
-                wandReader = connectedReader;
-                wandReaderPortHint = wandReader.serialPort;
-                return;
-            }
-
-            if (wandReader == null || !wandReader)
-                wandReader = fallbackReader;
-
-            if (wandReader != null)
-                wandReaderPortHint = wandReader.serialPort;
         }
 
         private void ApplyVisibility()

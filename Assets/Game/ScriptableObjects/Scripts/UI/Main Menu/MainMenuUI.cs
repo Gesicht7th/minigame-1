@@ -44,16 +44,21 @@ namespace WizardPunk
 
         void Start()
         {
-            if (p1SerialReader == null)
+            PlayerAssignment.Initialize(p1SerialReader, p2SerialReader);
+
+            if (!WandSerialReader.IsAlive(p1SerialReader))
             {
-                p1SerialReader = WandSerialReader.GetByPort("COM8");
-                Debug.Log("[ReaderResolve] Player1 -> COM8");
+                p1SerialReader = PlayerAssignment.PlayerA;
+                if (p1SerialReader != null) Debug.Log("[ReaderResolve] Recovered PlayerA");
             }
-            if (p2SerialReader == null)
+            if (!WandSerialReader.IsAlive(p2SerialReader))
             {
-                p2SerialReader = WandSerialReader.GetByPort("COM9");
-                Debug.Log("[ReaderResolve] Player2 -> COM9");
+                p2SerialReader = PlayerAssignment.PlayerB;
+                if (p2SerialReader != null) Debug.Log("[ReaderResolve] Recovered PlayerB");
             }
+
+            p1SerialReader?.FlushInput();
+            p2SerialReader?.FlushInput();
 
             // Tampilkan high score
             if (hs_mg1Text)

@@ -35,17 +35,17 @@ namespace WizardPunk.Reflex
         // ─────────────────────────────────────────────────────────
         void Start()
         {
-            if (p1Reader == null)
+            if (!WandSerialReader.IsAlive(p1Reader))
             {
-                p1Reader = WandSerialReader.GetByPort("COM8");
-                if (p1Reader != null) Debug.Log("[ReaderResolve] SUCCESS COM8");
-                else Debug.Log("[ReaderResolve] FAILED COM8");
+                p1Reader = PlayerAssignment.PlayerA;
+                if (p1Reader != null) Debug.Log("[ReaderResolve] Recovered PlayerA");
+                else Debug.Log("[ReaderResolve] FAILED PlayerA");
             }
-            if (p2Reader == null)
+            if (!WandSerialReader.IsAlive(p2Reader))
             {
-                p2Reader = WandSerialReader.GetByPort("COM9");
-                if (p2Reader != null) Debug.Log("[ReaderResolve] SUCCESS COM9");
-                else Debug.Log("[ReaderResolve] FAILED COM9");
+                p2Reader = PlayerAssignment.PlayerB;
+                if (p2Reader != null) Debug.Log("[ReaderResolve] Recovered PlayerB");
+                else Debug.Log("[ReaderResolve] FAILED PlayerB");
             }
 
             ResetProgressBar();
