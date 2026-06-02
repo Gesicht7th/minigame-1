@@ -42,7 +42,8 @@ public class DualCrosshairController : MonoBehaviour
     private Vector3 initialCharPos2;
 
     [Header("Shooting Settings (Manual & Auto-Fire)")]
-    public GameObject projectilePrefab; 
+    public GameObject projectilePrefabP1; 
+    public GameObject projectilePrefabP2; 
 
     [Tooltip("Berapa peluru per detik (Player 1)")]
     public float fireRateP1 = 5f;
@@ -245,28 +246,63 @@ public class DualCrosshairController : MonoBehaviour
     public void PerformShoot(PlayerIndex player, float speed = 20f, float range = 100f)
     {
         RectTransform crosshair = (player == PlayerIndex.Player1) ? crosshair1 : crosshair2;
-        if (projectilePrefab == null || crosshair == null) return;
+        GameObject prefabToUse = (player == PlayerIndex.Player1) ? projectilePrefabP1 : projectilePrefabP2;
+        
+        if (prefabToUse == null || crosshair == null) return;
 
         Animator anim = (player == PlayerIndex.Player1) ? animator1 : animator2;
         if (anim != null) anim.SetTrigger("Attack");
 
         Vector3 screenPos = crosshair.position;
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
-        Vector3 targetPoint;
+        
+        Transform characterModel = (player == PlayerIndex.Player1) ? characterModel1 : characterModel2;
+        Vector3 targetPoint = ray.GetPoint(100f);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, Physics.AllLayers, QueryTriggerInteraction.Ignore))
+        // Gunakan RaycastAll untuk mencari hit, lalu abaikan hit yang mengenai karakter sendiri
+        RaycastHit[] hits = Physics.RaycastAll(ray, 1000f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+        float minValidDistance = float.MaxValue;
+        bool foundValidHit = false;
+        
+        float charDistance = characterModel != null ? Vector3.Distance(characterModel.position, Camera.main.transform.position) : 0f;
+
+        foreach (var hit in hits)
         {
-            targetPoint = hit.point;
+            // Abaikan object yang ada di belakang atau persis di karakter (jarak dari kamera <= jarak karakter ke kamera + toleransi)
+            if (hit.distance < charDistance + 1.0f) continue;
+            
+            if (hit.distance < minValidDistance)
+            {
+                minValidDistance = hit.distance;
+                targetPoint = hit.point;
+                foundValidHit = true;
+            }
+        }
+
+        Vector3 spawnPosition;
+        
+        if (characterModel != null)
+        {
+            // Posisikan peluru di depan karakter
+            Vector3 fireDirection = (targetPoint - characterModel.position).normalized;
+            
+            // Safety check: Jika arah tembakan ternyata berbalik arah (ke arah kamera), paksa ke depan
+            if (Vector3.Dot(fireDirection, Camera.main.transform.forward) < 0)
+            {
+                fireDirection = Camera.main.transform.forward;
+                targetPoint = characterModel.position + fireDirection * 100f; // Update target point juga
+            }
+            
+            // Offset spawn position ke depan karakter (1.5 satuan)
+            spawnPosition = characterModel.position + fireDirection * 2.0f;
         }
         else
         {
-            targetPoint = ray.GetPoint(100f); 
+            Vector3 screenPosWithDepth = new Vector3(screenPos.x, screenPos.y, spawnDepthFromCamera);
+            spawnPosition = Camera.main.ScreenToWorldPoint(screenPosWithDepth);
         }
 
-        Vector3 screenPosWithDepth = new Vector3(screenPos.x, screenPos.y, spawnDepthFromCamera);
-        Vector3 spawnPosition = Camera.main.ScreenToWorldPoint(screenPosWithDepth);
-
-        GameObject bullet = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
+        GameObject bullet = Instantiate(prefabToUse, spawnPosition, Quaternion.identity);
         bullet.transform.LookAt(targetPoint);
 
         // --- INTEGRASI SCORE MANAGER ---

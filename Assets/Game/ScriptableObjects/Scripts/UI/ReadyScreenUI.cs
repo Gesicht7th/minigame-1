@@ -43,6 +43,19 @@ namespace WizardPunk
 
         void Start()
         {
+            if (p1WandReader == null)
+            {
+                p1WandReader = WandSerialReader.GetByPort("COM8");
+                if (p1WandReader != null) Debug.Log("[ReaderResolve] SUCCESS COM8");
+                else Debug.Log("[ReaderResolve] FAILED COM8");
+            }
+            if (p2WandReader == null)
+            {
+                p2WandReader = WandSerialReader.GetByPort("COM9");
+                if (p2WandReader != null) Debug.Log("[ReaderResolve] SUCCESS COM9");
+                else Debug.Log("[ReaderResolve] FAILED COM9");
+            }
+
             UpdateIndicators();
             if (bothReadyText != null) bothReadyText.gameObject.SetActive(false);
 

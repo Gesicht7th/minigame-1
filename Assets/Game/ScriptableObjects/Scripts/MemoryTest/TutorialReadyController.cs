@@ -36,6 +36,19 @@ namespace WizardPunk.MemoryTest
         // ─────────────────────────────────────────────────────────
         void Start()
         {
+            if (p1Reader == null)
+            {
+                p1Reader = WandSerialReader.GetByPort("COM8");
+                if (p1Reader != null) Debug.Log("[ReaderResolve] SUCCESS COM8");
+                else Debug.Log("[ReaderResolve] FAILED COM8");
+            }
+            if (p2Reader == null)
+            {
+                p2Reader = WandSerialReader.GetByPort("COM9");
+                if (p2Reader != null) Debug.Log("[ReaderResolve] SUCCESS COM9");
+                else Debug.Log("[ReaderResolve] FAILED COM9");
+            }
+
             ResetProgressBar();
         }
 

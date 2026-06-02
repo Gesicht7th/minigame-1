@@ -34,6 +34,7 @@ namespace WizardPunk.HyperSmash
         public Ray AimRay => Camera.main.ScreenPointToRay(CrosshairScreenPos);
 
         private Vector2 targetNormalized = new Vector2(0.5f, 0.5f);
+        private float _debugLogTimer = 0f;
 
         void Awake()
         {
@@ -45,7 +46,12 @@ namespace WizardPunk.HyperSmash
         void Start()
         {
             if (serialReader == null)
-                serialReader = FindObjectOfType<WandSerialReader>();
+            {
+                string targetPort = (playerIndex == PlayerIndex.Player1) ? "COM8" : "COM9";
+                serialReader = WandSerialReader.GetByPort(targetPort);
+                if (serialReader != null) Debug.Log($"[ReaderResolve] SUCCESS {targetPort}");
+                else Debug.Log($"[ReaderResolve] FAILED {targetPort}");
+            }
 
             if (playerIndex == PlayerIndex.Player1 && useMouseFallback && serialReader == null)
             {
@@ -100,6 +106,13 @@ namespace WizardPunk.HyperSmash
         private void UpdateGyroAiming()
         {
             Vector3 gyro = serialReader.GyroVelocity;
+
+            _debugLogTimer += Time.deltaTime;
+            if (_debugLogTimer >= 1f)
+            {
+                _debugLogTimer = 0f;
+                Debug.Log($"[{playerIndex}] Gyro={gyro} Target={targetNormalized} Crosshair={CrosshairNormalized}");
+            }
 
             // Mapping dipertahankan dari penemuan sebelumnya: z = horizontal, x = vertical
             float inputX = ApplyDeadzone(gyro.z, gyroDeadzone);

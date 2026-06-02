@@ -10,26 +10,47 @@
 // ============================================================
 
 using System;
+using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
 using UnityEngine;
 
 public class WandSerialReader : MonoBehaviour
 {
+    // ── Static Registry ─────────────────────────────
+    private static readonly List<WandSerialReader> _activeReaders = new List<WandSerialReader>();
+    public static IReadOnlyList<WandSerialReader> ActiveReaders => _activeReaders;
 
-    //public static WandSerialReader Instance { get; private set; }
+    public static WandSerialReader GetByPort(string port)
+    {
+        foreach (var reader in _activeReaders)
+        {
+            if (string.Equals(reader.serialPort, port, StringComparison.OrdinalIgnoreCase))
+                return reader;
+        }
+        return null;
+    }
 
-    //void Awake()
-    //{
-    //    if (Instance != null && Instance != this)
-    //    {
-    //        Destroy(gameObject);
-    //        return;
-    //    }
-    //    Instance = this;
-    //    DontDestroyOnLoad(gameObject);
-    //}
-    //// -------------------------------
+    void Awake()
+    {
+        WandSerialReader existingReader = GetByPort(serialPort);
+        if (existingReader != null && existingReader != this)
+        {
+            Debug.Log($"[ReaderRegistry] Duplicate {serialPort} destroyed");
+            Destroy(gameObject);
+            return;
+        }
+
+        if (!_activeReaders.Contains(this))
+        {
+            _activeReaders.Add(this);
+            Debug.Log($"[ReaderRegistry] Registered {serialPort}");
+        }
+
+        transform.SetParent(null); // Memastikan berada di root sebelum DontDestroyOnLoad
+        DontDestroyOnLoad(gameObject);
+    }
+    // ------------------------------------------------
 
     [Header("Serial Config")]
     [Tooltip("Contoh: COM3 (Windows) atau /dev/ttyUSB0 (Linux/Mac)")]
@@ -138,11 +159,19 @@ public class WandSerialReader : MonoBehaviour
     // ============================================================
     void Start()
     {
-        OpenSerial();
+        if (!IsConnected)
+        {
+            OpenSerial();
+        }
     }
 
     void OnDestroy()
     {
+        if (_activeReaders.Contains(this))
+        {
+            _activeReaders.Remove(this);
+            Debug.Log($"[ReaderRegistry] Unregistered {serialPort}");
+        }
         CloseSerial();
     }
 
@@ -160,7 +189,7 @@ public class WandSerialReader : MonoBehaviour
             {
                 ReadTimeout = 1000,
                 WriteTimeout = 1000,
-                DtrEnable = true,   // Reset ESP32 saat connect (opsional)
+                DtrEnable = false,   // Reset ESP32 saat connect (opsional)
             };
             _serial.Open();
 
@@ -221,6 +250,11 @@ public class WandSerialReader : MonoBehaviour
     // ============================================================
     private void ParseLine(string line)
     {
+        if (line == "RDY" || line == "BOOT_COMPLETE")
+        {
+            Debug.Log($"[WAND BOOT] {serialPort} -> {line}");
+        }
+
         // Format Euler: "E:pitch,roll,yaw"
         if (line.StartsWith("E:"))
         {
@@ -280,6 +314,12 @@ public class WandSerialReader : MonoBehaviour
                 _gx = gx;
                 _gy = gy;
                 _gz = gz;
+
+                float mag = Mathf.Abs(_gx) + Mathf.Abs(_gy) + Mathf.Abs(_gz);
+                // if (mag > 5f)
+                // {
+                //     Debug.Log($"[GYRO RAW] {serialPort} -> {_gx:F2}, {_gy:F2}, {_gz:F2}");
+                // }
             }
             return;
         }

@@ -40,17 +40,15 @@ namespace WizardPunk
 
         void Start()
         {
-            // Auto-find Serial Readers
-            if (p1SerialReader == null || p2SerialReader == null)
+            if (p1SerialReader == null)
             {
-                WandSerialReader[] readers = FindObjectsOfType<WandSerialReader>();
-                foreach (var reader in readers)
-                {
-                    if (reader.name.ToUpper().Contains("P1") || reader.name.ToUpper().Contains("PLAYER1"))
-                        p1SerialReader = reader;
-                    else if (reader.name.ToUpper().Contains("P2") || reader.name.ToUpper().Contains("PLAYER2"))
-                        p2SerialReader = reader;
-                }
+                p1SerialReader = WandSerialReader.GetByPort("COM8");
+                Debug.Log("[ReaderResolve] Player1 -> COM8");
+            }
+            if (p2SerialReader == null)
+            {
+                p2SerialReader = WandSerialReader.GetByPort("COM9");
+                Debug.Log("[ReaderResolve] Player2 -> COM9");
             }
 
             // Tampilkan high score
@@ -92,48 +90,60 @@ namespace WizardPunk
         private IEnumerator WaitForPlayersReady()
         {
             isWaitingForPlayers = true;
-            bool p1Ready = false;
-            bool p2Ready = false;
+            
+            float holdDuration = 1.5f;
+            float holdTimer = 0f;
 
-            p1SerialReader?.FlushGesture();
-            p2SerialReader?.FlushGesture();
+            bool p1WasHolding = false;
+            bool p2WasHolding = false;
 
-            while (!p1Ready || !p2Ready)
+            while (holdTimer < holdDuration)
             {
+                bool p1Held = Input.GetKey(KeyCode.Space) || (p1SerialReader != null && p1SerialReader.IsHolding);
+                bool p2Held = Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter) || (p2SerialReader != null && p2SerialReader.IsHolding);
+
                 // Cek Player 1
-                if (!p1Ready)
+                if (p1Held && !p1WasHolding)
                 {
-                    if (Input.GetKeyDown(KeyCode.Space) ||
-                       (p1SerialReader != null && p1SerialReader.ConsumeGesture() == espButtonCode))
-                    {
-                        p1Ready = true;
-
-                        // Mainkan Animasi dengan patokan skala asli P1
-                        if (p1ReadyIndicator != null)
-                            StartCoroutine(AnimateIndicator(p1ReadyIndicator, p1IndicatorOriginalScale));
-
-                        if (SoundManager.Instance != null) SoundManager.Instance.PlaySound(null);
-                    }
+                    if (p1ReadyIndicator != null)
+                        StartCoroutine(AnimateIndicator(p1ReadyIndicator, p1IndicatorOriginalScale));
+                    if (SoundManager.Instance != null) SoundManager.Instance.PlaySound(null);
+                }
+                else if (!p1Held && p1WasHolding)
+                {
+                    if (p1ReadyIndicator != null) p1ReadyIndicator.SetActive(false);
                 }
 
                 // Cek Player 2
-                if (!p2Ready)
+                if (p2Held && !p2WasHolding)
                 {
-                    if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) ||
-                       (p2SerialReader != null && p2SerialReader.ConsumeGesture() == espButtonCode))
-                    {
-                        p2Ready = true;
+                    if (p2ReadyIndicator != null)
+                        StartCoroutine(AnimateIndicator(p2ReadyIndicator, p2IndicatorOriginalScale));
+                    if (SoundManager.Instance != null) SoundManager.Instance.PlaySound(null);
+                }
+                else if (!p2Held && p2WasHolding)
+                {
+                    if (p2ReadyIndicator != null) p2ReadyIndicator.SetActive(false);
+                }
 
-                        // Mainkan Animasi dengan patokan skala asli P2
-                        if (p2ReadyIndicator != null)
-                            StartCoroutine(AnimateIndicator(p2ReadyIndicator, p2IndicatorOriginalScale));
+                p1WasHolding = p1Held;
+                p2WasHolding = p2Held;
 
-                        if (SoundManager.Instance != null) SoundManager.Instance.PlaySound(null);
-                    }
+                if (p1Held && p2Held)
+                {
+                    holdTimer += Time.deltaTime;
+                }
+                else
+                {
+                    holdTimer = 0f;
                 }
 
                 yield return null;
             }
+
+            // Memastikan indikator menyala penuh sebelum transisi
+            if (p1ReadyIndicator != null) p1ReadyIndicator.SetActive(true);
+            if (p2ReadyIndicator != null) p2ReadyIndicator.SetActive(true);
 
             yield return new WaitForSeconds(0.6f);
             StartGame();

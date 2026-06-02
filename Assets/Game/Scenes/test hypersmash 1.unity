@@ -365,53 +365,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32170499}
   m_CullTransparentMesh: 1
---- !u!1 &36404789
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 36404791}
-  - component: {fileID: 36404790}
-  m_Layer: 0
-  m_Name: SerialManager2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &36404790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 36404789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
-  serialPort: COM9
-  baudRate: 115200
-  ActionHoldTimeout: 0.15
---- !u!4 &36404791
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 36404789}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &39605221
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1101,8 +1054,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.WandAimController
   playerIndex: 1
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  serialReader: {fileID: 36404790}
-  gyroDeadzone: 2.5
+  serialReader: {fileID: 0}
+  gyroDeadzone: 3
   gyroSensitivity: 0.05
   useMouseFallback: 0
   mouseSensitivity: 1
@@ -1897,25 +1850,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea225746e745cc8498b94894daf085fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.ShootingSystem
-  playerIndex: 1
-  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  firePoint: {fileID: 0}
-  projectilePrefab: {fileID: 0}
-  player1Color:
-    r: 1
-    g: 0.8
-    b: 0
-    a: 1
-  player2Color:
-    r: 0
-    g: 0.8
-    b: 1
-    a: 1
-  characterAnimator: {fileID: 0}
-  isShooting: 0
-  nextFireTime: 0
-  fireInterval: 0
-  <TotalShots>k__BackingField: 0
 --- !u!1001 &149578896
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2360,25 +2294,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea225746e745cc8498b94894daf085fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.ShootingSystem
-  playerIndex: 0
-  config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  firePoint: {fileID: 0}
-  projectilePrefab: {fileID: 0}
-  player1Color:
-    r: 1
-    g: 0.8
-    b: 0
-    a: 1
-  player2Color:
-    r: 0
-    g: 0.8
-    b: 1
-    a: 1
-  characterAnimator: {fileID: 0}
-  isShooting: 0
-  nextFireTime: 0
-  fireInterval: 0
-  <TotalShots>k__BackingField: 0
 --- !u!4 &252138770 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7134375633722532235, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
@@ -2430,8 +2345,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.WandAimController
   playerIndex: 0
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
-  serialReader: {fileID: 1557435683}
-  gyroDeadzone: 2.5
+  serialReader: {fileID: 0}
+  gyroDeadzone: 3
   gyroSensitivity: 0.05
   useMouseFallback: 0
   mouseSensitivity: 1
@@ -7043,11 +6958,12 @@ MonoBehaviour:
   characterModel1: {fileID: 543450652998359193}
   characterModel2: {fileID: 61738718}
   characterFollowWeight: 0.1
-  projectilePrefab: {fileID: 5108986311740894512, guid: 66ade16da2e27784cb076c74686bf55f, type: 3}
+  projectilePrefabP1: {fileID: 5108986311740894512, guid: 66ade16da2e27784cb076c74686bf55f, type: 3}
+  projectilePrefabP2: {fileID: 5108986311740894512, guid: abb75958c6a207942934ceca08408fad, type: 3}
   fireRateP1: 5
   fireRateP2: 5
-  bulletSpeed: 20
-  bulletRange: 100
+  bulletSpeed: 30
+  bulletRange: 40
   spawnDepthFromCamera: 5
 --- !u!4 &787606357
 Transform:
@@ -13217,53 +13133,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 403630233}
   m_SourcePrefab: {fileID: 100100000, guid: 40b245c27e29a374284288905a1c801a, type: 3}
---- !u!1 &1557435682
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1557435684}
-  - component: {fileID: 1557435683}
-  m_Layer: 0
-  m_Name: SerialManager1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1557435683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1557435682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
-  serialPort: COM8
-  baudRate: 115200
-  ActionHoldTimeout: 0.15
---- !u!4 &1557435684
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1557435682}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1565026131
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14880,8 +14749,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8ab938458d3c694fbd305fb94296bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.HyperSmashTutorialReadyController
-  p1Reader: {fileID: 1557435683}
-  p2Reader: {fileID: 36404790}
+  p1Reader: {fileID: 0}
+  p2Reader: {fileID: 0}
   uiManager: {fileID: 1226687768}
   goButton: {fileID: 876615622}
   holdProgressBar: {fileID: 41481826}
@@ -16904,5 +16773,3 @@ SceneRoots:
   - {fileID: 543450653194759382}
   - {fileID: 543450653332402744}
   - {fileID: 1508826995}
-  - {fileID: 1557435684}
-  - {fileID: 36404791}
