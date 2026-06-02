@@ -40,17 +40,15 @@ namespace WizardPunk
 
         void Start()
         {
-            // Auto-find Serial Readers
-            if (p1SerialReader == null || p2SerialReader == null)
+            if (p1SerialReader == null)
             {
-                WandSerialReader[] readers = FindObjectsOfType<WandSerialReader>();
-                foreach (var reader in readers)
-                {
-                    if (reader.name.ToUpper().Contains("P1") || reader.name.ToUpper().Contains("PLAYER1"))
-                        p1SerialReader = reader;
-                    else if (reader.name.ToUpper().Contains("P2") || reader.name.ToUpper().Contains("PLAYER2"))
-                        p2SerialReader = reader;
-                }
+                p1SerialReader = WandSerialReader.GetByPort("COM8");
+                Debug.Log("[ReaderResolve] Player1 -> COM8");
+            }
+            if (p2SerialReader == null)
+            {
+                p2SerialReader = WandSerialReader.GetByPort("COM9");
+                Debug.Log("[ReaderResolve] Player2 -> COM9");
             }
 
             // Tampilkan high score

@@ -35,6 +35,17 @@ namespace WizardPunk.Reflex
         // ─────────────────────────────────────────────────────────
         void Start()
         {
+            if (p1Reader == null)
+            {
+                p1Reader = WandSerialReader.GetByPort("COM8");
+                Debug.Log("[ReaderResolve] Player1 -> COM8");
+            }
+            if (p2Reader == null)
+            {
+                p2Reader = WandSerialReader.GetByPort("COM9");
+                Debug.Log("[ReaderResolve] Player2 -> COM9");
+            }
+
             ResetProgressBar();
         }
 

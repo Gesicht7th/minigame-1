@@ -45,7 +45,12 @@ namespace WizardPunk.Reflex
 
         void Start()
         {
-            if (serialReader == null) serialReader = FindObjectOfType<WandSerialReader>();
+            if (serialReader == null)
+            {
+                string targetPort = (playerIndex == 1) ? "COM8" : "COM9";
+                serialReader = WandSerialReader.GetByPort(targetPort);
+                Debug.Log($"[ReaderResolve] Player{playerIndex} -> {targetPort}");
+            }
         }
 
         void Update()

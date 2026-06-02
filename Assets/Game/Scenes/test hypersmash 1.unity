@@ -1102,7 +1102,7 @@ MonoBehaviour:
   playerIndex: 1
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
   serialReader: {fileID: 36404790}
-  gyroDeadzone: 10
+  gyroDeadzone: 3
   gyroSensitivity: 0.05
   useMouseFallback: 0
   mouseSensitivity: 1
@@ -2393,7 +2393,7 @@ MonoBehaviour:
   playerIndex: 0
   config: {fileID: 11400000, guid: efdc0770a747406459b5f52db77a25ff, type: 2}
   serialReader: {fileID: 1557435683}
-  gyroDeadzone: 10
+  gyroDeadzone: 3
   gyroSensitivity: 0.05
   useMouseFallback: 0
   mouseSensitivity: 1

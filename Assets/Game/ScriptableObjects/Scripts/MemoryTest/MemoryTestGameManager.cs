@@ -29,25 +29,16 @@ namespace WizardPunk.MemoryTest
 
         void Start()
         {
-            if (p1SerialReader == null) p1SerialReader = null;
-            if (p2SerialReader == null) p2SerialReader = null;
-
-            WandSerialReader[] readers = FindObjectsOfType<WandSerialReader>();
-
-            foreach (var reader in readers)
+            if (p1SerialReader == null)
             {
-                if (reader.name.ToUpper().Contains("P1") || reader.name.ToUpper().Contains("PLAYER1"))
-                {
-                    if (p1SerialReader == null) p1SerialReader = reader;
-                }
-                else if (reader.name.ToUpper().Contains("P2") || reader.name.ToUpper().Contains("PLAYER2"))
-                {
-                    if (p2SerialReader == null) p2SerialReader = reader;
-                }
+                p1SerialReader = WandSerialReader.GetByPort("COM8");
+                Debug.Log("[ReaderResolve] Player1 -> COM8");
             }
-
-            if (p1SerialReader == null && readers.Length > 0) p1SerialReader = readers[0];
-            if (p2SerialReader == null && readers.Length > 1) p2SerialReader = (readers[0] == p1SerialReader) ? readers[1] : readers[0];
+            if (p2SerialReader == null)
+            {
+                p2SerialReader = WandSerialReader.GetByPort("COM9");
+                Debug.Log("[ReaderResolve] Player2 -> COM9");
+            }
 
             if (p1SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P1 Wand Manager tidak ditemukan!");
             if (p2SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P2 Wand Manager tidak ditemukan!");
