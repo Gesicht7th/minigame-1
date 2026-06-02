@@ -8280,12 +8280,12 @@ RectTransform:
   - {fileID: 1132194298}
   - {fileID: 1330293553}
   - {fileID: 614266750}
-  - {fileID: 414566787}
   - {fileID: 9433984}
   - {fileID: 2131995048}
   - {fileID: 1487333361}
   - {fileID: 480451524}
   - {fileID: 1516972964}
+  - {fileID: 414566787}
   m_Father: {fileID: 509850482}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8336,12 +8336,12 @@ MonoBehaviour:
   p1CharacterRect: {fileID: 1256017374}
   p2CharacterRect: {fileID: 35232588}
   slideDistance: 1000
-  p1BlockSFX: {fileID: 8300000, guid: b3d6478e0c3e1764bb77cf0b598b4911, type: 3}
-  p1PenetrationSFX: {fileID: 8300000, guid: 6567b34bf0e695c479fe2b721ba7f500, type: 3}
-  p1CounterSFX: {fileID: 8300000, guid: b3d6478e0c3e1764bb77cf0b598b4911, type: 3}
-  p2BlockSFX: {fileID: 8300000, guid: e27737facf66ea242abed32700da4f32, type: 3}
-  p2PenetrationSFX: {fileID: 8300000, guid: d531b97a85f20db48af66974906f07c6, type: 3}
-  p2CounterSFX: {fileID: 8300000, guid: e27737facf66ea242abed32700da4f32, type: 3}
+  p1BlockSFX: {fileID: 8300000, guid: 9bbf308622d85924fbf54c40da090557, type: 3}
+  p1PenetrationSFX: {fileID: 8300000, guid: de2066eea40a4c544b5903adff75c8d0, type: 3}
+  p1CounterSFX: {fileID: 8300000, guid: a6f8354166cd5644383710eb1743d9f4, type: 3}
+  p2BlockSFX: {fileID: 8300000, guid: b4bca949096fe2748a846ec6b6cecfb5, type: 3}
+  p2PenetrationSFX: {fileID: 8300000, guid: 24d0f4eb7652c194b9b83185784f32f1, type: 3}
+  p2CounterSFX: {fileID: 8300000, guid: 24d0f4eb7652c194b9b83185784f32f1, type: 3}
   countdownTickSFX: {fileID: 8300000, guid: 209c23cca5ae91642806c8218cb77c84, type: 3}
   goSFX: {fileID: 0}
   timesUpPanel: {fileID: 2131995047}
@@ -10553,7 +10553,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 3
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}

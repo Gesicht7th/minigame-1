@@ -70,9 +70,7 @@ namespace WizardPunk.Reflex
         private Coroutine p2CharSlideCoroutine;
         private Coroutine countdownScaleCoroutine;
 
-        // --- PENGAMAN AUDIO COUNTDOWN ---
         private bool isCountdownAudioPlayed = false;
-        // --------------------------------
 
         private RpsType lastP1Action = RpsType.None;
         private RpsType lastP2Action = RpsType.None;
@@ -303,7 +301,6 @@ namespace WizardPunk.Reflex
             if (countdownScaleCoroutine != null) StopCoroutine(countdownScaleCoroutine);
             countdownScaleCoroutine = StartCoroutine(ScaleTo(countdownText.transform, Vector3.one, 0.3f));
 
-            // --- PERBAIKAN: HANYA PUTAR SFX JIKA BELUM DIPUTAR DI RONDE INI ---
             if (!isCountdownAudioPlayed)
             {
                 if (SoundManager.Instance != null) SoundManager.Instance.StopSound();
@@ -311,23 +308,20 @@ namespace WizardPunk.Reflex
                 {
                     SoundManager.Instance.PlaySound(countdownTickSFX);
                 }
-                isCountdownAudioPlayed = true; // Kunci agar tidak diputar ulang di angka 2 dan 1
+                isCountdownAudioPlayed = true;
             }
-            // -------------------------------------------------------------------
         }
 
-        // Fungsi Hide kini menerima parameter untuk mendeteksi False Start
         public void HideCountdown(bool isFalseStart = false)
         {
             countdownPanel?.SetActive(false);
 
-            // --- HANYA HENTIKAN SUARA JIKA PEMAIN MELANGGAR ATURAN (FALSE START) ---
             if (isFalseStart && SoundManager.Instance != null)
             {
                 SoundManager.Instance.StopSound();
             }
 
-            isCountdownAudioPlayed = false; // Reset kuncian untuk ronde berikutnya
+            isCountdownAudioPlayed = false;
         }
 
         public void ShowGo()
@@ -424,6 +418,26 @@ namespace WizardPunk.Reflex
                 }
         }
 
+        // --- FUNGSI BARU: PEMANGGIL SFX YANG AKAN DIGUNAKAN OLEH GAMEMANAGER ---
+        public void PlayAttackSound(int player, RpsType action)
+        {
+            if (SoundManager.Instance == null || action == RpsType.None) return;
+
+            if (player == 1)
+            {
+                if (action == RpsType.Rock && p1BlockSFX != null) SoundManager.Instance.PlaySound(p1BlockSFX);
+                else if (action == RpsType.Paper && p1PenetrationSFX != null) SoundManager.Instance.PlaySound(p1PenetrationSFX);
+                else if (action == RpsType.Scissors && p1CounterSFX != null) SoundManager.Instance.PlaySound(p1CounterSFX);
+            }
+            else if (player == 2)
+            {
+                if (action == RpsType.Rock && p2BlockSFX != null) SoundManager.Instance.PlaySound(p2BlockSFX);
+                else if (action == RpsType.Paper && p2PenetrationSFX != null) SoundManager.Instance.PlaySound(p2PenetrationSFX);
+                else if (action == RpsType.Scissors && p2CounterSFX != null) SoundManager.Instance.PlaySound(p2CounterSFX);
+            }
+        }
+        // -----------------------------------------------------------------------
+
         public void UpdateActionUI(int p, RpsType s)
         {
             Image[] icons = (p == 1) ? p1ActionIcons : p2ActionIcons;
@@ -440,32 +454,16 @@ namespace WizardPunk.Reflex
 
             if (actionChanged && s != RpsType.None)
             {
-                if (SoundManager.Instance != null)
-                {
-                    if (p == 1)
-                    {
-                        if (s == RpsType.Rock && p1BlockSFX != null) SoundManager.Instance.PlaySound(p1BlockSFX);
-                        else if (s == RpsType.Paper && p1PenetrationSFX != null) SoundManager.Instance.PlaySound(p1PenetrationSFX);
-                        else if (s == RpsType.Scissors && p1CounterSFX != null) SoundManager.Instance.PlaySound(p1CounterSFX);
-                    }
-                    else if (p == 2)
-                    {
-                        if (s == RpsType.Rock && p2BlockSFX != null) SoundManager.Instance.PlaySound(p2BlockSFX);
-                        else if (s == RpsType.Paper && p2PenetrationSFX != null) SoundManager.Instance.PlaySound(p2PenetrationSFX);
-                        else if (s == RpsType.Scissors && p2CounterSFX != null) SoundManager.Instance.PlaySound(p2CounterSFX);
-                    }
-                }
+                // PEMANGGILAN SOUND TELAH DIHAPUS DARI SINI AGAR TIDAK BUNYI SAAT BARU KLIK
 
                 if (p == 1 && p1CharacterRect != null)
                 {
                     if (p1CharSlideCoroutine != null) StopCoroutine(p1CharSlideCoroutine);
-
                     p1CharSlideCoroutine = StartCoroutine(PlayCharacterCutIn(p1CharacterRect, p1CharShownPos, p1CharHiddenPos, 1.0f));
                 }
                 else if (p == 2 && p2CharacterRect != null)
                 {
                     if (p2CharSlideCoroutine != null) StopCoroutine(p2CharSlideCoroutine);
-
                     p2CharSlideCoroutine = StartCoroutine(PlayCharacterCutIn(p2CharacterRect, p2CharShownPos, p2CharHiddenPos, 1.0f));
                 }
             }

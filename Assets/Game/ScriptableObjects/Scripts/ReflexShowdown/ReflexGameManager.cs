@@ -160,7 +160,6 @@ namespace WizardPunk.Reflex
             {
                 uiManager.ShowCountdown(i.ToString());
 
-                // --- PEMANTAUAN FALSE START REAL-TIME ---
                 float timer = 0f;
                 while (timer < config.countdownStepDuration)
                 {
@@ -168,16 +167,15 @@ namespace WizardPunk.Reflex
 
                     if (p1Controller.FalseStartTriggered || p2Controller.FalseStartTriggered)
                     {
-                        uiManager.HideCountdown(true); // Kirim 'true' agar audio berhenti
+                        uiManager.HideCountdown(true);
                         yield break;
                     }
 
                     yield return null;
                 }
-                // ----------------------------------------
             }
 
-            uiManager.HideCountdown(false); // Kirim 'false' agar audio berlanjut ke GO
+            uiManager.HideCountdown(false);
             p1Controller.SetCountdownMode(false);
             p2Controller.SetCountdownMode(false);
         }
@@ -248,21 +246,48 @@ namespace WizardPunk.Reflex
             float p1Delay = delayConfig != null ? delayConfig.p1Delay : 0f;
             float p2Delay = delayConfig != null ? delayConfig.p2Delay : 0f;
 
+            // --- PERBAIKAN BUG SFX KALAH ---
             if (winner == 1)
             {
-                StartCoroutine(PlayVisualsWithDelay(() => { p1Visual.SetWinPose(p1Attack); p1Visual.PlayFireEffect(); }, p1Delay));
-                StartCoroutine(PlayVisualsWithDelay(() => { p2Visual.SetLosePose(p2Attack); p2Visual.PlayFireEffect(); }, p2Delay));
+                StartCoroutine(PlayVisualsWithDelay(() => {
+                    p1Visual.SetWinPose(p1Attack);
+                    p1Visual.PlayFireEffect();
+                    uiManager.PlayAttackSound(1, p1Attack); // P1 Menang, Putar Suara
+                }, p1Delay));
+                StartCoroutine(PlayVisualsWithDelay(() => {
+                    p2Visual.SetLosePose(p2Attack);
+                    p2Visual.PlayFireEffect();
+                    // P2 Kalah, SUARA TIDAK DIPUTAR AGAR TIDAK MENABRAK
+                }, p2Delay));
             }
             else if (winner == 2)
             {
-                StartCoroutine(PlayVisualsWithDelay(() => { p2Visual.SetWinPose(p2Attack); p2Visual.PlayFireEffect(); }, p2Delay));
-                StartCoroutine(PlayVisualsWithDelay(() => { p1Visual.SetLosePose(p1Attack); p1Visual.PlayFireEffect(); }, p1Delay));
+                StartCoroutine(PlayVisualsWithDelay(() => {
+                    p2Visual.SetWinPose(p2Attack);
+                    p2Visual.PlayFireEffect();
+                    uiManager.PlayAttackSound(2, p2Attack); // P2 Menang, Putar Suara
+                }, p2Delay));
+                StartCoroutine(PlayVisualsWithDelay(() => {
+                    p1Visual.SetLosePose(p1Attack);
+                    p1Visual.PlayFireEffect();
+                    // P1 Kalah, SUARA TIDAK DIPUTAR AGAR TIDAK MENABRAK
+                }, p1Delay));
             }
             else
             {
-                StartCoroutine(PlayVisualsWithDelay(() => { p1Visual.SetDrawPose(p1Attack); p1Visual.PlayFireEffect(); }, p1Delay));
-                StartCoroutine(PlayVisualsWithDelay(() => { p2Visual.SetDrawPose(p2Attack); p2Visual.PlayFireEffect(); }, p2Delay));
+                // Jika Draw/Seri, kedua suara tetap diputar untuk mensimulasikan benturan sihir
+                StartCoroutine(PlayVisualsWithDelay(() => {
+                    p1Visual.SetDrawPose(p1Attack);
+                    p1Visual.PlayFireEffect();
+                    uiManager.PlayAttackSound(1, p1Attack);
+                }, p1Delay));
+                StartCoroutine(PlayVisualsWithDelay(() => {
+                    p2Visual.SetDrawPose(p2Attack);
+                    p2Visual.PlayFireEffect();
+                    uiManager.PlayAttackSound(2, p2Attack);
+                }, p2Delay));
             }
+            // -------------------------------
 
             float display_t1 = p1Controller.FiredThisRound ? (p1Controller.FireTimestamp - goTimestamp) : -1f;
             float display_t2 = p2Controller.FiredThisRound ? (p2Controller.FireTimestamp - goTimestamp) : -1f;
@@ -285,7 +310,7 @@ namespace WizardPunk.Reflex
         private IEnumerator HandleFalseStart(bool p1False, bool p2False)
         {
             SetState(ReflexState.RoundResult);
-            uiManager.HideCountdown(true); // Pastikan audio diputus saat masuk function False Start
+            uiManager.HideCountdown(true);
 
             if (p1False) p1Visual.PlayFalseStartEffect();
             if (p2False) p2Visual.PlayFalseStartEffect();
