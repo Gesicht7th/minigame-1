@@ -13514,8 +13514,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5afb9696c8d6ffc40abd716dfd10a5b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.HyperSmashSoundController
-  p1ShootSFX: {fileID: 8300000, guid: 7ccd32a1838424448896a52937103717, type: 3}
-  p2ShootSFX: {fileID: 8300000, guid: 94e22369dd6b3c44c9f5a025f4c207f7, type: 3}
+  p1ShootSFX: {fileID: 8300000, guid: d43ed3be2eb95e64cb44a6748938d175, type: 3}
+  p2ShootSFX: {fileID: 8300000, guid: 821ba1a4b0d4d174fb9980b555ed82f8, type: 3}
   crystalDestroySFX: {fileID: 8300000, guid: 365461e8f20e7b04e827a4221931d625, type: 3}
   timesUpSFX: {fileID: 8300000, guid: cb3b7a4a34ac80d4a87a258a7f328b9b, type: 3}
   resultSFX: {fileID: 8300000, guid: 57367bfab7f78034589d9ae0f7dbe37e, type: 3}

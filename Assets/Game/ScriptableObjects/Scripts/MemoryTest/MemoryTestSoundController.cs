@@ -16,6 +16,11 @@ namespace WizardPunk
         [Tooltip("Suara saat player salah menebak urutan")]
         [SerializeField] private AudioClip wrongGuessSFX;
 
+        // --- TAMBAHAN BARU: SUARA TEBAKAN BENAR ---
+        [Tooltip("Suara saat player BENAR menebak urutan")]
+        [SerializeField] private AudioClip correctGuessSFX;
+        // ------------------------------------------
+
         [Header("── UI Event Audio Clips ───────────────────")]
         [Tooltip("Suara saat pop-up Times Up muncul")]
         [SerializeField] private AudioClip timesUpSFX;
@@ -54,7 +59,15 @@ namespace WizardPunk
                 SoundManager.Instance.PlaySound(wrongGuessSFX);
         }
 
-        // --- FUNGSI BARU UNTUK UI EVENTS ---
+        // --- FUNGSI BARU: PLAY CORRECT GUESS ---
+        public void PlayCorrectGuessSound()
+        {
+            if (SoundManager.Instance != null && correctGuessSFX != null)
+                SoundManager.Instance.PlaySound(correctGuessSFX);
+        }
+        // ---------------------------------------
+
+        // --- FUNGSI UNTUK UI EVENTS ---
         public void PlayTimesUpSound()
         {
             if (SoundManager.Instance != null && timesUpSFX != null)

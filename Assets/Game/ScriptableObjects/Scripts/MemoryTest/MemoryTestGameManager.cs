@@ -159,7 +159,6 @@ namespace WizardPunk.MemoryTest
                 runeManager.ResetAll();
             }
 
-            // === UPDATE: SFX TIMES UP ===
             uiManager.HideCenterText();
 
             if (MemoryTestSoundController.Instance != null)
@@ -170,7 +169,6 @@ namespace WizardPunk.MemoryTest
             uiManager.ShowTimesUp();
             yield return new WaitForSeconds(3f);
             uiManager.HideTimesUp();
-            // ============================
 
             int finalP1Score = scoreManager.ScoreP1;
             int finalP2Score = scoreManager.ScoreP2;
@@ -179,7 +177,6 @@ namespace WizardPunk.MemoryTest
             PlayerPrefs.SetInt("G1_ScoreP2", finalP2Score);
             PlayerPrefs.Save();
 
-            // === UPDATE: SFX RESULT/PEMENANG ===
             if (MemoryTestSoundController.Instance != null)
             {
                 MemoryTestSoundController.Instance.PlayResultSound();
@@ -187,7 +184,6 @@ namespace WizardPunk.MemoryTest
 
             uiManager.ShowCursor();
             uiManager.ShowResultPopup(finalP1Score, finalP2Score);
-            // ===================================
         }
 
         private void HandlePlayerInput(int pId)
@@ -217,6 +213,7 @@ namespace WizardPunk.MemoryTest
             target.ShowResult(correct);
             scoreManager.ApplyScore(pId, correct);
 
+            // --- PERUBAHAN: MENAMBAHKAN PEMANGGILAN SOUND CORRECT GUESS ---
             if (!correct)
             {
                 if (MemoryTestSoundController.Instance != null)
@@ -224,6 +221,14 @@ namespace WizardPunk.MemoryTest
                     MemoryTestSoundController.Instance.PlayWrongGuessSound();
                 }
             }
+            else
+            {
+                if (MemoryTestSoundController.Instance != null)
+                {
+                    MemoryTestSoundController.Instance.PlayCorrectGuessSound();
+                }
+            }
+            // ---------------------------------------------------------------
 
             if (pId == 1) p1InputIdx++; else p2InputIdx++;
         }
