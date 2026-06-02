@@ -114,6 +114,7 @@ namespace WizardPunk.Reflex
             if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
             if (drawNextButton != null) drawNextButton.onClick.AddListener(GoToNextGame);
 
+            // Fungsi tombol GO masih dipertahankan berjaga-jaga jika tombol dikembalikan
             if (tutorialGoButton != null)
             {
                 tutorialGoButton.onClick.AddListener(() => { IsTutorialDone = true; });
@@ -132,6 +133,21 @@ namespace WizardPunk.Reflex
                 p2CharacterRect.anchoredPosition = p2CharHiddenPos;
             }
         }
+
+        // --- TAMBAHAN BARU: UPDATE UNTUK BACA KEYBOARD ---
+        void Update()
+        {
+            // Jika layar tutorial sedang aktif dan belum selesai
+            if (!IsTutorialDone && tutorialPanel != null && tutorialPanel.activeSelf)
+            {
+                // Tekan Spasi atau Enter untuk menutup tutorial dan memulai game
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                {
+                    IsTutorialDone = true;
+                }
+            }
+        }
+        // ------------------------------------------------
 
         void OnDestroy()
         {
@@ -168,12 +184,10 @@ namespace WizardPunk.Reflex
             panel.transform.localScale = Vector3.one;
         }
 
-        // --- ANIMASI CUT-IN KARAKTER OTOMATIS (MUNCUL -> TAHAN -> HILANG) ---
         private IEnumerator PlayCharacterCutIn(RectTransform charRect, Vector2 shownPos, Vector2 hiddenPos, float stayDuration)
         {
             if (charRect == null) yield break;
 
-            // 1. Muncul (Slide In)
             float duration = 0.15f;
             float elapsed = 0f;
             Vector2 startPos = charRect.anchoredPosition;
@@ -187,10 +201,8 @@ namespace WizardPunk.Reflex
             }
             charRect.anchoredPosition = shownPos;
 
-            // 2. Tahan gambar di layar selama beberapa saat (Contoh: 1 detik)
             yield return new WaitForSecondsRealtime(stayDuration);
 
-            // 3. Menghilang (Slide Out) secara otomatis
             elapsed = 0f;
             startPos = charRect.anchoredPosition;
 
@@ -203,7 +215,6 @@ namespace WizardPunk.Reflex
             }
             charRect.anchoredPosition = hiddenPos;
         }
-        // --------------------------------------------------------------------
 
         public void ShowTutorial()
         {
@@ -323,7 +334,6 @@ namespace WizardPunk.Reflex
             if (p == 1) lastP1Action = RpsType.None;
             else lastP2Action = RpsType.None;
 
-            // Reset dan sembunyikan gambar seketika saat ronde disetel ulang
             if (p == 1 && p1CharacterRect != null)
             {
                 if (p1CharSlideCoroutine != null) StopCoroutine(p1CharSlideCoroutine);
@@ -349,21 +359,21 @@ namespace WizardPunk.Reflex
             Image[] icons = (p == 1) ? p1ActionIcons : p2ActionIcons;
             if (icons == null || icons.Length < 3) return;
 
-            int idx = (s == RpsType.Rock) ? 0 : (s == RpsType.Paper) ? 1 : 2;
+            int idx = -1;
+            if (s == RpsType.Rock) idx = 0;
+            else if (s == RpsType.Paper) idx = 1;
+            else if (s == RpsType.Scissors) idx = 2;
 
-            // Deteksi aksi
             bool actionChanged = false;
             if (p == 1 && s != lastP1Action) { actionChanged = true; lastP1Action = s; }
             else if (p == 2 && s != lastP2Action) { actionChanged = true; lastP2Action = s; }
 
-            // Jika pemain menembak, mainkan animasi "Cut-In" dengan durasi 1 detik (1f)
             if (actionChanged && s != RpsType.None)
             {
                 if (p == 1 && p1CharacterRect != null)
                 {
                     if (p1CharSlideCoroutine != null) StopCoroutine(p1CharSlideCoroutine);
 
-                    // Angka 1.0f di bawah adalah lama waktu gambar tertahan di layar (1 detik)
                     p1CharSlideCoroutine = StartCoroutine(PlayCharacterCutIn(p1CharacterRect, p1CharShownPos, p1CharHiddenPos, 1.0f));
                 }
                 else if (p == 2 && p2CharacterRect != null)
