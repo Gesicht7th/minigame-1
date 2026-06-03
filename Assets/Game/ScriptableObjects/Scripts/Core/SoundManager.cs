@@ -1,11 +1,18 @@
-﻿using UnityEngine;
+﻿// Assets/_Game/Scripts/Audio/SoundManager.cs
+using UnityEngine;
 
 namespace WizardPunk
 {
     public class SoundManager : MonoBehaviour
     {
         public static SoundManager Instance;
+
+        [Header("── Audio Sources ──")]
+        [Tooltip("Speaker untuk efek suara (SFX)")]
         [SerializeField] private AudioSource audioSource;
+
+        [Tooltip("Speaker khusus untuk lagu (BGM)")]
+        [SerializeField] private AudioSource bgmSource;
 
         void Awake()
         {
@@ -14,9 +21,17 @@ namespace WizardPunk
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
 
+                // --- OTOMATIS MEMBUAT SPEAKER JIKA KOSONG ---
                 if (audioSource == null)
                 {
-                    audioSource = GetComponent<AudioSource>();
+                    audioSource = gameObject.AddComponent<AudioSource>();
+                }
+
+                if (bgmSource == null)
+                {
+                    bgmSource = gameObject.AddComponent<AudioSource>();
+                    bgmSource.loop = true;          // BGM harus looping terus menerus
+                    bgmSource.playOnAwake = false;
                 }
             }
             else
@@ -25,6 +40,9 @@ namespace WizardPunk
             }
         }
 
+        // ==========================================
+        // ── FUNGSI SFX (EFEK SUARA) ──
+        // ==========================================
         public void PlaySound(AudioClip clip)
         {
             if (audioSource != null && clip != null)
@@ -33,11 +51,10 @@ namespace WizardPunk
             }
             else
             {
-                Debug.LogWarning("SoundManager: AudioSource atau Clip kosong!");
+                Debug.LogWarning("SoundManager: AudioSource atau Clip SFX kosong!");
             }
         }
 
-        // --- FUNGSI BARU UNTUK MENGHENTIKAN SUARA SECARA INSTAN ---
         public void StopSound()
         {
             if (audioSource != null)
@@ -45,6 +62,38 @@ namespace WizardPunk
                 audioSource.Stop();
             }
         }
-        // -----------------------------------------------------------
+
+        public void SetSFXVolume(float volume)
+        {
+            if (audioSource != null) audioSource.volume = Mathf.Clamp01(volume);
+        }
+
+        // ==========================================
+        // ── FUNGSI BGM (LAGU) ──
+        // ==========================================
+        public void PlayBGM(AudioClip clip)
+        {
+            if (bgmSource == null || clip == null) return;
+
+            // Jika lagu yang diminta SAMA dengan lagu yang sedang berputar, biarkan berlanjut
+            if (bgmSource.clip == clip && bgmSource.isPlaying) return;
+
+            // Jika lagunya berbeda, ganti dan putar
+            bgmSource.clip = clip;
+            bgmSource.Play();
+        }
+
+        public void StopBGM()
+        {
+            if (bgmSource != null)
+            {
+                bgmSource.Stop();
+            }
+        }
+
+        public void SetBGMVolume(float volume)
+        {
+            if (bgmSource != null) bgmSource.volume = Mathf.Clamp01(volume);
+        }
     }
 }

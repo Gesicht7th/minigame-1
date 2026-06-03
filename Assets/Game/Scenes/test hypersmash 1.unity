@@ -1060,7 +1060,7 @@ MonoBehaviour:
   useMouseFallback: 0
   mouseSensitivity: 1
   keyboardAimSpeed: 0.6
-  showDebugGUI: 1
+  showDebugGUI: 0
 --- !u!1001 &108745452
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2294,6 +2294,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea225746e745cc8498b94894daf085fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.ShootingSystem
+--- !u!1 &250064678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 250064680}
+  - component: {fileID: 250064679}
+  m_Layer: 0
+  m_Name: BGM_Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &250064679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250064678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a7d9eb73f6da3740979f311919f44da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.SceneBGM
+  bgmClip: {fileID: 8300000, guid: a14859df78bcceb4daf41497c1618711, type: 3}
+--- !u!4 &250064680
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250064678}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1242.422, y: 0.00002, z: 5770.164}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &252138770 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7134375633722532235, guid: f41cadcbf7d20574cbc060b120746779, type: 3}
@@ -2351,7 +2396,7 @@ MonoBehaviour:
   useMouseFallback: 0
   mouseSensitivity: 1
   keyboardAimSpeed: 0.6
-  showDebugGUI: 1
+  showDebugGUI: 0
 --- !u!1001 &257149023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16773,3 +16818,4 @@ SceneRoots:
   - {fileID: 543450653194759382}
   - {fileID: 543450653332402744}
   - {fileID: 1508826995}
+  - {fileID: 250064680}
