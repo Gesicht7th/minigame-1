@@ -61,6 +61,13 @@ namespace WizardPunk.Reflex
         [Tooltip("Suara saat tulisan GO!!! muncul")]
         [SerializeField] private AudioClip goSFX;
 
+        // --- TAMBAHAN BARU: SFX TIMES UP & RESULT ---
+        [Tooltip("Suara saat waktu habis (Times Up)")]
+        [SerializeField] private AudioClip timesUpSFX;
+        [Tooltip("Suara saat layar Pemenang (Result) muncul")]
+        [SerializeField] private AudioClip resultSFX;
+        // --------------------------------------------
+
         private Vector2 p1CharShownPos;
         private Vector2 p2CharShownPos;
         private Vector2 p1CharHiddenPos;
@@ -257,7 +264,17 @@ namespace WizardPunk.Reflex
 
         public void ShowGameScreen() { gameScreenPanel?.SetActive(true); }
 
-        public void ShowTimesUp() { if (timesUpPanel != null) timesUpPanel.SetActive(true); }
+        // --- UPDATE: PLAY TIMES UP SFX ---
+        public void ShowTimesUp()
+        {
+            if (timesUpPanel != null) timesUpPanel.SetActive(true);
+
+            if (SoundManager.Instance != null && timesUpSFX != null)
+            {
+                SoundManager.Instance.PlaySound(timesUpSFX);
+            }
+        }
+
         public void HideTimesUp() { if (timesUpPanel != null) timesUpPanel.SetActive(false); }
 
         private void UpdateHeartsUI(int p1Hearts, int p2Hearts)
@@ -266,6 +283,7 @@ namespace WizardPunk.Reflex
             for (int i = 0; i < p2HeartIcons.Length; i++) if (p2HeartIcons[i] != null) p2HeartIcons[i].SetActive(i < p2Hearts);
         }
 
+        // --- UPDATE: PLAY RESULT SFX ---
         public void ShowResultPopup(int winner)
         {
             HideAll();
@@ -280,6 +298,11 @@ namespace WizardPunk.Reflex
             if (winner == 1 && p1WinPanel != null) p1WinPanel.SetActive(true);
             else if (winner == 2 && p2WinPanel != null) p2WinPanel.SetActive(true);
             else if (winner == 0 && drawWinPanel != null) drawWinPanel.SetActive(true);
+
+            if (SoundManager.Instance != null && resultSFX != null)
+            {
+                SoundManager.Instance.PlaySound(resultSFX);
+            }
         }
 
         private void GoToNextGame()
@@ -418,7 +441,6 @@ namespace WizardPunk.Reflex
                 }
         }
 
-        // --- FUNGSI BARU: PEMANGGIL SFX YANG AKAN DIGUNAKAN OLEH GAMEMANAGER ---
         public void PlayAttackSound(int player, RpsType action)
         {
             if (SoundManager.Instance == null || action == RpsType.None) return;
@@ -436,7 +458,6 @@ namespace WizardPunk.Reflex
                 else if (action == RpsType.Scissors && p2CounterSFX != null) SoundManager.Instance.PlaySound(p2CounterSFX);
             }
         }
-        // -----------------------------------------------------------------------
 
         public void UpdateActionUI(int p, RpsType s)
         {
@@ -454,8 +475,6 @@ namespace WizardPunk.Reflex
 
             if (actionChanged && s != RpsType.None)
             {
-                // PEMANGGILAN SOUND TELAH DIHAPUS DARI SINI AGAR TIDAK BUNYI SAAT BARU KLIK
-
                 if (p == 1 && p1CharacterRect != null)
                 {
                     if (p1CharSlideCoroutine != null) StopCoroutine(p1CharSlideCoroutine);
