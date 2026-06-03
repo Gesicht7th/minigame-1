@@ -246,6 +246,15 @@ namespace WizardPunk.Reflex
             float p1Delay = delayConfig != null ? delayConfig.p1Delay : 0f;
             float p2Delay = delayConfig != null ? delayConfig.p2Delay : 0f;
 
+            // Trigger Shake Camera secara independen dengan nama spesifik kombinasi
+            string specificProfile = $"{p1Attack}_vs_{p2Attack}";
+            string fallbackProfile = (winner == 0) ? "Draw" : "Win";
+            
+            if (CameraShake.Instance != null)
+            {
+                CameraShake.Instance.TriggerProfile(specificProfile, fallbackProfile);
+            }
+
             // --- PERBAIKAN BUG SFX KALAH ---
             if (winner == 1)
             {

@@ -29,17 +29,17 @@ namespace WizardPunk.MemoryTest
 
         void Start()
         {
-            if (p1SerialReader == null)
+            if (!WandSerialReader.IsAlive(p1SerialReader))
             {
-                p1SerialReader = WandSerialReader.GetByPort("COM8");
-                if (p1SerialReader != null) Debug.Log("[ReaderResolve] SUCCESS COM8");
-                else Debug.Log("[ReaderResolve] FAILED COM8");
+                p1SerialReader = PlayerAssignment.PlayerA;
+                if (p1SerialReader != null) Debug.Log("[ReaderResolve] Recovered PlayerA");
+                else Debug.Log("[ReaderResolve] FAILED PlayerA");
             }
-            if (p2SerialReader == null)
+            if (!WandSerialReader.IsAlive(p2SerialReader))
             {
-                p2SerialReader = WandSerialReader.GetByPort("COM9");
-                if (p2SerialReader != null) Debug.Log("[ReaderResolve] SUCCESS COM9");
-                else Debug.Log("[ReaderResolve] FAILED COM9");
+                p2SerialReader = PlayerAssignment.PlayerB;
+                if (p2SerialReader != null) Debug.Log("[ReaderResolve] Recovered PlayerB");
+                else Debug.Log("[ReaderResolve] FAILED PlayerB");
             }
 
             if (p1SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P1 Wand Manager tidak ditemukan!");

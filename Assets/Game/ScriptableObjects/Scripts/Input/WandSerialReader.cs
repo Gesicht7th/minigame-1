@@ -31,6 +31,11 @@ public class WandSerialReader : MonoBehaviour
         return null;
     }
 
+    public static bool IsAlive(WandSerialReader reader)
+    {
+        return reader != null && _activeReaders.Contains(reader);
+    }
+
     void Awake()
     {
         WandSerialReader existingReader = GetByPort(serialPort);
@@ -135,6 +140,13 @@ public class WandSerialReader : MonoBehaviour
         {
             _pendingGesture = null;
         }
+    }
+
+    public void FlushInput()
+    {
+        FlushGesture();
+        _actionPressed = false;
+        _isHolding = false;
     }
 
     public bool ConsumeZeroed()

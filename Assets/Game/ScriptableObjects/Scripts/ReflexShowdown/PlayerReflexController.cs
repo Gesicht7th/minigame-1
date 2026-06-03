@@ -45,12 +45,11 @@ namespace WizardPunk.Reflex
 
         void Start()
         {
-            if (serialReader == null)
+            if (!WandSerialReader.IsAlive(serialReader))
             {
-                string targetPort = (playerIndex == 1) ? "COM8" : "COM9";
-                serialReader = WandSerialReader.GetByPort(targetPort);
-                if (serialReader != null) Debug.Log($"[ReaderResolve] SUCCESS {targetPort}");
-                else Debug.Log($"[ReaderResolve] FAILED {targetPort}");
+                serialReader = (playerIndex == 1) ? PlayerAssignment.PlayerA : PlayerAssignment.PlayerB;
+                if (serialReader != null) Debug.Log($"[ReaderResolve] Recovered Player{playerIndex}");
+                else Debug.Log($"[ReaderResolve] FAILED Player{playerIndex}");
             }
         }
 
