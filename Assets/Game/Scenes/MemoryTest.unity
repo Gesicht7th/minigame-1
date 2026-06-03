@@ -17427,7 +17427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a7d9eb73f6da3740979f311919f44da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.SceneBGM
-  bgmClip: {fileID: 8300000, guid: a14859df78bcceb4daf41497c1618711, type: 3}
+  bgmClip: {fileID: 8300000, guid: cc6d7c55bd99c6c429aa95e6173b05c3, type: 3}
 --- !u!4 &1991834733
 Transform:
   m_ObjectHideFlags: 0
