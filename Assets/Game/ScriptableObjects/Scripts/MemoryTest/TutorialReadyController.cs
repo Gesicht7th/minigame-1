@@ -81,7 +81,7 @@ namespace WizardPunk.MemoryTest
 
             if (_dualWandMode)
             {
-                Debug.Log($"[TutReady] P1.IsHolding={p1Reader.IsHolding} | P2.IsHolding={p2Reader.IsHolding} | Timer={_holdTimer:F2}");
+                Debug.Log($"[TutReady] P1.IsHolding={DebugInputManager.GetActionHeld(PlayerSide.PlayerA)} | P2.IsHolding={DebugInputManager.GetActionHeld(PlayerSide.PlayerB)} | Timer={_holdTimer:F2}");
             }
         }
 
@@ -93,8 +93,8 @@ namespace WizardPunk.MemoryTest
         private void HandleWandHold()
         {
             // Pastikan kedua baris ini pakai IsHolding, bukan IsActionHeld
-            bool p1Held = p1Reader.IsHolding;  // ✅ bukan IsActionHeld
-            bool p2Held = p2Reader.IsHolding;  // ✅ bukan IsActionHeld
+            bool p1Held = DebugInputManager.GetActionHeld(PlayerSide.PlayerA);
+            bool p2Held = DebugInputManager.GetActionHeld(PlayerSide.PlayerB);
 
             if (p1Held && p2Held)
             {
@@ -177,4 +177,4 @@ namespace WizardPunk.MemoryTest
             ResetProgressBar();
         }
     }
-}
+}  

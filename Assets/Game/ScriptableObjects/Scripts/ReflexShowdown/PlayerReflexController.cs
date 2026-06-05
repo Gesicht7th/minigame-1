@@ -55,7 +55,8 @@ namespace WizardPunk.Reflex
 
         void Update()
         {
-            if (serialReader != null && serialReader.IsConnected) UpdateWand();
+            PlayerSide side = (playerIndex == 1) ? PlayerSide.PlayerA : PlayerSide.PlayerB;
+            if (DebugInputManager.IsConnected(side)) UpdateWand(side);
             else UpdateKeyboard();
 
             // Deteksi perubahan posisi
@@ -75,18 +76,16 @@ namespace WizardPunk.Reflex
             }
         }
 
-        private void UpdateWand()
+        private void UpdateWand(PlayerSide side)
         {
-            if (serialReader == null) return;
-
-            // 1. Baca status Hold absolut, bukan dari tebak-tebakan timer
-            bool isHolding = serialReader.IsHolding;
+            // 1. Baca status Hold absolut dari DebugInputManager
+            bool isHolding = DebugInputManager.GetActionHeld(side);
 
             // 2. Transisikan pose karakter
             CurrentPosition = isHolding ? WandPosition.Low : WandPosition.Raised;
 
             // 3. Tangkap gesture kapanpun
-            string gesture = serialReader.ConsumeGesture();
+            string gesture = DebugInputManager.ConsumeDirection(side);
             if (!string.IsNullOrEmpty(gesture))
             {
                 if (gesture == "U") SelectedAttack = RpsType.Scissors;

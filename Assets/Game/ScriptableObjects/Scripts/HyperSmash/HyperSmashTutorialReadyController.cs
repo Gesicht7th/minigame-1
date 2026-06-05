@@ -86,8 +86,8 @@ namespace WizardPunk.HyperSmash
         /// </summary>
         private void HandleWandHold()
         {
-            bool p1Held = p1Reader.IsHolding;  
-            bool p2Held = p2Reader.IsHolding;  
+            bool p1Held = DebugInputManager.GetActionHeld(PlayerSide.PlayerA);
+            bool p2Held = DebugInputManager.GetActionHeld(PlayerSide.PlayerB);
 
             if (p1Held && p2Held)
             {

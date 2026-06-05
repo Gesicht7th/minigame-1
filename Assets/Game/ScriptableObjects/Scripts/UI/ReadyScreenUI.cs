@@ -76,8 +76,7 @@ namespace WizardPunk
             if (startingGame) return;
 
             // ── Pemain 1 siap: Spasi ATAU Wand P1 Action ─────────
-            bool p1Input = Input.GetKeyDown(KeyCode.Space)
-                        || (p1WandReader != null && p1WandReader.ConsumeAction());
+            bool p1Input = DebugInputManager.GetActionDown(PlayerSide.PlayerA);
 
             if (p1Input)
             {
@@ -88,8 +87,7 @@ namespace WizardPunk
             }
 
             // ── Pemain 2 siap: Enter ATAU Wand P2 Action ─────────
-            bool p2Input = (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-                        || (p2WandReader != null && p2WandReader.ConsumeAction());
+            bool p2Input = DebugInputManager.GetActionDown(PlayerSide.PlayerB);
 
             if (p2Input)
             {

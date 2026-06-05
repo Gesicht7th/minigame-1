@@ -109,8 +109,8 @@ namespace WizardPunk
             while (holdTimer < holdDuration)
             {
                 // Menggunakan sistem IsHolding dari skrip pembaca ESP32 Anda
-                bool p1Held = Input.GetKey(KeyCode.Space) || (p1SerialReader != null && p1SerialReader.IsHolding);
-                bool p2Held = Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter) || (p2SerialReader != null && p2SerialReader.IsHolding);
+                bool p1Held = DebugInputManager.GetActionHeld(PlayerSide.PlayerA);
+                bool p2Held = DebugInputManager.GetActionHeld(PlayerSide.PlayerB);
 
                 // Cek Player 1
                 if (p1Held && !p1WasHolding)

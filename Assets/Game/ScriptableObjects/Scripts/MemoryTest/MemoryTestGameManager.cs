@@ -235,32 +235,13 @@ namespace WizardPunk.MemoryTest
 
         private WandDirection GetInput(int pId)
         {
-            WandSerialReader activeReader = (pId == 1) ? p1SerialReader : p2SerialReader;
+            PlayerSide side = (pId == 1) ? PlayerSide.PlayerA : PlayerSide.PlayerB;
+            string gesture = DebugInputManager.ConsumeDirection(side);
 
-            if (activeReader != null)
-            {
-                string gesture = activeReader.ConsumeGesture();
-
-                if (gesture == "U") return WandDirection.Up;
-                if (gesture == "D") return WandDirection.Down;
-                if (gesture == "L") return WandDirection.Left;
-                if (gesture == "R") return WandDirection.Right;
-            }
-
-            if (pId == 1)
-            {
-                if (Input.GetKeyDown(KeyCode.UpArrow)) return WandDirection.Up;
-                if (Input.GetKeyDown(KeyCode.DownArrow)) return WandDirection.Down;
-                if (Input.GetKeyDown(KeyCode.LeftArrow)) return WandDirection.Left;
-                if (Input.GetKeyDown(KeyCode.RightArrow)) return WandDirection.Right;
-            }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.W)) return WandDirection.Up;
-                if (Input.GetKeyDown(KeyCode.S)) return WandDirection.Down;
-                if (Input.GetKeyDown(KeyCode.A)) return WandDirection.Left;
-                if (Input.GetKeyDown(KeyCode.D)) return WandDirection.Right;
-            }
+            if (gesture == "U") return WandDirection.Up;
+            if (gesture == "D") return WandDirection.Down;
+            if (gesture == "L") return WandDirection.Left;
+            if (gesture == "R") return WandDirection.Right;
 
             return WandDirection.None;
         }

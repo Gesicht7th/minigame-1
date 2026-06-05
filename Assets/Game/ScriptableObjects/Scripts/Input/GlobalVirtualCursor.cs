@@ -127,7 +127,7 @@ namespace WizardPunk
             if (wandReader == null || !wandReader.IsConnected)
                 ReacquireWandReader();
 
-            wandMode = wandReader != null && wandReader.IsConnected;
+            wandMode = DebugInputManager.IsConnected(PlayerSide.PlayerA);
 
             Cursor.visible = !visible || !wandMode;
             Cursor.lockState = visible && wandMode
