@@ -67,6 +67,41 @@ namespace WizardPunk
                 UpdateOverlayVisibility();
                 ApplyCursorMode();
             }
+
+            if (Input.GetKeyDown(KeyCode.F11))
+            {
+                PerformEmergencyReset();
+            }
+        }
+
+        private void PerformEmergencyReset()
+        {
+            Debug.Log("[EmergencyReset] F11 pressed");
+
+            // 1. Clear Cached Session Results (PlayerPrefs)
+            PlayerPrefs.DeleteKey("G1_ScoreP1");
+            PlayerPrefs.DeleteKey("G1_ScoreP2");
+            PlayerPrefs.DeleteKey("G2_ScoreP1");
+            PlayerPrefs.DeleteKey("G2_ScoreP2");
+            PlayerPrefs.DeleteKey("G3_Winner");
+            PlayerPrefs.Save();
+
+            // 2. Clear Temporary Cross-Scene Bridge State
+            GameDataBridge.Instance?.ResetAll();
+
+            Debug.Log("[EmergencyReset] Session cleared");
+
+            // 3. Navigate back to MainMenu
+            if (SceneFlowManager.Instance != null)
+            {
+                Debug.Log("[EmergencyReset] Loading MainMenu");
+                SceneFlowManager.Instance.GoTo("MainMenu");
+            }
+            else
+            {
+                Debug.LogWarning("[EmergencyReset] SceneFlowManager not found, executing raw LoadScene.");
+                SceneManager.LoadScene("MainMenu");
+            }
         }
 
         public static void ApplyCursorMode()
