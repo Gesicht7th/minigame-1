@@ -287,8 +287,7 @@ namespace WizardPunk.Reflex
         public void ShowResultPopup(int winner)
         {
             HideAll();
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            DebugInputManager.ApplyCursorMode();
 
             if (popupBackground != null)
             {

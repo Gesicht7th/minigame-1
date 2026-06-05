@@ -31,6 +31,7 @@ namespace WizardPunk
         private bool visible = true;
         private bool wandMode;
         private string wandReaderPortHint;
+        private bool debugInputDisabled = false;
 
         private void Awake()
         {
@@ -112,6 +113,19 @@ namespace WizardPunk
                 ClearHover();
         }
 
+        public void SetInputEnabled(bool enabled)
+        {
+            debugInputDisabled = !enabled;
+            if (debugInputDisabled)
+            {
+                if (cursorRect != null) cursorRect.gameObject.SetActive(false);
+            }
+            else
+            {
+                ApplyVisibility();
+            }
+        }
+
         public void Recenter()
         {
             targetNormalized = new Vector2(0.5f, 0.5f);
@@ -128,11 +142,6 @@ namespace WizardPunk
                 ReacquireWandReader();
 
             wandMode = DebugInputManager.IsConnected(PlayerSide.PlayerA);
-
-            Cursor.visible = !visible || !wandMode;
-            Cursor.lockState = visible && wandMode
-                ? CursorLockMode.Locked
-                : CursorLockMode.None;
         }
 
         private void ReacquireWandReader()
@@ -311,8 +320,6 @@ namespace WizardPunk
         private void OnDisable()
         {
             ClearHover();
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

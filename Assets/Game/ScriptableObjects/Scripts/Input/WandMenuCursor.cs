@@ -90,8 +90,7 @@ namespace WizardPunk
         // ============================================================
         private void ApplyCursorMode(bool useWand)
         {
-            Cursor.visible = !useWand;
-            Cursor.lockState = useWand ? CursorLockMode.Locked : CursorLockMode.None;
+            DebugInputManager.ApplyCursorMode();
 
             if (cursorRect != null)
                 cursorRect.gameObject.SetActive(useWand);
@@ -227,8 +226,7 @@ namespace WizardPunk
 
         void OnDisable()
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            DebugInputManager.ApplyCursorMode();
         }
     }
 }

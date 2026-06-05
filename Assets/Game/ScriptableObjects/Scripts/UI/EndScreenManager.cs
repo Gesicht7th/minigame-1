@@ -31,8 +31,7 @@ namespace WizardPunk
         void Start()
         {
             // Memastikan kursor muncul untuk klik tombol
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            DebugInputManager.ApplyCursorMode();
 
             // 1. Ambil Data Skor dari Memory (PlayerPrefs)
             int g1_p1 = PlayerPrefs.GetInt("G1_ScoreP1", 0);

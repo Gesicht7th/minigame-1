@@ -357,8 +357,7 @@ namespace WizardPunk.Reflex
                 if (reader != null) reader.ConsumeAction();
             }
 
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            DebugInputManager.ApplyCursorMode();
             GlobalVirtualCursor.Instance?.Show();
 
             uiManager.ShowResultPopup(gameWinner);

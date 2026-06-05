@@ -45,7 +45,7 @@ namespace WizardPunk.MemoryTest
             if (p1SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P1 Wand Manager tidak ditemukan!");
             if (p2SerialReader == null) Debug.LogError("<color=red>[CRITICAL]</color> P2 Wand Manager tidak ditemukan!");
 
-            Cursor.visible = false;
+            DebugInputManager.ApplyCursorMode();
             uiManager.HideCursor();
             GlobalVirtualCursor.Instance?.Hide();
 

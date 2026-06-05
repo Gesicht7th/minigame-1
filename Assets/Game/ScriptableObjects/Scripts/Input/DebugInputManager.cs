@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 namespace WizardPunk
 {
@@ -35,10 +36,26 @@ namespace WizardPunk
             }
         }
 
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            ApplyCursorMode();
+        }
+
         private void Start()
         {
             CreateDebugOverlay();
             UpdateOverlayVisibility();
+            ApplyCursorMode();
         }
 
         private void Update()
@@ -48,6 +65,33 @@ namespace WizardPunk
                 currentMode = currentMode == InputMode.Wand ? InputMode.KeyboardDebug : InputMode.Wand;
                 Debug.Log($"[InputMode] {currentMode}");
                 UpdateOverlayVisibility();
+                ApplyCursorMode();
+            }
+        }
+
+        public static void ApplyCursorMode()
+        {
+            if (Instance == null) return;
+
+            if (Instance.currentMode == InputMode.KeyboardDebug)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                
+                if (GlobalVirtualCursor.Instance != null)
+                {
+                    GlobalVirtualCursor.Instance.SetInputEnabled(false);
+                }
+            }
+            else
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+
+                if (GlobalVirtualCursor.Instance != null)
+                {
+                    GlobalVirtualCursor.Instance.SetInputEnabled(true);
+                }
             }
         }
 

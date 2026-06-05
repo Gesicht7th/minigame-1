@@ -57,8 +57,8 @@ namespace WizardPunk.MemoryTest
             // Setelah GO di-trigger, hentikan semua logic
             if (_triggered) return;
 
-            bool p1Connected = p1Reader != null && p1Reader.IsConnected;
-            bool p2Connected = p2Reader != null && p2Reader.IsConnected;
+            bool p1Connected = DebugInputManager.IsConnected(PlayerSide.PlayerA);
+            bool p2Connected = DebugInputManager.IsConnected(PlayerSide.PlayerB);
             bool dualConnected = p1Connected && p2Connected;
 
             // Deteksi perubahan status koneksi, update cursor & button
@@ -170,8 +170,7 @@ namespace WizardPunk.MemoryTest
         /// </summary>
         private void OnDisable()
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            DebugInputManager.ApplyCursorMode();
             _triggered = false;
             _holdTimer = 0f;
             ResetProgressBar();

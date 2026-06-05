@@ -161,8 +161,7 @@ namespace WizardPunk.HyperSmash
                 if (reader != null) reader.ConsumeAction();
             }
 
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            DebugInputManager.ApplyCursorMode();
             GlobalVirtualCursor.Instance?.Show();
 
             PlayerPrefs.SetInt("G2_ScoreP1", scoreManager.ScoreP1);

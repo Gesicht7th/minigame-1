@@ -54,8 +54,7 @@ namespace WizardPunk.HyperSmash
 
             if (playerIndex == PlayerIndex.Player1 && useMouseFallback && serialReader == null)
             {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                DebugInputManager.ApplyCursorMode();
             }
         }
 
