@@ -1,4 +1,4 @@
-﻿// Assets/_Game/Scripts/ReflexShowdown/ReflexUIManager.cs
+// Assets/_Game/Scripts/ReflexShowdown/ReflexUIManager.cs
 
 using System.Collections;
 using TMPro;
@@ -27,6 +27,7 @@ namespace WizardPunk.Reflex
         [Header("── Hearts UI ───────────────────────────")]
         [SerializeField] private GameObject[] p1HeartIcons;
         [SerializeField] private GameObject[] p2HeartIcons;
+        [SerializeField] private float heartPopDelay = 0.4f;
 
         [Header("── RPS Action UI ───────────────────────")]
         [Tooltip("0: Block(Rock), 1: Penetration(Paper), 2: Counter(Scissors)")]
@@ -100,6 +101,16 @@ namespace WizardPunk.Reflex
         [Header("── HUD ─────────────────────────────────")]
         [SerializeField] private TextMeshProUGUI roundLabelText;
 
+        [Header("── Hold Panel ──────────────────────────")]
+        [SerializeField] private GameObject holdPanel;
+        [SerializeField] private Image holdImage;
+        [SerializeField] private TextMeshProUGUI holdText;
+        [SerializeField] private float holdBreathingSpeed = 2f;
+        [SerializeField] private float holdBreathingScale = 1.15f;
+
+        private Coroutine holdAnimCoroutine;
+        private Vector3 originalHoldTextScale = Vector3.one;
+
         [Header("── Ready Panel ─────────────────────────")]
         [SerializeField] private TextMeshProUGUI readyTitleText;
         [SerializeField] private Image p1ReadyIndicator;
@@ -136,6 +147,7 @@ namespace WizardPunk.Reflex
                 ReflexScoreManager.Instance.OnHeartsUpdated += UpdateHeartsUI;
 
             if (timesUpPanel != null) timesUpPanel.SetActive(false);
+            if (holdPanel != null) holdPanel.SetActive(false);
 
             if (p1NextButton != null) p1NextButton.onClick.AddListener(GoToNextGame);
             if (p2NextButton != null) p2NextButton.onClick.AddListener(GoToNextGame);
@@ -158,6 +170,8 @@ namespace WizardPunk.Reflex
                 p2CharHiddenPos = p2CharShownPos + new Vector2(slideDistance, 0);
                 p2CharacterRect.anchoredPosition = p2CharHiddenPos;
             }
+
+            if (holdText != null) originalHoldTextScale = holdText.transform.localScale;
         }
 
         void Update()
@@ -252,6 +266,7 @@ namespace WizardPunk.Reflex
         public void HideAll()
         {
             gameScreenPanel?.SetActive(false);
+            holdPanel?.SetActive(false);
             readyPanel?.SetActive(false);
             countdownPanel?.SetActive(false);
             drawPanel?.SetActive(false);
@@ -262,7 +277,48 @@ namespace WizardPunk.Reflex
             popupBackground?.SetActive(false);
         }
 
-        public void ShowGameScreen() { gameScreenPanel?.SetActive(true); }
+        public void ShowGameScreen() 
+        { 
+            gameScreenPanel?.SetActive(true); 
+        }
+
+        public void ShowHoldPanel()
+        {
+            if (holdPanel != null) holdPanel.SetActive(true);
+            if (holdImage != null) holdImage.fillAmount = 1f;
+            if (holdText != null) holdText.transform.localScale = originalHoldTextScale;
+            if (holdAnimCoroutine != null) StopCoroutine(holdAnimCoroutine);
+        }
+
+        public void StartHoldAnimation(float duration)
+        {
+            if (holdPanel != null) holdPanel.SetActive(true);
+            if (holdAnimCoroutine != null) StopCoroutine(holdAnimCoroutine);
+            holdAnimCoroutine = StartCoroutine(HoldAnimationRoutine(duration));
+        }
+
+        private IEnumerator HoldAnimationRoutine(float duration)
+        {
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float progress = elapsed / duration;
+
+                if (holdImage != null) holdImage.fillAmount = 1f - progress;
+                
+                if (holdText != null)
+                {
+                    float scale = 1f + Mathf.Abs(Mathf.Sin(elapsed * Mathf.PI * holdBreathingSpeed)) * (holdBreathingScale - 1f);
+                    holdText.transform.localScale = originalHoldTextScale * scale;
+                }
+
+                yield return null;
+            }
+
+            if (holdImage != null) holdImage.fillAmount = 0f;
+            if (holdText != null) holdText.transform.localScale = originalHoldTextScale;
+        }
 
         // --- UPDATE: PLAY TIMES UP SFX ---
         public void ShowTimesUp()
@@ -277,10 +333,78 @@ namespace WizardPunk.Reflex
 
         public void HideTimesUp() { if (timesUpPanel != null) timesUpPanel.SetActive(false); }
 
+        private int currentP1Hearts = -1;
+        private int currentP2Hearts = -1;
+
         private void UpdateHeartsUI(int p1Hearts, int p2Hearts)
         {
-            for (int i = 0; i < p1HeartIcons.Length; i++) if (p1HeartIcons[i] != null) p1HeartIcons[i].SetActive(i < p1Hearts);
-            for (int i = 0; i < p2HeartIcons.Length; i++) if (p2HeartIcons[i] != null) p2HeartIcons[i].SetActive(i < p2Hearts);
+            if (currentP1Hearts == -1) // Inisialisasi awal
+            {
+                for (int i = 0; i < p1HeartIcons.Length; i++) { if (p1HeartIcons[i] != null) { p1HeartIcons[i].SetActive(i < p1Hearts); p1HeartIcons[i].transform.localScale = Vector3.one; } }
+                for (int i = 0; i < p2HeartIcons.Length; i++) { if (p2HeartIcons[i] != null) { p2HeartIcons[i].SetActive(i < p2Hearts); p2HeartIcons[i].transform.localScale = Vector3.one; } }
+                currentP1Hearts = p1Hearts;
+                currentP2Hearts = p2Hearts;
+                return;
+            }
+
+            // P1 Hearts
+            if (p1Hearts < currentP1Hearts)
+            {
+                for (int i = p1Hearts; i < currentP1Hearts; i++)
+                    if (i < p1HeartIcons.Length && p1HeartIcons[i] != null) StartCoroutine(PopAndHideHeart(p1HeartIcons[i]));
+            }
+            else if (p1Hearts > currentP1Hearts)
+            {
+                for (int i = currentP1Hearts; i < p1Hearts; i++) 
+                    if (i < p1HeartIcons.Length && p1HeartIcons[i] != null) { p1HeartIcons[i].SetActive(true); p1HeartIcons[i].transform.localScale = Vector3.one; }
+            }
+
+            // P2 Hearts
+            if (p2Hearts < currentP2Hearts)
+            {
+                for (int i = p2Hearts; i < currentP2Hearts; i++)
+                    if (i < p2HeartIcons.Length && p2HeartIcons[i] != null) StartCoroutine(PopAndHideHeart(p2HeartIcons[i]));
+            }
+            else if (p2Hearts > currentP2Hearts)
+            {
+                for (int i = currentP2Hearts; i < p2Hearts; i++) 
+                    if (i < p2HeartIcons.Length && p2HeartIcons[i] != null) { p2HeartIcons[i].SetActive(true); p2HeartIcons[i].transform.localScale = Vector3.one; }
+            }
+
+            currentP1Hearts = p1Hearts;
+            currentP2Hearts = p2Hearts;
+        }
+
+        private IEnumerator PopAndHideHeart(GameObject heartObj)
+        {
+            // Delay agar animasi hilangnya heart sinkron dengan momen karakter jatuh (DoDie)
+            yield return new WaitForSeconds(heartPopDelay);
+
+            if (heartObj == null) yield break;
+            Transform t = heartObj.transform;
+            Vector3 startScale = Vector3.one;
+            Vector3 popScale = startScale * 1.5f;
+
+            // Membesar dulu (Pop!)
+            float el = 0f; float dur = 0.15f;
+            while (el < dur)
+            {
+                el += Time.deltaTime;
+                t.localScale = Vector3.Lerp(startScale, popScale, el / dur);
+                yield return null;
+            }
+            
+            // Mengecil sampai hilang
+            el = 0f; dur = 0.2f;
+            while (el < dur)
+            {
+                el += Time.deltaTime;
+                t.localScale = Vector3.Lerp(popScale, Vector3.zero, el / dur);
+                yield return null;
+            }
+
+            heartObj.SetActive(false);
+            t.localScale = startScale; // Kembalikan scale untuk ronde berikutnya
         }
 
         // --- UPDATE: PLAY RESULT SFX ---
@@ -309,13 +433,18 @@ namespace WizardPunk.Reflex
             if (SceneFlowManager.Instance != null) SceneFlowManager.Instance.GoTo(nextSceneName);
         }
 
-        public void ShowReadyPrompt() { readyPanel?.SetActive(true); if (readyTitleText != null) readyTitleText.text = "HOLD WAND LOW!\nBoth players ready..."; }
+        public void ShowReadyPrompt() 
+        { 
+            readyPanel?.SetActive(true); 
+            if (readyTitleText != null) readyTitleText.text = "HOLD WAND LOW!\nBoth players ready..."; 
+        }
         public void UpdateReadyStatus(bool p1Ready, bool p2Ready) { if (p1ReadyIndicator != null) p1ReadyIndicator.color = p1Ready ? readyColor : notReadyColor; if (p2ReadyIndicator != null) p2ReadyIndicator.color = p2Ready ? readyColor : notReadyColor; }
         public void HideReadyPrompt() => readyPanel?.SetActive(false);
 
         public void ShowCountdown(string text)
         {
             countdownPanel?.SetActive(true);
+            gameScreenPanel?.SetActive(false);
             if (countdownText == null) return;
             countdownText.text = text;
             countdownText.transform.localScale = Vector3.one * 2f;
@@ -337,10 +466,14 @@ namespace WizardPunk.Reflex
         public void HideCountdown(bool isFalseStart = false)
         {
             countdownPanel?.SetActive(false);
+            holdPanel?.SetActive(false);
+            if (holdAnimCoroutine != null) StopCoroutine(holdAnimCoroutine);
 
-            if (isFalseStart && SoundManager.Instance != null)
+            // Jika false start, DrawPhase dilewati, jadi kita langsung aktifkan kembali GameScreen
+            if (isFalseStart) 
             {
-                SoundManager.Instance.StopSound();
+                gameScreenPanel?.SetActive(true);
+                if (SoundManager.Instance != null) SoundManager.Instance.StopSound();
             }
 
             isCountdownAudioPlayed = false;
@@ -365,7 +498,12 @@ namespace WizardPunk.Reflex
         }
 
         public void UpdateDrawTimers(float t1, float t2, bool p1Fired, bool p2Fired) { if (p1TimerText != null) p1TimerText.text = p1Fired ? $"{t1:F3}s" : $"{t1:F2}s..."; if (p2TimerText != null) p2TimerText.text = p2Fired ? $"{t2:F3}s" : $"{t2:F2}s..."; }
-        public void HideGo() => drawPanel?.SetActive(false);
+        
+        public void HideGo() 
+        {
+            drawPanel?.SetActive(false);
+            gameScreenPanel?.SetActive(true); // Aktifkan kembali setelah DrawPanel selesai
+        }
 
         public void ShowRoundResult(int winner, float t1, float t2)
         {

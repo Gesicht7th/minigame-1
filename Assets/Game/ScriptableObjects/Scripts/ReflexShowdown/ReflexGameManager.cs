@@ -156,6 +156,9 @@ namespace WizardPunk.Reflex
             p1Controller.SetCountdownMode(true);
             p2Controller.SetCountdownMode(true);
 
+            float totalTime = config.countdownStart * config.countdownStepDuration;
+            uiManager.StartHoldAnimation(totalTime);
+
             for (int i = config.countdownStart; i >= 1; i--)
             {
                 uiManager.ShowCountdown(i.ToString());

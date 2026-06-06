@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace WizardPunk.Reflex
@@ -84,19 +84,23 @@ namespace WizardPunk.Reflex
             // 2. Transisikan pose karakter
             CurrentPosition = isHolding ? WandPosition.Low : WandPosition.Raised;
 
-            // 3. Tangkap gesture kapanpun
+            // 3. Tangkap gesture kapanpun, TAPI abaikan perubahan jika belum waktunya (bukan draw phase) atau sudah menembak
             string gesture = DebugInputManager.ConsumeDirection(side);
-            if (!string.IsNullOrEmpty(gesture))
+            if (!string.IsNullOrEmpty(gesture) && acceptingInput && !FiredThisRound)
             {
                 if (gesture == "U") SelectedAttack = RpsType.Scissors;
                 else if (gesture == "R") SelectedAttack = RpsType.Rock;
                 else if (gesture == "L") SelectedAttack = RpsType.Paper;
             }
 
-            // 4. Eksekusi serangan HANYA saat status berubah dari Hold -> Release
-            if (!isHolding && acceptingInput && !FiredThisRound && SelectedAttack != RpsType.None)
+            // 4. Eksekusi serangan jika status berubah dari Hold -> Release
+            // ATAU jika ada gesture ayunan baru saat round sudah dimulai (meskipun tombol masih ditahan)
+            if (acceptingInput && !FiredThisRound && SelectedAttack != RpsType.None)
             {
-                RegisterFire();
+                if (!isHolding || !string.IsNullOrEmpty(gesture))
+                {
+                    RegisterFire();
+                }
             }
         }
 
