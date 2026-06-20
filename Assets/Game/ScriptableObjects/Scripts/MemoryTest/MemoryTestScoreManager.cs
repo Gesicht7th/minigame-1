@@ -29,7 +29,7 @@ namespace WizardPunk.MemoryTest
 
         public void ApplyScore(int playerId, bool isCorrect)
         {
-            // Sesuai request: Jika benar +1, jika salah 0
+            
             int delta = isCorrect ? 1 : 0;
 
             if (playerId == 1) ScoreP1 += delta;

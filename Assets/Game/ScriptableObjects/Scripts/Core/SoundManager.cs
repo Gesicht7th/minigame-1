@@ -21,7 +21,6 @@ namespace WizardPunk
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
 
-                // --- OTOMATIS MEMBUAT SPEAKER JIKA KOSONG ---
                 if (audioSource == null)
                 {
                     audioSource = gameObject.AddComponent<AudioSource>();
@@ -30,7 +29,7 @@ namespace WizardPunk
                 if (bgmSource == null)
                 {
                     bgmSource = gameObject.AddComponent<AudioSource>();
-                    bgmSource.loop = true;          // BGM harus looping terus menerus
+                    bgmSource.loop = true;
                     bgmSource.playOnAwake = false;
                 }
             }

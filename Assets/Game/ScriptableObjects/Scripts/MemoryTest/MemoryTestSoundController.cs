@@ -59,15 +59,11 @@ namespace WizardPunk
                 SoundManager.Instance.PlaySound(wrongGuessSFX);
         }
 
-        // --- FUNGSI BARU: PLAY CORRECT GUESS ---
         public void PlayCorrectGuessSound()
         {
             if (SoundManager.Instance != null && correctGuessSFX != null)
                 SoundManager.Instance.PlaySound(correctGuessSFX);
         }
-        // ---------------------------------------
-
-        // --- FUNGSI UNTUK UI EVENTS ---
         public void PlayTimesUpSound()
         {
             if (SoundManager.Instance != null && timesUpSFX != null)

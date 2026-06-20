@@ -14,7 +14,6 @@ namespace WizardPunk
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            // Memanggil fungsi dari SoundManager pusat
             if (SoundManager.Instance != null)
             {
                 if (isBackButton && backClip != null)

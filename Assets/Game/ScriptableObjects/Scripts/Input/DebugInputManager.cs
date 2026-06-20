@@ -53,14 +53,13 @@ namespace WizardPunk
 
         private void Start()
         {
-            CreateDebugOverlay();
             UpdateOverlayVisibility();
             ApplyCursorMode();
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F10))
+            if (Input.GetKeyDown(KeyCode.F2))
             {
                 currentMode = currentMode == InputMode.Wand ? InputMode.KeyboardDebug : InputMode.Wand;
                 Debug.Log($"[InputMode] {currentMode}");
@@ -130,44 +129,6 @@ namespace WizardPunk
             }
         }
 
-        private void CreateDebugOverlay()
-        {
-            GameObject canvasGO = new GameObject("DebugOverlayCanvas");
-            canvasGO.transform.SetParent(transform);
-            
-            Canvas canvas = canvasGO.AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = 9999;
-            
-            CanvasScaler scaler = canvasGO.AddComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            
-            canvasGO.AddComponent<GraphicRaycaster>();
-
-            GameObject textGO = new GameObject("DebugText");
-            textGO.transform.SetParent(canvasGO.transform);
-            
-            TextMeshProUGUI text = textGO.AddComponent<TextMeshProUGUI>();
-            text.text = "DEBUG KEYBOARD MODE\n\nPlayer A:\nAction = Space\nWASD = Gesture\n\nPlayer B:\nAction = Enter\nIJKL = Gesture";
-            text.fontSize = 24;
-            text.color = Color.yellow;
-            text.alignment = TextAlignmentOptions.TopLeft;
-            
-            // Add a small shadow/outline for readability
-            text.fontSharedMaterial.EnableKeyword("UNDERLAY_ON");
-            text.fontSharedMaterial.SetFloat("_UnderlayOffsetX", 1f);
-            text.fontSharedMaterial.SetFloat("_UnderlayOffsetY", -1f);
-            text.fontSharedMaterial.SetColor("_UnderlayColor", Color.black);
-            
-            RectTransform rt = text.rectTransform;
-            rt.anchorMin = new Vector2(0, 1);
-            rt.anchorMax = new Vector2(0, 1);
-            rt.pivot = new Vector2(0, 1);
-            rt.anchoredPosition = new Vector2(20, -20);
-            rt.sizeDelta = new Vector2(400, 300);
-
-            debugOverlay = canvasGO;
-        }
 
         private void UpdateOverlayVisibility()
         {
