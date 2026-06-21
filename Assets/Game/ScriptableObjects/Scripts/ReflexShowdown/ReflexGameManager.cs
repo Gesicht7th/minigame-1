@@ -70,12 +70,17 @@ namespace WizardPunk.Reflex
 
         private IEnumerator GameFlow()
         {
-            GlobalVirtualCursor.Instance?.Hide();
+            // Menampilkan kursor saat tutorial
+            GlobalVirtualCursor.Instance?.Show();
             uiManager.ShowGameScreen();
 
             uiManager.ShowTutorial();
             yield return new WaitUntil(() => uiManager.IsTutorialDone);
             uiManager.HideTutorial();
+
+            // --- PERBAIKAN: Sembunyikan kursor tepat saat game dimulai ---
+            GlobalVirtualCursor.Instance?.Hide();
+            // -------------------------------------------------------------
 
             scoreManager.ResetHearts();
 
@@ -239,10 +244,8 @@ namespace WizardPunk.Reflex
 
             scoreManager.RecordRoundResult(winner);
 
-            // --- TAMBAHAN: Eksekusi Skor dari ReflexConfig ---
             if (winner == 1) scoreManager.AddScore(1, config.pointsPerRoundWin);
             else if (winner == 2) scoreManager.AddScore(2, config.pointsPerRoundWin);
-            // --------------------------------------------------
 
             CharacterVFXManager p1VFX = p1Visual.GetComponentInChildren<CharacterVFXManager>();
             CharacterVFXManager p2VFX = p2Visual.GetComponentInChildren<CharacterVFXManager>();
@@ -254,7 +257,6 @@ namespace WizardPunk.Reflex
             float p1Delay = delayConfig != null ? delayConfig.p1Delay : 0f;
             float p2Delay = delayConfig != null ? delayConfig.p2Delay : 0f;
 
-            // Trigger Shake Camera secara independen dengan nama spesifik kombinasi
             string specificProfile = $"{p1Attack}_vs_{p2Attack}";
             string fallbackProfile = (winner == 0) ? "Draw" : "Win";
 
@@ -263,18 +265,16 @@ namespace WizardPunk.Reflex
                 CameraShake.Instance.TriggerProfile(specificProfile, fallbackProfile);
             }
 
-            // --- PERBAIKAN BUG SFX KALAH ---
             if (winner == 1)
             {
                 StartCoroutine(PlayVisualsWithDelay(() => {
                     p1Visual.SetWinPose(p1Attack);
                     p1Visual.PlayFireEffect();
-                    uiManager.PlayAttackSound(1, p1Attack); // P1 Menang, Putar Suara
+                    uiManager.PlayAttackSound(1, p1Attack);
                 }, p1Delay));
                 StartCoroutine(PlayVisualsWithDelay(() => {
                     p2Visual.SetLosePose(p2Attack);
                     p2Visual.PlayFireEffect();
-                    // P2 Kalah, SUARA TIDAK DIPUTAR AGAR TIDAK MENABRAK
                 }, p2Delay));
             }
             else if (winner == 2)
@@ -282,17 +282,15 @@ namespace WizardPunk.Reflex
                 StartCoroutine(PlayVisualsWithDelay(() => {
                     p2Visual.SetWinPose(p2Attack);
                     p2Visual.PlayFireEffect();
-                    uiManager.PlayAttackSound(2, p2Attack); // P2 Menang, Putar Suara
+                    uiManager.PlayAttackSound(2, p2Attack);
                 }, p2Delay));
                 StartCoroutine(PlayVisualsWithDelay(() => {
                     p1Visual.SetLosePose(p1Attack);
                     p1Visual.PlayFireEffect();
-                    // P1 Kalah, SUARA TIDAK DIPUTAR AGAR TIDAK MENABRAK
                 }, p1Delay));
             }
             else
             {
-                // Jika Draw/Seri, kedua suara tetap diputar untuk mensimulasikan benturan sihir
                 StartCoroutine(PlayVisualsWithDelay(() => {
                     p1Visual.SetDrawPose(p1Attack);
                     p1Visual.PlayFireEffect();
@@ -304,7 +302,6 @@ namespace WizardPunk.Reflex
                     uiManager.PlayAttackSound(2, p2Attack);
                 }, p2Delay));
             }
-            // -------------------------------
 
             float display_t1 = p1Controller.FiredThisRound ? (p1Controller.FireTimestamp - goTimestamp) : -1f;
             float display_t2 = p2Controller.FiredThisRound ? (p2Controller.FireTimestamp - goTimestamp) : -1f;
@@ -366,6 +363,7 @@ namespace WizardPunk.Reflex
             }
 
             DebugInputManager.ApplyCursorMode();
+            // Menampilkan kursor kembali saat game over
             GlobalVirtualCursor.Instance?.Show();
 
             uiManager.ShowResultPopup(gameWinner);

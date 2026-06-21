@@ -44,6 +44,15 @@ namespace WizardPunk
 
         void Start()
         {
+            // --- FIX BLACKSCREEN: Pastikan waktu berjalan normal kembali ---
+            Time.timeScale = 1f;
+
+            // Memastikan custom cursor menyala di Main Menu
+            GlobalVirtualCursor.Instance?.Show();
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            // --------------------------------------------------------------
+
             PlayerAssignment.Initialize(p1SerialReader, p2SerialReader);
 
             if (!WandSerialReader.IsAlive(p1SerialReader))

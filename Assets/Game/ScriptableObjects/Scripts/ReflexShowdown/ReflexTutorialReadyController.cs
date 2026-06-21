@@ -13,7 +13,7 @@ namespace WizardPunk.Reflex
 
         [Header("── UI References ────────────────────")]
         [SerializeField] private ReflexUIManager uiManager;
-        [SerializeField] private Button goButton; // Ini referensi ke tutorialGoButton
+        [SerializeField] private Button goButton;
         [SerializeField] private Image holdProgressBar;
 
         [Header("── Settings ─────────────────────────")]
@@ -25,7 +25,6 @@ namespace WizardPunk.Reflex
 
         void Start()
         {
-            // Auto-resolve reader if missing
             if (!WandSerialReader.IsAlive(p1Reader)) p1Reader = PlayerAssignment.PlayerA;
             if (!WandSerialReader.IsAlive(p2Reader)) p2Reader = PlayerAssignment.PlayerB;
             ResetProgressBar();
@@ -34,9 +33,6 @@ namespace WizardPunk.Reflex
         void Update()
         {
             if (_triggered) return;
-
-            // Fitur "Hold" harus bisa dari Slide 1 maupun Slide 2
-            // Jadi script ini harus tetap menyala.
 
             bool p1Connected = p1Reader != null && p1Reader.IsConnected;
             bool p2Connected = p2Reader != null && p2Reader.IsConnected;
@@ -48,17 +44,21 @@ namespace WizardPunk.Reflex
                 ApplyInputMode(useMouse: !dualConnected);
             }
 
-            // Selalu deteksi input hold (Keyboard Spasi / Wand)
             HandleHoldLogic();
         }
 
         private void HandleHoldLogic()
         {
-            // DebugInputManager sudah meng-handle ESP32 Wand dan Keyboard (Spasi)
             bool p1Held = DebugInputManager.GetActionHeld(PlayerSide.PlayerA);
             bool p2Held = DebugInputManager.GetActionHeld(PlayerSide.PlayerB);
+            bool keyboardHeld = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Return);
 
-            if (p1Held && p2Held)
+            // PERBAIKAN FLEKSIBILITAS INPUT: 
+            // Jika dual wand tersambung, wajib kedua alat menahan.
+            // Jika tidak, mengizinkan pengetesan solo dengan keyboard/satu controller.
+            bool isHolding = _dualWandMode ? (p1Held && p2Held) : (p1Held || p2Held || keyboardHeld);
+
+            if (isHolding)
             {
                 _holdTimer += Time.deltaTime;
             }
@@ -90,7 +90,15 @@ namespace WizardPunk.Reflex
 
             if (holdProgressBar != null) holdProgressBar.fillAmount = 1f;
 
-            if (goButton != null)
+            // PERBAIKAN BYPASS BUTTON INACTIVE:
+            // Panggil fungsi secara langsung ke UIManager terlepas dari status visibilitas panel saat ini.
+            if (uiManager != null)
+            {
+                uiManager.TriggerTutorialDone();
+            }
+
+            // Tetap lakukan invoke ke button (untuk kompatibilitas) HANYA JIKA aktif.
+            if (goButton != null && goButton.gameObject.activeInHierarchy)
             {
                 goButton.onClick.Invoke();
             }
