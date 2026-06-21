@@ -21,7 +21,7 @@ MonoBehaviour:
   countdownStepDuration: 1
   minGoDelay: 0.1
   maxGoDelay: 0.5
-  reactionTimeout: 1
+  reactionTimeout: 2
   falseStartPenalty: 1
   falseStartPenaltyTime: 2
   pointsPerRoundWin: 100

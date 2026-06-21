@@ -239,6 +239,11 @@ namespace WizardPunk.Reflex
 
             scoreManager.RecordRoundResult(winner);
 
+            // --- TAMBAHAN: Eksekusi Skor dari ReflexConfig ---
+            if (winner == 1) scoreManager.AddScore(1, config.pointsPerRoundWin);
+            else if (winner == 2) scoreManager.AddScore(2, config.pointsPerRoundWin);
+            // --------------------------------------------------
+
             CharacterVFXManager p1VFX = p1Visual.GetComponentInChildren<CharacterVFXManager>();
             CharacterVFXManager p2VFX = p2Visual.GetComponentInChildren<CharacterVFXManager>();
 
@@ -252,7 +257,7 @@ namespace WizardPunk.Reflex
             // Trigger Shake Camera secara independen dengan nama spesifik kombinasi
             string specificProfile = $"{p1Attack}_vs_{p2Attack}";
             string fallbackProfile = (winner == 0) ? "Draw" : "Win";
-            
+
             if (CameraShake.Instance != null)
             {
                 CameraShake.Instance.TriggerProfile(specificProfile, fallbackProfile);

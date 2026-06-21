@@ -14,6 +14,11 @@ namespace WizardPunk.Reflex
         public int P2Hearts { get; private set; }
         public int RoundsPlayed { get; private set; }
 
+        // --- TAMBAHAN: Penampung Skor Aktual ---
+        public int P1Score { get; private set; }
+        public int P2Score { get; private set; }
+        // ---------------------------------------
+
         public event Action<int, int> OnHeartsUpdated; // (p1Hearts, p2Hearts)
 
         void Awake()
@@ -27,8 +32,22 @@ namespace WizardPunk.Reflex
             P1Hearts = 3;
             P2Hearts = 3;
             RoundsPlayed = 0;
+
+            // --- TAMBAHAN: Reset Skor ---
+            P1Score = 0;
+            P2Score = 0;
+            // ----------------------------
+
             OnHeartsUpdated?.Invoke(P1Hearts, P2Hearts);
         }
+
+        // --- TAMBAHAN: Fungsi Menambah Skor ---
+        public void AddScore(int player, int amount)
+        {
+            if (player == 1) P1Score += amount;
+            else if (player == 2) P2Score += amount;
+        }
+        // --------------------------------------
 
         /// <summary>winner: 1 = P1 menang (P2 hilang nyawa), 2 = P2 menang (P1 hilang nyawa), 0 = draw</summary>
         public void RecordRoundResult(int winner)

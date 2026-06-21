@@ -58,7 +58,7 @@ namespace WizardPunk.HyperSmash
 
             bool p1Connected = p1Reader != null && p1Reader.IsConnected;
             bool p2Connected = p2Reader != null && p2Reader.IsConnected;
-            bool dualConnected = p1Connected && p2Connected;
+            bool dualConnected = (p1Connected && p2Connected) || Application.isEditor;
 
             // Deteksi perubahan status koneksi, update button
             if (dualConnected != _dualWandMode)

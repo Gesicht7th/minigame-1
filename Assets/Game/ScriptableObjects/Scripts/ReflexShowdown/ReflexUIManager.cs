@@ -21,7 +21,10 @@ namespace WizardPunk.Reflex
 
         [Header("── Tutorial ──")]
         [SerializeField] private GameObject tutorialPanel;
+        [SerializeField] private GameObject tutorialPanel2;  // Tambahan: Slide 2
         [SerializeField] private Button tutorialGoButton;
+        [SerializeField] private Button nextSlideButton;     // Tambahan: Tombol Next ke Slide 2
+        [SerializeField] private Button prevSlideButton;     // Tambahan: Tombol Previous ke Slide 1
         public bool IsTutorialDone { get; private set; }
 
         [Header("── Hearts UI ───────────────────────────")]
@@ -158,6 +161,16 @@ namespace WizardPunk.Reflex
                 tutorialGoButton.onClick.AddListener(() => { IsTutorialDone = true; });
             }
 
+            // Tambahan: Listener untuk tombol navigasi slide tutorial
+            if (nextSlideButton != null)
+            {
+                nextSlideButton.onClick.AddListener(ShowTutorialSlide2);
+            }
+            if (prevSlideButton != null)
+            {
+                prevSlideButton.onClick.AddListener(ShowTutorialSlide1);
+            }
+
             if (p1CharacterRect != null)
             {
                 p1CharShownPos = p1CharacterRect.anchoredPosition;
@@ -176,7 +189,8 @@ namespace WizardPunk.Reflex
 
         void Update()
         {
-            if (!IsTutorialDone && tutorialPanel != null && tutorialPanel.activeSelf)
+            // Tambahan: Pengecekan dimodifikasi agar fitur hold (spasi) tetap berfungsi di Slide 1 maupun Slide 2
+            if (!IsTutorialDone && ((tutorialPanel != null && tutorialPanel.activeSelf) || (tutorialPanel2 != null && tutorialPanel2.activeSelf)))
             {
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
                 {
@@ -255,12 +269,27 @@ namespace WizardPunk.Reflex
         public void ShowTutorial()
         {
             IsTutorialDone = false;
+            ShowTutorialSlide1(); // Tambahan: Menjalankan slide 1 saat awal tutorial muncul
+        }
+
+        // Tambahan: Fungsi memunculkan slide 1
+        public void ShowTutorialSlide1()
+        {
             if (tutorialPanel != null) tutorialPanel.SetActive(true);
+            if (tutorialPanel2 != null) tutorialPanel2.SetActive(false);
+        }
+
+        // Tambahan: Fungsi memunculkan slide 2
+        public void ShowTutorialSlide2()
+        {
+            if (tutorialPanel != null) tutorialPanel.SetActive(false);
+            if (tutorialPanel2 != null) tutorialPanel2.SetActive(true);
         }
 
         public void HideTutorial()
         {
             if (tutorialPanel != null) tutorialPanel.SetActive(false);
+            if (tutorialPanel2 != null) tutorialPanel2.SetActive(false); // Tambahan: Menyembunyikan slide 2 juga
         }
 
         public void HideAll()
@@ -273,13 +302,14 @@ namespace WizardPunk.Reflex
             roundResultPanel?.SetActive(false);
             interRoundPanel?.SetActive(false);
             tutorialPanel?.SetActive(false);
+            tutorialPanel2?.SetActive(false); // Tambahan: Matikan saat HideAll
             timesUpPanel?.SetActive(false);
             popupBackground?.SetActive(false);
         }
 
-        public void ShowGameScreen() 
-        { 
-            gameScreenPanel?.SetActive(true); 
+        public void ShowGameScreen()
+        {
+            gameScreenPanel?.SetActive(true);
         }
 
         public void ShowHoldPanel()
@@ -306,7 +336,7 @@ namespace WizardPunk.Reflex
                 float progress = elapsed / duration;
 
                 if (holdImage != null) holdImage.fillAmount = 1f - progress;
-                
+
                 if (holdText != null)
                 {
                     float scale = 1f + Mathf.Abs(Mathf.Sin(elapsed * Mathf.PI * holdBreathingSpeed)) * (holdBreathingScale - 1f);
@@ -355,7 +385,7 @@ namespace WizardPunk.Reflex
             }
             else if (p1Hearts > currentP1Hearts)
             {
-                for (int i = currentP1Hearts; i < p1Hearts; i++) 
+                for (int i = currentP1Hearts; i < p1Hearts; i++)
                     if (i < p1HeartIcons.Length && p1HeartIcons[i] != null) { p1HeartIcons[i].SetActive(true); p1HeartIcons[i].transform.localScale = Vector3.one; }
             }
 
@@ -367,7 +397,7 @@ namespace WizardPunk.Reflex
             }
             else if (p2Hearts > currentP2Hearts)
             {
-                for (int i = currentP2Hearts; i < p2Hearts; i++) 
+                for (int i = currentP2Hearts; i < p2Hearts; i++)
                     if (i < p2HeartIcons.Length && p2HeartIcons[i] != null) { p2HeartIcons[i].SetActive(true); p2HeartIcons[i].transform.localScale = Vector3.one; }
             }
 
@@ -393,7 +423,7 @@ namespace WizardPunk.Reflex
                 t.localScale = Vector3.Lerp(startScale, popScale, el / dur);
                 yield return null;
             }
-            
+
             // Mengecil sampai hilang
             el = 0f; dur = 0.2f;
             while (el < dur)
@@ -433,10 +463,10 @@ namespace WizardPunk.Reflex
             if (SceneFlowManager.Instance != null) SceneFlowManager.Instance.GoTo(nextSceneName);
         }
 
-        public void ShowReadyPrompt() 
-        { 
-            readyPanel?.SetActive(true); 
-            if (readyTitleText != null) readyTitleText.text = "HOLD WAND LOW!\nBoth players ready..."; 
+        public void ShowReadyPrompt()
+        {
+            readyPanel?.SetActive(true);
+            if (readyTitleText != null) readyTitleText.text = "HOLD WAND LOW!\nBoth players ready...";
         }
         public void UpdateReadyStatus(bool p1Ready, bool p2Ready) { if (p1ReadyIndicator != null) p1ReadyIndicator.color = p1Ready ? readyColor : notReadyColor; if (p2ReadyIndicator != null) p2ReadyIndicator.color = p2Ready ? readyColor : notReadyColor; }
         public void HideReadyPrompt() => readyPanel?.SetActive(false);
@@ -470,7 +500,7 @@ namespace WizardPunk.Reflex
             if (holdAnimCoroutine != null) StopCoroutine(holdAnimCoroutine);
 
             // Jika false start, DrawPhase dilewati, jadi kita langsung aktifkan kembali GameScreen
-            if (isFalseStart) 
+            if (isFalseStart)
             {
                 gameScreenPanel?.SetActive(true);
                 if (SoundManager.Instance != null) SoundManager.Instance.StopSound();
@@ -498,8 +528,8 @@ namespace WizardPunk.Reflex
         }
 
         public void UpdateDrawTimers(float t1, float t2, bool p1Fired, bool p2Fired) { if (p1TimerText != null) p1TimerText.text = p1Fired ? $"{t1:F3}s" : $"{t1:F2}s..."; if (p2TimerText != null) p2TimerText.text = p2Fired ? $"{t2:F3}s" : $"{t2:F2}s..."; }
-        
-        public void HideGo() 
+
+        public void HideGo()
         {
             drawPanel?.SetActive(false);
             gameScreenPanel?.SetActive(true); // Aktifkan kembali setelah DrawPanel selesai

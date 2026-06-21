@@ -65,7 +65,7 @@ namespace WizardPunk.Reflex
         [Tooltip("Poin per ronde menang")]
         public int pointsPerRoundWin = 10;
         [Tooltip("Poin bonus jika menang keseluruhan game")]
-        public int gameWinBonus = 20;
+        public int gameWinBonus = 50;
 
         [Header("── Animation Transition Delays ─────────────")]
         [Tooltip("Atur delay animasi per kombinasi aksi P1 & P2.")]
