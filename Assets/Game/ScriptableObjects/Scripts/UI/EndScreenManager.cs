@@ -9,7 +9,7 @@ namespace WizardPunk
     {
         [Header("── Bonus Skor Game 3 ──")]
         [Tooltip("Poin yang diberikan kepada pemenang Game 3 (Duel Nyawa)")]
-        [SerializeField] private int game3WinBonus = 50;
+        [SerializeField] private int game3WinBonus = 100;
 
         [Header("── Panels ──")]
         [SerializeField] private GameObject p1WinPanel; // Panel Fura Menang

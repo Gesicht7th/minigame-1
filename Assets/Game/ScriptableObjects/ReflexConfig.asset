@@ -25,7 +25,7 @@ MonoBehaviour:
   falseStartPenalty: 1
   falseStartPenaltyTime: 2
   pointsPerRoundWin: 100
-  gameWinBonus: 50
+  gameWinBonus: 100
   animationDelays:
   - p1Action: 1
     p2Action: 2

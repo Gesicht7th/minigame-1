@@ -129,7 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WizardPunk.HyperSmash.Crystal
   crystalType: 2
   customHP: 1
-  customScore: 10
+  customScore: 1
   crystalRenderer: {fileID: 0}
   hitParticles: {fileID: 0}
   breakParticles: {fileID: 0}
