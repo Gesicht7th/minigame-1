@@ -13,25 +13,13 @@ EditorBuildSettings:
     guid: 7bad5749ea720d84e909bef302b67861
   - enabled: 1
     path: Assets/Game/Scenes/MemoryTest.unity
-    guid: 8c7d49ed322d92d4e8b137d5fac0e1de
+    guid: 76546725dafa80342aa8773af5a89a0c
   - enabled: 1
     path: Assets/Game/Scenes/test hypersmash 1.unity
     guid: ad7ca343c35566f4da0af44e38aae3d5
-  - enabled: 0
-    path: Assets/Game/Scenes/ResultScene1.unity
-    guid: e71590f16cde19a42b751077af2ff478
-  - enabled: 0
-    path: Assets/Game/Scenes/test hypersmash.unity
-    guid: f2edf048ea900a148ae72b6d2cc22e48
-  - enabled: 1
-    path: Assets/Game/Scenes/ResultScene2.unity
-    guid: c6d15e4cbf1ddfd46a3bf048d394830e
   - enabled: 1
     path: Assets/Game/Scenes/ReflexShowdown.unity
     guid: a321c5d4b6f84f947b3507cea51363e6
-  - enabled: 0
-    path: Assets/Game/Scenes/ResultScene3.unity
-    guid: 78076ec73c611a24ca692a269be10627
   - enabled: 1
     path: Assets/Game/Scenes/EndScreen.unity
     guid: e7a23643f1dbb57489788f2854674d49
