@@ -4444,7 +4444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
-  serialPort: COM8
+  serialPort: COM9
   baudRate: 115200
   ActionHoldTimeout: 0.15
 --- !u!4 &1541449939
@@ -4939,7 +4939,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5aeb7259be16f724a8f1a3655b9d87bd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3b8d4f065baf4ad4e81fa438ccc53b0e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4986,7 +4986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18ba667dfcc84024f9e066d6e46b3269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WandSerialReader
-  serialPort: COM9
+  serialPort: COM8
   baudRate: 115200
   ActionHoldTimeout: 0.15
 --- !u!4 &1768661943
